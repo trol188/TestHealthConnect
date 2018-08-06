@@ -1,0 +1,2116 @@
+ROUTINE Demo.Loan.FindRateDecisionProcessCustom.1 [Type=INT, Generated]
+ ;Demo.Loan.FindRateDecisionProcessCustom.1
+ ;(C)InterSystems, generated for class Demo.Loan.FindRateDecisionProcessCustom.  Do NOT edit. 06/25/2018 11:32:51AM
+ ;;754E646B;Demo.Loan.FindRateDecisionProcessCustom
+ ;
+SQLUPPER(v,l) { quit $zu(28,v,7,$g(l,32767)) }
+ALPHAUP(v,r) { quit $zu(28,v,6) }
+STRING(v,l) { quit $zu(28,v,9,$g(l,32767)) }
+SQLSTRING(v,l) { quit $zu(28,v,8,$g(l,32767)) }
+UPPER(v) { quit $zu(28,v,5) }
+MVR(v) { quit $zu(28,v,2) }
+TRUNCATE(v,l) { quit $e(v,1,$g(l,3641144)) }
+%BuildIndices(pIndexList="",pAutoPurge=1,pLockFlag=0,pJournalFlag=1,pStartID="",pEndID="",pIgnoreIndexList="") public {
+	If (pIndexList="")||(($listlength(pIndexList)=1)&&($listget(pIndexList,1)="")) { Quit 1 }
+	Quit $$Error^%apiOBJ(5066,$classname()_"::"_$ListToString(pIndexList)) }
+%BuildIndicesSegment(pStartID,pEndID,pIndexHandle=0,pLockFlag=1,pFirstRange=0,pJob="") public {
+	QUIT 1 }
+%CheckConstraintsForExtent(pConstraintList="",pCheckDisabled=0,pErrorLog) [ SQLCODE,tID ] public { New %ROWCOUNT,%ROWID,%msg,SQLCODE,tID 
+	kill pErrorLog set tStatusAll = 1, pErrorLog = 0 if '$listvalid(pConstraintList) { set pConstraintList = $listfromstring(pConstraintList) }
+	 ;---&sql(declare ext cursor for select %ID into :tID FROM Demo_Loan.FindRateDecisionProcessCustom)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, tID
+	
+	 ;---&sql(open ext)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	do %ext0o
+	if SQLCODE '< 0 {
+		for {
+			 ;---&sql(fetch ext)
+ 			 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+			do %0Do
+			if SQLCODE { if SQLCODE=100 { quit } elseif SQLCODE<0 { set tStatusAll = $select(+tStatusAll:$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)),1:$$AppendStatus^%occSystem(tStatusAll,$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)))) quit } }
+			set tStatus = ..%CheckConstraints(tID,pConstraintList,pCheckDisabled,.tErrorInfo)
+			if ('tStatus) { set tStatusAll = $select(+tStatusAll:tStatus,1:$$AppendStatus^%occSystem(tStatusAll,tStatus)) set:pErrorLog<1000 pErrorLog = pErrorLog + 1, pErrorLog(pErrorLog) = tErrorInfo _ $Listbuild(tStatus) }
+		}
+		 ;---&sql(close ext)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+		do %ext0c
+	}
+	quit tStatusAll }
+ q
+%ext0o 
+ try { s SQLCODE=$s($g(%ext0123c):-101,1:0) q:SQLCODE'=0 
+ n %sqltime s %sqltime=$zh
+ s %ext0123d(1)=0 s:$d(%0CacheRowLimit)#2 %ext0123d(2)=%0CacheRowLimit
+ s %ext0123d(3)=$zu(115,2)
+ s %ext0123d(4)=0,%ext0123d(5)=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s %ext0123c=1,SQLCODE=0
+ s:$d(%sqltime) %ext0123d(6)=$g(%ext0123d(6))+$zh-%sqltime
+ } catch { d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg) k %ext0123c,%ext0123d,%ext0123E,%ext0123n,%ext0123R }
+ q
+%0Afirst 
+ ; asl MOD# 2
+ s %ext0123d(7)=""
+%0AmBk1 s %ext0123d(7)=$o(^Ens.BusinessProcessI("SessionId",%ext0123d(7)))
+ i %ext0123d(7)="" g %0AmBdun
+ s tID=""
+%0AmBk2 s:%ext0123d(7)="" %ext0123d(7)=-1E14
+ s tID=$o(^Ens.BusinessProcessI("SessionId",%ext0123d(7),tID))
+ i tID="" g %0AmBk1
+ i $g(^Ens.BusinessProcessI("SessionId",%ext0123d(7),tID))'[($e($g(^Ens.BusinessProcessI("SessionId",%ext0123d(7),tID)))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($g(^Ens.BusinessProcessI("SessionId",%ext0123d(7),tID)))) g %0AmBk2
+ s:%ext0123d(7)=-1E14 %ext0123d(7)=""
+ goto:%ext0123d(3)'=1 %0AmBuncommitted
+ if %ext0123d(3)=1 {
+ 	lock +^Ens.BusinessProcessD($p(tID,"||",1))#"S":$zu(115,4)
+ 	if $t { set %ext0123d(5)=$name(^Ens.BusinessProcessD($p(tID,"||",1)))_"#""SI""",%ext0123d(4)=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Demo_Loan.FindRateDecisionProcessCustom for RowID value: "_tID ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i tID'="" s %ext0123d(8)="" i $d(^Ens.BusinessProcessD(tID),%ext0123d(8))
+ i '$t
+ e  i $lg(%ext0123d(8),1)'[($e($lg(%ext0123d(8),1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(%ext0123d(8),1)))
+ i  g %0AmCdun
+%0AmBuncommitted ;
+ s:$g(SQLCODE)'<0 SQLCODE=0 s %ROWCOUNT=$i(%ext0123d(1)),%ROWID=tID,%ext0123c=10
+ //-- FETCH Output
+ s:$d(%sqltime) %ext0123d(6)=$g(%ext0123d(6))+$zh-%sqltime
+ quit
+%ext0f //-- FETCH tag
+ i '$g(%ext0123c) { s SQLCODE=-102 q  } i %ext0123c=100 { s SQLCODE=100 q  } s SQLCODE=0
+ i $d(%ext0123d(2))#2,$g(%ext0123d(1))'<%ext0123d(2) { s SQLCODE=100,%ROWCOUNT=%ext0123d(1),%ext0123c=100 q }
+ n %sqltime s %sqltime=$zh
+ g %0Afirst:%ext0123c=1
+%0AmCdun if $g(%ext0123d(3))=1 { if $g(%ext0123d(4))=1 { l -@%ext0123d(5) s %ext0123d(4)=0 } elseif $g(%ext0123d(4))=2 { do $classmethod($li(%ext0123d(5)),"%UnlockId",$li(%ext0123d(5),2),1,1)  s %ext0123d(4)=0 } }
+ g %0AmBk2
+%0AmBdun 
+%0AmAdun 
+ s %ROWCOUNT=%ext0123d(1),SQLCODE=100,%ext0123c=100
+ s:$d(%sqltime) %ext0123d(6)=$g(%ext0123d(6))+$zh-%sqltime
+ //-- no [more] data
+ quit
+%ext0c i '$g(%ext0123c) { s SQLCODE=-102 q  }
+ n %sqltime s %sqltime=$zh
+ s %ROWCOUNT=$s($g(SQLCODE)'<0:+$g(%ext0123d(1)),1:0)
+ if $g(%ext0123d(3))=1 { if $g(%ext0123d(4))=1 { l -@%ext0123d(5) } elseif $g(%ext0123d(4))=2 { do $classmethod($li(%ext0123d(5)),"%UnlockId",$li(%ext0123d(5),2),1,1)  } }
+ s:$d(%sqltime) %ext0123d(6)=$g(%ext0123d(6))+$zh-%sqltime
+ n context,tmp,count,total,mean s context=$system.Context.SQL()
+ if $d(%ext0123d(6),%sqltime) {
+ if $g(context.Stats)<$zu(99) { d AggregateStats^%SYS.SQLSRV() }
+ s tmp=$g(context.Stats($namespace,"GxwBJJ8guUUXKqGmxYfMTb7m9/c="))
+ s count=$lg(tmp,1),total=$lg(tmp,2),mean=total+%sqltime/(count+1)
+ s context.Stats($namespace,"GxwBJJ8guUUXKqGmxYfMTb7m9/c=")=$lb(count+1,total+%sqltime,$s(+count=0:0,1:(%sqltime-mean)**2+(count*((total/count-mean)**2+$lg(tmp,3)))/(count+1))) }
+ k %ext0123c,%ext0123d,%ext0123E,%ext0123n,%ext0123R
+ s SQLCODE=0
+ quit  // close
+%0Aerr d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ s %ext0123c=100
+ quit  // error
+%0Do try { do %ext0f q:SQLCODE'=0
+ } catch { do %0Aerr }
+ q
+%ComposeOid(id) public {
+	set tCLASSNAME = $listget($g(^Ens.BusinessProcessD(id)),1)
+	Set tClass=$classname(),tClass=$select(($extract(tClass,1,5)="User.")&&($length(tClass,".")=2):$piece(tClass,".",2),1:tClass)
+	if tCLASSNAME'[($extract(tCLASSNAME)_tClass_$extract(tCLASSNAME)) Quit ""
+	set tClass=$piece(tCLASSNAME,$extract(tCLASSNAME),*-1)
+	set:tClass'["." tClass="User."_tClass
+	quit $select(id="":"",1:$listbuild(id_"",tClass)) }
+%Construct(pConfigName) public {
+	Set m%%MasterPendingResponses=0,M%%MasterPendingResponses=0,m%%MasterPendingResponsesOld=0,M%%MasterPendingResponsesOld=0,m%%MessagesReceived=0,M%%MessagesReceived=0
+	Set m%%MessagesReceivedOld=0,M%%MessagesReceivedOld=0,m%%MessagesSent=0,M%%MessagesSent=0,m%%MessagesSentOld=0,M%%MessagesSentOld=0
+	Set i%%Concurrency=$zu(115,10),i%%IsCompleted=0,i%%IsTerminated=0,i%%IsTimerInterrupted=0,i%%QuitTask=0,i%%RepliedStatus=1
+	Set i%%StatusCode=1,i%%WarnedLatest=0,i%AlertOnError=0,i%AlertRetryGracePeriod=0,i%FailureTimeout=15,i%InactivityTimeout=0
+	Set i%IsApproved=0,i%QueueCountAlert=0,i%QueueWaitAlert=0,i%Retry=0,i%RetryInterval=5,i%SuspendMessage=0,i%ThrottleDelay=0
+	Kill i%%ActionHint
+	Try { Set sc=..%OnNew(.pConfigName) } Catch newerror {}
+	If $isobject($get(newerror))=1||(('sc)) {
+		Kill %objtxLIST(+$this),%objtxOIDASSIGNED(+$this),%objtxOIDUNASSIGNED(+$this),%objtxMODIFIED(+$this)
+		If $get(i%"%%OID")'="" {
+			Set $zobjoid("",$listget(i%"%%OID"))=""
+			If i%%Concurrency=3 { Do ..%ReleaseLock("s") } ElseIf i%%Concurrency=4 { Do ..%ReleaseLock("e") }
+		}
+		If $isobject($get(newerror))=1 Throw newerror
+	}
+	Quit sc }
+%DeleteData(id,concurrency) public {
+	Quit:id="" $$Error^%apiOBJ(5812)
+	set $Ztrap="DeleteDataERR" set lockok=0,sc=""
+	If concurrency {
+		Lock +(^Ens.BusinessProcessD(id)#"E"):$zu(115,4)
+		Set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0))
+		Set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1
+		If 'lockok {
+			Quit $$Error^%apiOBJ(5803,$classname())
+		}
+	}
+	If ($Data(^Ens.BusinessProcessD(id))) {
+		Set bsv0N1=$G(^Ens.BusinessProcessD(id))
+		Set bsv0N2=..%TimeCreatedStorageToLogical($listget(bsv0N1,13))
+		Set bsv0N3=..%TimeCompletedStorageToLogical($listget(bsv0N1,12))
+		If $data(^oddEXTR($classname())) {
+			Set fc=""
+			For {
+				Set fc=$order(^oddEXTR($classname(),"n","%1","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^oddEXTR($classname(),"n","%1","f",fc,fk))
+					Quit:fk=""
+					If $get(^oddEXTR($classname(),"n","%1","f",fc,fk,61))'="" {
+						Set sc=$classmethod(fc,fk_"Delete",id)
+						If ('sc) { Goto DeleteDataEXIT }
+					}
+				}
+			}
+			Set fc=""
+			For {
+				Set fc=$order(^oddEXTR($classname(),"n","IDKEY","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^oddEXTR($classname(),"n","IDKEY","f",fc,fk))
+					Quit:fk=""
+					If $get(^oddEXTR($classname(),"n","IDKEY","f",fc,fk,61))'="" {
+						Set sc=$classmethod(fc,fk_"Delete",id)
+						If ('sc) { Goto DeleteDataEXIT }
+					}
+				}
+			}
+		}
+		Set bsv0N4=$listget(bsv0N1,11)
+		Kill ^Ens.BusinessProcessI("SessionId",$s(bsv0N4'="":bsv0N4,1:-1E14),id)
+		Kill ^Ens.BusinessProcessI("TimeCreated",$s(bsv0N2'="":bsv0N2,1:-1E14),id)
+		Kill ^Ens.BusinessProcessD(id,"pending")
+		Kill ^Ens.BusinessProcessD(id,"received")
+		Kill ^Ens.BusinessProcessD(id,"sent")
+		Kill ^Ens.BusinessProcessD(id)
+		Kill ^Ens.BusinessProcessD(id,"FindRateDecisionProcess")
+		Set sc=1
+	}
+	Else { Set sc=$$Error^%apiOBJ(5810,$classname(),id) }
+DeleteDataEXIT
+	If concurrency,lockok {
+		Lock -(^Ens.BusinessProcessD(id)#"E")
+	}
+DeleteDataRET	Set $Ztrap = ""
+	QUIT sc
+DeleteDataERR	Set $Ztrap = "DeleteDataRET"
+	Set sc = $$Error^%apiOBJ(5002,$ZE)
+	Goto DeleteDataEXIT }
+%ExistsId(id) public {
+	Try { set tExists = $s(id="":0,$d(^Ens.BusinessProcessD(id))&&(''..%OnDetermineClass($select(id="":"",1:$listbuild(id_"")))):1,1:0) } catch tException { set tExists = 0 if '(tException.%IsA("%Exception.SystemException")) { throw tException } elseif tException.Name'="<SUBSCRIPT>" { ZT $ZE } } quit tExists }
+%FileIndices(id,pIndexHandle=0) public {
+	Set $ZTrap="CatchError",sc=1
+	Set bsv0N2=$Get(^Ens.BusinessProcessD(id))
+	Set bsv0N3=$listget(bsv0N2,1)
+	Quit:$select(bsv0N3="":1,bsv0N3'[($extract(bsv0N3)_"Demo.Loan.FindRateDecisionProcessCustom"_$extract(bsv0N3)):1,1:0) 1
+	If bsv0N3'="~Demo.Loan.FindRateDecisionProcessCustom~" {
+		Set bsv0N1=$piece(bsv0N3,$extract(bsv0N3),*-1)
+		Set:bsv0N1'["." bsv0N1="User."_bsv0N1
+		If bsv0N1'="" {
+			Quit $classmethod(bsv0N1,"%FileIndices",id,.pIndexHandle)
+		}
+	}
+	Set bsv0N4=..%TimeCreatedStorageToLogical($listget(bsv0N2,13))
+	Set bsv0N5=..%TimeCompletedStorageToLogical($listget(bsv0N2,12))
+	Set bsv0N6=$listget(bsv0N2,22)
+	Set bsv0N7=$listget(bsv0N2,21)
+	Set bsv0N8=$listget(bsv0N2,4)
+	If ('pIndexHandle)||($Ascii($Get(pIndexHandle("Ens.BusinessProcess")),1)=1) {
+		Set bsv0N9=$listget(bsv0N2,11)
+		Set bsv0N10=$s(bsv0N9'="":bsv0N9,1:-1E14)
+		Set ^Ens.BusinessProcessI("SessionId",bsv0N10,id)=$listget(bsv0N2,1)
+	}
+	If ('pIndexHandle)||($Ascii($Get(pIndexHandle("Ens.BusinessProcess")),2)=1) {
+		Set bsv0N11=$s(bsv0N4'="":bsv0N4,1:-1E14)
+		Set ^Ens.BusinessProcessI("TimeCreated",bsv0N11,id)=$listget(bsv0N2,1)
+	}
+	QUIT 1
+CatchError	s $ZTrap="" i $ZE'="" { s sc = $$Error^%apiOBJ(5002,$ZE) } q sc }
+%InsertBatch(objects,concurrency=0,useTransactions=0) public {
+	try {
+		set numerrs=0,errs="",cnt=0,ptr=0
+		while $listnext(objects,ptr,data) {
+			set cnt=cnt+1
+			set zzc9v1=..%TimeCreatedStorageToLogical($listget(data,13))
+			set zzc9v2=$listget(data,1)
+			set lock=0
+			if (useTransactions) tstart
+			set id=$i(^Ens.BusinessProcessD)
+			set zzc14v1=$listget(data,11)
+			try {
+				set tInnerException = ""
+				;
+				if concurrency { lock +(^Ens.BusinessProcessD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				merge ^Ens.BusinessProcessD(id,"pending")=data("pending")
+				merge ^Ens.BusinessProcessD(id,"received")=data("received")
+				merge ^Ens.BusinessProcessD(id,"sent")=data("sent")
+				set ^Ens.BusinessProcessD(id)=data
+				set ^Ens.BusinessProcessD(id,"FindRateDecisionProcess")=data("FindRateDecisionProcess")
+				set ^Ens.BusinessProcessI("SessionId",$s(zzc14v1'="":zzc14v1,1:-1E14),id)=zzc9v2
+				set ^Ens.BusinessProcessI("TimeCreated",$s(zzc9v1'="":zzc9v1,1:-1E14),id)=zzc9v2
+				if (useTransactions) { tcommit }
+			}
+			catch tInnerException {
+				set newerr=$lb(cnt,tInnerException.AsStatus())
+				if '($length(errs)+$length(newerr)>32767) { set numerrs=numerrs+1, errs=errs_newerr }
+				if (useTransactions) && ($Tlevel) trollback
+			}
+			if lock lock -(^Ens.BusinessProcessD(id)#"E")
+		}
+	}
+	catch tException {
+		set newerr=$lb($g(cnt),tException.AsStatus())
+		if '($length(errs)+$length(newerr)>32767) { set numerrs=numerrs+1, errs=errs_newerr }
+	}
+	QUIT ($lb(numerrs))_errs }
+%LoadData(id) public {
+	New %s2,%s4,%s6,%s7,%s8
+	set $ZTrap="CatchError",locked=0,$ze=""
+	If i%%Concurrency=4 {
+		Lock +(^Ens.BusinessProcessD(id)#"E"):$zu(115,4)
+		if '$t do init s i%%Concurrency=0 return $$Error^%apiOBJ(5803,$classname())
+	} ElseIf i%%Concurrency>0 {
+		Lock +(^Ens.BusinessProcessD(id)#"SE"):$zu(115,4)
+		if '$t do init s i%%Concurrency=0 return $$Error^%apiOBJ(5803,$classname())
+		set locked = 1
+	}
+	Set sc=""
+	If $d(^Ens.BusinessProcessD(id)) {
+		Set sc=1
+		Kill i%%MasterPendingResponses
+		Set i%%MasterPendingResponses="",key=""
+		For ptr=1:1 {
+			Set key=$o(^Ens.BusinessProcessD(id,"pending",key),1,data)
+			Quit:key=""
+			Set i%%MasterPendingResponses(ptr)=data
+		}
+		Kill i%%MessagesReceived
+		Set i%%MessagesReceived="",key=""
+		For ptr=1:1 {
+			Set key=$o(^Ens.BusinessProcessD(id,"received",key),1,data)
+			Quit:key=""
+			Set i%%MessagesReceived(ptr)=data
+		}
+		Kill i%%MessagesSent
+		Set i%%MessagesSent="",key=""
+		For ptr=1:1 {
+			Set key=$o(^Ens.BusinessProcessD(id,"sent",key),1,data)
+			Quit:key=""
+			Set i%%MessagesSent(ptr)=data
+		}
+		Set %s7=$g(^Ens.BusinessProcessD(id))
+		Set i%%ConfigQueueName=$lg(%s7,2),i%%IsCompleted=$lg(%s7,3),%s2=$lg(%s7,4),i%%PrimaryRequestHeader=$lg(%s7,6),i%%PrimaryResponseHeader=$lg(%s7,7),i%%RepliedStatus=$lg(%s7,8),i%%responseId=$lg(%s7,9)
+		Set iscpos=$l($li(%s7,1,9))+1,isctmp=$li($e(%s7,iscpos,*),1,9),i%Adapter=$lg(isctmp),i%%SessionId=$lg(isctmp,2),i%%TimeCompleted=..%TimeCompletedStorageToLogical($lg(isctmp,3)),i%%TimeCreated=..%TimeCreatedStorageToLogical($lg(isctmp,4)),i%%ConfigName=$lg(isctmp,5),i%%QuitTask=$lg(isctmp,6),i%AlertOnError=$lg(isctmp,7),i%%responseClassName=$lg(isctmp,8),i%%IsTimerInterrupted=$lg(isctmp,9)
+		Set iscpos=iscpos+$l(isctmp),isctmp=$li($e(%s7,iscpos,*),1,9),i%%IsTerminated=$lg(isctmp),i%%StatusCode=$lg(isctmp,2),%s4=$lg(isctmp,3),%s6=$lg(isctmp,4),i%ReplyCodeActions=$lg(isctmp,5),i%RetryInterval=$lg(isctmp,6),i%AlertRetryGracePeriod=$lg(isctmp,7),i%FailureTimeout=$lg(isctmp,8),i%Retry=$lg(isctmp,9)
+		Set isctmp=$e(%s7,iscpos+$l(isctmp),*),i%SuspendMessage=$lg(isctmp),i%QueueCountAlert=$lg(isctmp,2),i%QueueWaitAlert=$lg(isctmp,3),i%InactivityTimeout=$lg(isctmp,4),i%BusinessPartner=$lg(isctmp,5),i%AlertGroups=$lg(isctmp,6),i%%SuperSession=$lg(isctmp,7)
+		Set ptr=0,index=0
+		While $listnext(%s2,ptr,element) {
+			Set index=index+1,i%%MasterPendingResponsesOld(index)=element
+		}
+		Set ptr=0,index=0
+		While $listnext(%s4,ptr,element) {
+			Set index=index+1,i%%MessagesReceivedOld(index)=element
+		}
+		Set ptr=0,index=0
+		While $listnext(%s6,ptr,element) {
+			Set index=index+1,i%%MessagesSentOld(index)=element
+		}
+		Set %s8=$g(^Ens.BusinessProcessD(id,"FindRateDecisionProcess"))
+		Set i%BankName=$lg(%s8),i%InterestRate=$lg(%s8,2),i%IsApproved=$lg(%s8,3)
+	} Else {
+		do init
+	}
+	If i%%Concurrency=2||(i%%Concurrency=1) {
+		Lock -(^Ens.BusinessProcessD(id)#"SIE")
+	}
+	if (''sc) { return sc }
+	set sc = $$Error^%apiOBJ(5809,$classname(),id)
+CatchError	set $ZTrap = "" if $ZE'="" { s sc = $$Error^%apiOBJ(5002,$ZE) }
+	If ($get(locked))&&(i%%Concurrency<3) { Lock -(^Ens.BusinessProcessD(id)#"SIE") }
+	if '('sc) { set sc=$$Error^%apiOBJ(5809,$classname(),id) }
+	return sc
+init	Set i%%ConfigName="",i%%ConfigQueueName="",i%%IsCompleted="",i%%IsTerminated="",i%%IsTimerInterrupted="",i%%MasterPendingResponses="",i%%MasterPendingResponsesOld="",i%%MessagesReceived="",i%%MessagesReceivedOld="",i%%MessagesSent="",i%%MessagesSentOld="",i%%PrimaryRequestHeader="",i%%PrimaryResponseHeader="",i%%QuitTask="",i%%RepliedStatus="",i%%SessionId="",i%%StatusCode="",i%%SuperSession="",i%%TimeCompleted="",i%%TimeCreated="",i%%responseClassName="",i%%responseId="",i%Adapter="",i%AlertGroups=""
+	Set i%AlertOnError="",i%AlertRetryGracePeriod="",i%BankName="",i%BusinessPartner="",i%FailureTimeout="",i%InactivityTimeout="",i%InterestRate="",i%IsApproved="",i%QueueCountAlert="",i%QueueWaitAlert="",i%ReplyCodeActions="",i%Retry="",i%RetryInterval="",i%SuspendMessage=""
+	quit }
+%LoadDataFromMemory(id,objstate,obj) public {
+	New %s2,%s4,%s6,%s7,%s8
+	Set sc=""
+	If $d(objstate(id)) {
+		Set sc=1
+		Kill i%%MasterPendingResponses
+		Set i%%MasterPendingResponses="",key=""
+		For ptr=1:1 {
+			Set key=$o(objstate(id,"pending",key),1,data)
+			Quit:key=""
+			Set i%%MasterPendingResponses(ptr)=data
+		}
+		Kill i%%MessagesReceived
+		Set i%%MessagesReceived="",key=""
+		For ptr=1:1 {
+			Set key=$o(objstate(id,"received",key),1,data)
+			Quit:key=""
+			Set i%%MessagesReceived(ptr)=data
+		}
+		Kill i%%MessagesSent
+		Set i%%MessagesSent="",key=""
+		For ptr=1:1 {
+			Set key=$o(objstate(id,"sent",key),1,data)
+			Quit:key=""
+			Set i%%MessagesSent(ptr)=data
+		}
+		Set %s7=$g(objstate(id))
+		Set i%%ConfigQueueName=$lg(%s7,2),i%%IsCompleted=$lg(%s7,3),%s2=$lg(%s7,4),i%%PrimaryRequestHeader=$lg(%s7,6),i%%PrimaryResponseHeader=$lg(%s7,7),i%%RepliedStatus=$lg(%s7,8),i%%responseId=$lg(%s7,9)
+		Set iscpos=$l($li(%s7,1,9))+1,isctmp=$li($e(%s7,iscpos,*),1,9),i%Adapter=$lg(isctmp),i%%SessionId=$lg(isctmp,2),i%%TimeCompleted=..%TimeCompletedStorageToLogical($lg(isctmp,3)),i%%TimeCreated=..%TimeCreatedStorageToLogical($lg(isctmp,4)),i%%ConfigName=$lg(isctmp,5),i%%QuitTask=$lg(isctmp,6),i%AlertOnError=$lg(isctmp,7),i%%responseClassName=$lg(isctmp,8),i%%IsTimerInterrupted=$lg(isctmp,9)
+		Set iscpos=iscpos+$l(isctmp),isctmp=$li($e(%s7,iscpos,*),1,9),i%%IsTerminated=$lg(isctmp),i%%StatusCode=$lg(isctmp,2),%s4=$lg(isctmp,3),%s6=$lg(isctmp,4),i%ReplyCodeActions=$lg(isctmp,5),i%RetryInterval=$lg(isctmp,6),i%AlertRetryGracePeriod=$lg(isctmp,7),i%FailureTimeout=$lg(isctmp,8),i%Retry=$lg(isctmp,9)
+		Set isctmp=$e(%s7,iscpos+$l(isctmp),*),i%SuspendMessage=$lg(isctmp),i%QueueCountAlert=$lg(isctmp,2),i%QueueWaitAlert=$lg(isctmp,3),i%InactivityTimeout=$lg(isctmp,4),i%BusinessPartner=$lg(isctmp,5),i%AlertGroups=$lg(isctmp,6),i%%SuperSession=$lg(isctmp,7)
+		Set ptr=0,index=0
+		While $listnext(%s2,ptr,element) {
+			Set index=index+1,i%%MasterPendingResponsesOld(index)=element
+		}
+		Set ptr=0,index=0
+		While $listnext(%s4,ptr,element) {
+			Set index=index+1,i%%MessagesReceivedOld(index)=element
+		}
+		Set ptr=0,index=0
+		While $listnext(%s6,ptr,element) {
+			Set index=index+1,i%%MessagesSentOld(index)=element
+		}
+		Set %s8=$g(objstate(id,"FindRateDecisionProcess"))
+		Set i%BankName=$lg(%s8),i%InterestRate=$lg(%s8,2),i%IsApproved=$lg(%s8,3)
+	} Else {
+		Set i%%ConfigName="",i%%ConfigQueueName="",i%%IsCompleted="",i%%IsTerminated="",i%%IsTimerInterrupted="",i%%MasterPendingResponses="",i%%MasterPendingResponsesOld="",i%%MessagesReceived="",i%%MessagesReceivedOld="",i%%MessagesSent="",i%%MessagesSentOld="",i%%PrimaryRequestHeader="",i%%PrimaryResponseHeader="",i%%QuitTask="",i%%RepliedStatus="",i%%SessionId="",i%%StatusCode="",i%%SuperSession="",i%%TimeCompleted="",i%%TimeCreated="",i%%responseClassName="",i%%responseId="",i%Adapter="",i%AlertGroups=""
+		Set i%AlertOnError="",i%AlertRetryGracePeriod="",i%BankName="",i%BusinessPartner="",i%FailureTimeout="",i%InactivityTimeout="",i%InterestRate="",i%IsApproved="",i%QueueCountAlert="",i%QueueWaitAlert="",i%ReplyCodeActions="",i%Retry="",i%RetryInterval="",i%SuspendMessage=""
+	}
+	Quit:sc'="" sc
+	Quit $$Error^%apiOBJ(5809,$classname(),id) }
+%NormalizeObject() public {
+	If '$system.CLS.GetModified() Quit 1
+	If m%%ConfigName Set:i%%ConfigName'="" i%%ConfigName=(..%ConfigNameNormalize(i%%ConfigName))
+	If m%%ConfigQueueName Set:i%%ConfigQueueName'="" i%%ConfigQueueName=(..%ConfigQueueNameNormalize(i%%ConfigQueueName))
+	If m%%IsCompleted Set:i%%IsCompleted'="" i%%IsCompleted=(..%IsCompletedNormalize(i%%IsCompleted))
+	If m%%IsTerminated Set:i%%IsTerminated'="" i%%IsTerminated=(..%IsTerminatedNormalize(i%%IsTerminated))
+	If m%%IsTimerInterrupted Set:i%%IsTimerInterrupted'="" i%%IsTimerInterrupted=(..%IsTimerInterruptedNormalize(i%%IsTimerInterrupted))
+	If m%%LastActionTime Set:i%%LastActionTime'="" i%%LastActionTime=(..%LastActionTimeNormalize(i%%LastActionTime))
+	If m%%LastHandledTime Set:i%%LastHandledTime'="" i%%LastHandledTime=(..%LastHandledTimeNormalize(i%%LastHandledTime))
+	If m%%LastReportedError Set:i%%LastReportedError'="" i%%LastReportedError=(..%LastReportedErrorNormalize(i%%LastReportedError))
+	If m%%MasterPendingResponses Set key="" For  Set key=$order(i%%MasterPendingResponses(key),1,data) Quit:key=""  Set:data'="" i%%MasterPendingResponses(key)=..%MasterPendingResponsesNormalize(data)
+	If m%%MasterPendingResponsesOld Set key="" For  Set key=$order(i%%MasterPendingResponsesOld(key),1,data) Quit:key=""  Set:data'="" i%%MasterPendingResponsesOld(key)=..%MasterPendingResponsesOldNormalize(data)
+	If m%%MessagesReceived Set key="" For  Set key=$order(i%%MessagesReceived(key),1,data) Quit:key=""  Set:data'="" i%%MessagesReceived(key)=..%MessagesReceivedNormalize(data)
+	If m%%MessagesReceivedOld Set key="" For  Set key=$order(i%%MessagesReceivedOld(key),1,data) Quit:key=""  Set:data'="" i%%MessagesReceivedOld(key)=..%MessagesReceivedOldNormalize(data)
+	If m%%MessagesSent Set key="" For  Set key=$order(i%%MessagesSent(key),1,data) Quit:key=""  Set:data'="" i%%MessagesSent(key)=..%MessagesSentNormalize(data)
+	If m%%MessagesSentOld Set key="" For  Set key=$order(i%%MessagesSentOld(key),1,data) Quit:key=""  Set:data'="" i%%MessagesSentOld(key)=..%MessagesSentOldNormalize(data)
+	If m%%QuitTask Set:i%%QuitTask'="" i%%QuitTask=(..%QuitTaskNormalize(i%%QuitTask))
+	If m%%RepliedStatus Set:i%%RepliedStatus'="" i%%RepliedStatus=(..%RepliedStatusNormalize(i%%RepliedStatus))
+	If m%%SessionId Set:i%%SessionId'="" i%%SessionId=(..%SessionIdNormalize(i%%SessionId))
+	If m%%SuperSession Set:i%%SuperSession'="" i%%SuperSession=(..%SuperSessionNormalize(i%%SuperSession))
+	If m%%TimeCompleted Set:i%%TimeCompleted'="" i%%TimeCompleted=(..%TimeCompletedNormalize(i%%TimeCompleted))
+	If m%%TimeCreated Set:i%%TimeCreated'="" i%%TimeCreated=(..%TimeCreatedNormalize(i%%TimeCreated))
+	If m%%WarnedLatest Set:i%%WarnedLatest'="" i%%WarnedLatest=(..%WarnedLatestNormalize(i%%WarnedLatest))
+	If m%%isShadow Set:i%%isShadow'="" i%%isShadow=(..%isShadowNormalize(i%%isShadow))
+	If m%%responseClassName Set:i%%responseClassName'="" i%%responseClassName=(..%responseClassNameNormalize(i%%responseClassName))
+	If m%%responseId Set:i%%responseId'="" i%%responseId=(..%responseIdNormalize(i%%responseId))
+	If m%AlertGroups Set:i%AlertGroups'="" i%AlertGroups=(..AlertGroupsNormalize(i%AlertGroups))
+	If m%AlertOnError Set:i%AlertOnError'="" i%AlertOnError=(..AlertOnErrorNormalize(i%AlertOnError))
+	If m%AlertRetryGracePeriod Set:i%AlertRetryGracePeriod'="" i%AlertRetryGracePeriod=(..AlertRetryGracePeriodNormalize(i%AlertRetryGracePeriod))
+	If m%BankName Set:i%BankName'="" i%BankName=(..BankNameNormalize(i%BankName))
+	If m%BusinessPartner Set:i%BusinessPartner'="" i%BusinessPartner=(..BusinessPartnerNormalize(i%BusinessPartner))
+	If m%FailureTimeout Set:i%FailureTimeout'="" i%FailureTimeout=(..FailureTimeoutNormalize(i%FailureTimeout))
+	If m%InactivityTimeout Set:i%InactivityTimeout'="" i%InactivityTimeout=(..InactivityTimeoutNormalize(i%InactivityTimeout))
+	If m%InterestRate Set:i%InterestRate'="" i%InterestRate=(..InterestRateNormalize(i%InterestRate))
+	If m%IsApproved Set:i%IsApproved'="" i%IsApproved=(..IsApprovedNormalize(i%IsApproved))
+	If m%QueueCountAlert Set:i%QueueCountAlert'="" i%QueueCountAlert=(..QueueCountAlertNormalize(i%QueueCountAlert))
+	If m%QueueWaitAlert Set:i%QueueWaitAlert'="" i%QueueWaitAlert=(..QueueWaitAlertNormalize(i%QueueWaitAlert))
+	If m%ReplyCodeActions Set:i%ReplyCodeActions'="" i%ReplyCodeActions=(..ReplyCodeActionsNormalize(i%ReplyCodeActions))
+	If m%Retry Set:i%Retry'="" i%Retry=(..RetryNormalize(i%Retry))
+	If m%RetryInterval Set:i%RetryInterval'="" i%RetryInterval=(..RetryIntervalNormalize(i%RetryInterval))
+	If m%SuspendMessage Set:i%SuspendMessage'="" i%SuspendMessage=(..SuspendMessageNormalize(i%SuspendMessage))
+	If m%ThrottleDelay Set:i%ThrottleDelay'="" i%ThrottleDelay=(..ThrottleDelayNormalize(i%ThrottleDelay))
+	Quit 1 }
+%OnDetermineClass(oid,class) public {
+	Set id=$listget($get(oid))
+	Quit:id="" $$Error^%apiOBJ(5812)
+	Set idclass=$lg($get(^Ens.BusinessProcessD(id)),1)
+	Set id=$classname(),id=$select(($extract(id,1,5)="User.")&&($length(id,".")=2):$piece(id,".",2),1:id)
+	If idclass'[($extract(idclass)_id_$extract(idclass)) {
+		Quit $$Error^%apiOBJ(5825,$classname())
+	}
+	Set class=$piece(idclass,$extract(idclass),*-1)
+	Set:class'["." class="User."_class
+	QUIT 1 }
+%PhysicalAddress(id,paddr)
+	if $Get(id)="" Quit $$Error^%apiOBJ(5813,$classname())
+	new bsv0N1,bsv0N2
+	Set bsv0N1=..%TimeCreatedStorageToLogical($listget(^Ens.BusinessProcessD(id),13))
+	Set bsv0N2=..%TimeCompletedStorageToLogical($listget(^Ens.BusinessProcessD(id),12))
+	if (id="") { quit $$Error^%apiOBJ(5832,$classname(),id) }
+	s paddr(1)=$lb($Name(^Ens.BusinessProcessD(id,"pending")),$classname(),"IDKEY","subnode",id)
+	s paddr(2)=$lb($Name(^Ens.BusinessProcessD(id,"received")),$classname(),"IDKEY","subnode",id)
+	s paddr(3)=$lb($Name(^Ens.BusinessProcessD(id,"sent")),$classname(),"IDKEY","subnode",id)
+	s paddr(4)=$lb($Name(^Ens.BusinessProcessD(id)),$classname(),"IDKEY","listnode",id)
+	s paddr(5)=$lb($Name(^Ens.BusinessProcessD(id,"FindRateDecisionProcess")),$classname(),"IDKEY","listnode",id)
+	s paddr=5
+	Quit 1
+%PurgeIndices(idxlist="",lockExtent=0,pIgnoreIndexList="") public {
+	If idxlist="" { Quit 1 }
+	Quit $$Error^%apiOBJ(5066,$classname()_"::"_$ListToString(idxlist)) }
+%SQLAcquireLock(%rowid,s=0,unlockref=0)
+	new %d,gotlock
+	set %d(1)=%rowid set s=$e("E",'unlockref)_$e("S",s)
+	lock +^Ens.BusinessProcessD(%d(1))#s:$zu(115,4) set gotlock=$t
+	if gotlock,'unlockref { set:$case($SYSTEM.Lock.ReturnCode(),2:1,4:1,:0)&&($tlevel) %0CacheLock("Demo.Loan.FindRateDecisionProcessCustom","E")=1 }
+	set:gotlock&&unlockref unlockref=unlockref+1,unlockref(unlockref)=$lb($name(^Ens.BusinessProcessD(%d(1))),"Demo.Loan.FindRateDecisionProcessCustom",s_"D")
+	QUIT gotlock
+%SQLAcquireTableLock(s=0,SQLCODE,to="")
+	set s=$e("S",s) set:to="" to=$zu(115,4) lock +^Ens.BusinessProcessD#s:to QUIT:$t 1 set SQLCODE=-110 if s="S" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler35",,"Demo_Loan"_"."_"FindRateDecisionProcessCustom") } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler36",,"Demo_Loan"_"."_"FindRateDecisionProcessCustom") } QUIT 0
+	Quit
+%SQLBuildIndices(pIndices="",pLockFlag=0,pStartID="",pEndID="",pIgnoreIndexList="")
+	QUIT ..%BuildIndices(pIndices,,pLockFlag,,pStartID,pEndID,pIgnoreIndexList)
+%SQLBuildPurgeIndexForRow(pIndices="",pActions="BP",pLockRow=1,%d,%e,pIgnoreIndexList="")
+	// Purge and build index nodes for a single row using given values, return Status Code
+	new sn,tSC,tLock set tSC=1,pActions=$zcvt(pActions,"U")
+	try {
+		if $g(%d(1))="" { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'Demo_Loan.FindRateDecisionProcessCustom'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'Demo_Loan.FindRateDecisionProcessCustom'"))) RETURN tSC }
+		if pLockRow { if '..%SQLAcquireLock(%d(1)) { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'Demo_Loan.FindRateDecisionProcessCustom' with %ID = '"_%d(1)_"'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'Demo_Loan.FindRateDecisionProcessCustom' with %ID = '"_%d(1)_"'"))) RETURN tSC  } else { set tLock=1 }}
+		if ((pIndices="")||($lf(pIndices,"SessionId"))),'$listfind(pIgnoreIndexList,"SessionId") {
+			if pActions["P" {
+				set sn(1)=%e(14) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("SessionId",sn(1),sn(2))
+			}
+			if pActions["B" {
+				set sn(1)=%d(14) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("SessionId",sn(1),sn(2))=%d(37)
+			}
+		}
+		if ((pIndices="")||($lf(pIndices,"TimeCreated"))),'$listfind(pIgnoreIndexList,"TimeCreated") {
+			if pActions["P" {
+				set sn(1)=%e(18) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2))
+			}
+			if pActions["B" {
+				set sn(1)=%d(18) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2))=%d(37)
+			}
+		}
+		if pLockRow { do ..%SQLReleaseLock(%d(1),0,0) set tLock=0 }
+	}
+	catch {
+		if $g(tLock) { do ..%SQLReleaseLock(%d(1),0,0) }
+		set tSC=$select(+tSC:$$Error^%apiOBJ(5594,$ze),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5594,$ze)))
+	}
+	QUIT tSC
+%SQLCheckUnique(pFromOrig=0,%pID,%pVals...)
+	 ;---&sql(SELECT ID FROM Demo_Loan.FindRateDecisionProcessCustom WHERE  ID=:%pVals(1) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	do %0Fo QUIT SQLCODE=100
+ q
+%0Fo n sqldata6d,sqldata7d,sqldata8d,sqldata10d,sqldata2d,sqldata3d,sqldata4d,sqldata1d
+ s $zt="%0Ferr"
+ s sqldata6d=$zu(115,2)
+ s sqldata7d=0,sqldata8d=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s sqldata2d=$g(%pVals(1)),sqldata2d=$s(sqldata2d="":"",$isvalidnum(sqldata2d):+sqldata2d,1:sqldata2d),sqldata3d=$g(%pID),sqldata3d=$s(sqldata3d="":"",$isvalidnum(sqldata3d):+sqldata3d,1:sqldata3d),sqldata4d=$g(%pID)
+ s SQLCODE=100
+ ; asl MOD# 2
+ s sqldata1d=sqldata2d
+ i sqldata1d'="" s sqldata10d="" i $d(^Ens.BusinessProcessD(sqldata1d),sqldata10d)
+ i '$t
+ e  i $lg(sqldata10d,1)'[($e($lg(sqldata10d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata10d,1)))
+ i  g %0FmBdun
+ i '(((sqldata3d'="")&&(sqldata1d'=sqldata3d))||(sqldata4d="")) g %0FmBdun
+ goto:sqldata6d'=1 %0FmBuncommitted
+ if sqldata6d=1 {
+ 	lock +^Ens.BusinessProcessD($p(sqldata1d,"||",1))#"S":$zu(115,4)
+ 	if $t { set sqldata8d=$name(^Ens.BusinessProcessD($p(sqldata1d,"||",1)))_"#""SI""",sqldata7d=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Demo_Loan.FindRateDecisionProcessCustom for RowID value: "_sqldata1d ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i sqldata1d'="" s sqldata10d="" i $d(^Ens.BusinessProcessD(sqldata1d),sqldata10d)
+ i '$t
+ e  i $lg(sqldata10d,1)'[($e($lg(sqldata10d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata10d,1)))
+ i  g %0FmCdun
+%0FmBuncommitted ;
+ s SQLCODE=0 g %0Fc
+%0FmCdun if $g(sqldata6d)=1 { if $g(sqldata7d)=1 { l -@sqldata8d s sqldata7d=0 } elseif $g(sqldata7d)=2 { do $classmethod($li(sqldata8d),"%UnlockId",$li(sqldata8d,2),1,1)  s sqldata7d=0 } }
+%0FmBdun 
+%0FmAdun 
+%0Fc s %ROWCOUNT='SQLCODE
+ if $g(sqldata6d)=1 { if $g(sqldata7d)=1 { l -@sqldata8d } elseif $g(sqldata7d)=2 { do $classmethod($li(sqldata8d),"%UnlockId",$li(sqldata8d,2),1,1)  } }
+ q
+%0Ferr s $zt=""
+ d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ g %0Fc
+%SQLCopyIcolIntoName()
+	if %oper="DELETE" {
+		set:$d(%d(1)) %f("ID")=%d(1)
+		QUIT
+	}
+	set:$d(%d(1)) %f("ID")=%d(1) set:$a(%e,2)&&$d(%d(2)) %f("%ConfigName")=%d(2) set:$a(%e,3)&&$d(%d(3)) %f("%ConfigQueueName")=%d(3) set:$a(%e,4)&&$d(%d(4)) %f("%IsCompleted")=%d(4) set:$a(%e,5)&&$d(%d(5)) %f("%IsTerminated")=%d(5) set:$a(%e,6)&&$d(%d(6)) %f("%IsTimerInterrupted")=%d(6) set:$a(%e,7)&&$d(%d(7)) %f("%MasterPendingResponsesOld")=%d(7) set:$a(%e,8)&&$d(%d(8)) %f("%MessagesReceivedOld")=%d(8) set:$a(%e,9)&&$d(%d(9)) %f("%MessagesSentOld")=%d(9) set:$a(%e,10)&&$d(%d(10)) %f("%PrimaryRequestHeader")=%d(10) set:$a(%e,11)&&$d(%d(11)) %f("%PrimaryResponseHeader")=%d(11) set:$a(%e,12)&&$d(%d(12)) %f("%QuitTask")=%d(12) set:$a(%e,13)&&$d(%d(13)) %f("%RepliedStatus")=%d(13) set:$a(%e,14)&&$d(%d(14)) %f("%SessionId")=%d(14) set:$a(%e,15)&&$d(%d(15)) %f("%StatusCode")=%d(15) set:$a(%e,16)&&$d(%d(16)) %f("%SuperSession")=%d(16) set:$a(%e,17)&&$d(%d(17)) %f("%TimeCompleted")=%d(17) set:$a(%e,18)&&$d(%d(18)) %f("%TimeCreated")=%d(18) set:$a(%e,19)&&$d(%d(19)) %f("%responseClassName")=%d(19) set:$a(%e,20)&&$d(%d(20)) %f("%responseId")=%d(20) set:$a(%e,21)&&$d(%d(21)) %f("Adapter")=%d(21) set:$a(%e,22)&&$d(%d(22)) %f("AlertGroups")=%d(22) set:$a(%e,23)&&$d(%d(23)) %f("AlertOnError")=%d(23) set:$a(%e,24)&&$d(%d(24)) %f("AlertRetryGracePeriod")=%d(24) set:$a(%e,25)&&$d(%d(25)) %f("BankName")=%d(25) set:$a(%e,26)&&$d(%d(26)) %f("BusinessPartner")=%d(26) set:$a(%e,27)&&$d(%d(27)) %f("FailureTimeout")=%d(27) set:$a(%e,28)&&$d(%d(28)) %f("InactivityTimeout")=%d(28) set:$a(%e,29)&&$d(%d(29)) %f("InterestRate")=%d(29) set:$a(%e,30)&&$d(%d(30)) %f("IsApproved")=%d(30) set:$a(%e,31)&&$d(%d(31)) %f("QueueCountAlert")=%d(31) set:$a(%e,32)&&$d(%d(32)) %f("QueueWaitAlert")=%d(32) set:$a(%e,33)&&$d(%d(33)) %f("ReplyCodeActions")=%d(33) set:$a(%e,34)&&$d(%d(34)) %f("Retry")=%d(34) set:$a(%e,35)&&$d(%d(35)) %f("RetryInterval")=%d(35) set:$a(%e,36)&&$d(%d(36)) %f("SuspendMessage")=%d(36) set:$a(%e,37)&&$d(%d(37)) %f("x__classname")=%d(37)
+	QUIT
+%SQLCopyNameIntoIcol()
+	k %d,%e set:$d(%f("ID"))#2 %d(1)=%f("ID") set:$d(%f("%ConfigName"))#2 %d(2)=%f("%ConfigName") set:$d(%f("%ConfigQueueName"))#2 %d(3)=%f("%ConfigQueueName") set:$d(%f("%IsCompleted"))#2 %d(4)=%f("%IsCompleted") set:$d(%f("%IsTerminated"))#2 %d(5)=%f("%IsTerminated") set:$d(%f("%IsTimerInterrupted"))#2 %d(6)=%f("%IsTimerInterrupted") set:$d(%f("%MasterPendingResponsesOld"))#2 %d(7)=%f("%MasterPendingResponsesOld") set:$d(%f("%MessagesReceivedOld"))#2 %d(8)=%f("%MessagesReceivedOld") set:$d(%f("%MessagesSentOld"))#2 %d(9)=%f("%MessagesSentOld") set:$d(%f("%PrimaryRequestHeader"))#2 %d(10)=%f("%PrimaryRequestHeader") set:$d(%f("%PrimaryResponseHeader"))#2 %d(11)=%f("%PrimaryResponseHeader") set:$d(%f("%QuitTask"))#2 %d(12)=%f("%QuitTask") set:$d(%f("%RepliedStatus"))#2 %d(13)=%f("%RepliedStatus") set:$d(%f("%SessionId"))#2 %d(14)=%f("%SessionId") set:$d(%f("%StatusCode"))#2 %d(15)=%f("%StatusCode") set:$d(%f("%SuperSession"))#2 %d(16)=%f("%SuperSession") set:$d(%f("%TimeCompleted"))#2 %d(17)=%f("%TimeCompleted") set:$d(%f("%TimeCreated"))#2 %d(18)=%f("%TimeCreated") set:$d(%f("%responseClassName"))#2 %d(19)=%f("%responseClassName") set:$d(%f("%responseId"))#2 %d(20)=%f("%responseId") set:$d(%f("Adapter"))#2 %d(21)=%f("Adapter") set:$d(%f("AlertGroups"))#2 %d(22)=%f("AlertGroups") set:$d(%f("AlertOnError"))#2 %d(23)=%f("AlertOnError") set:$d(%f("AlertRetryGracePeriod"))#2 %d(24)=%f("AlertRetryGracePeriod") set:$d(%f("BankName"))#2 %d(25)=%f("BankName") set:$d(%f("BusinessPartner"))#2 %d(26)=%f("BusinessPartner") set:$d(%f("FailureTimeout"))#2 %d(27)=%f("FailureTimeout") set:$d(%f("InactivityTimeout"))#2 %d(28)=%f("InactivityTimeout") set:$d(%f("InterestRate"))#2 %d(29)=%f("InterestRate") set:$d(%f("IsApproved"))#2 %d(30)=%f("IsApproved") set:$d(%f("QueueCountAlert"))#2 %d(31)=%f("QueueCountAlert") set:$d(%f("QueueWaitAlert"))#2 %d(32)=%f("QueueWaitAlert") set:$d(%f("ReplyCodeActions"))#2 %d(33)=%f("ReplyCodeActions") set:$d(%f("Retry"))#2 %d(34)=%f("Retry") set:$d(%f("RetryInterval"))#2 %d(35)=%f("RetryInterval") set:$d(%f("SuspendMessage"))#2 %d(36)=%f("SuspendMessage") set:$d(%f("x__classname"))#2 %d(37)=%f("x__classname")  kill %f QUIT
+%SQLDefineiDjVars(%d,subs,master)
+	QUIT
+%SQLDelete(%rowid,%check,%tstart=1,%mv=0,%polymorphic=0)
+	if %polymorphic { do ..%SQLCopyNameIntoIcol() set %d(1)=%rowid,%e(1)=%rowid  goto %SQLDeletePD }
+	new bva,ce,%d,dc,%e,%ele,%itm,%key,%l,%nc,omcall,%oper,%pos,%s,sn,sqlcode,subs set %oper="DELETE",sqlcode=0,%ROWID=%rowid,%d(1)=%rowid,%e(1)=%rowid,%l=$c(0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check,2) {
+		new %ls lock +^Ens.BusinessProcessD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("Demo.Loan.FindRateDecisionProcessCustom","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"Demo_Loan"_"."_"FindRateDecisionProcessCustom",$g(%d(1))) QUIT  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORDelete"
+%SQLDeletePD	// Entry point for Polymorphic Dispatch from a super-table
+	do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) if sqlcode { set SQLCODE=-106 do ..%SQLEExit() QUIT  }
+	if %e(37)'="" { set sn=$p(%e(37),$e(%e(37)),$l(%e(37),$e(%e(37)))-1) if "Demo.Loan.FindRateDecisionProcessCustom"'=sn { new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLDelete",%rowid,%check,%tstart,%mv,1) QUIT  }}
+	if '$a(%check),'$zu(115,7) do  if sqlcode set SQLCODE=sqlcode do ..%SQLEExit() QUIT  
+	. new %fk,%k,%p,%st,%t,%z set %k="",%p("%1")="%d(1),",%p("IDKEY")="%d(1),"
+	. for  quit:sqlcode<0  set %k=$o(^oddEXTR("Demo.Loan.FindRateDecisionProcessCustom","n",%k)) quit:%k=""  set %t="" for  set %t=$o(^oddEXTR("Demo.Loan.FindRateDecisionProcessCustom","n",%k,"f",%t)) quit:%t=""  set %st=(%t="Demo.Loan.FindRateDecisionProcessCustom") set %fk="" for  set %fk=$order(^oddEXTR("Demo.Loan.FindRateDecisionProcessCustom","n",%k,"f",%t,%fk)) quit:%fk=""  x "set %z=$classmethod(%t,%fk_""SQLFKeyRefAction"",%st,%k,$a(%check,2),"_%p(%k)_")" if %z set sqlcode=-124 quit  
+	set ce="" for  { set ce=$order(^oddSQL("Demo_Loan","FindRateDecisionProcessCustom","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children
+	set ce="" for  { set ce=$order(^oddSQL("Ens","BusinessProcess","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children of the root extent
+	if '$a(%check,3) {
+		set sn(1)=%e(14) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("SessionId",sn(1),sn(2))
+		set sn(1)=%e(18) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2))
+	}
+	k ^Ens.BusinessProcessD(%d(1))
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORDelete	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"Demo_Loan"_"."_"FindRateDecisionProcessCustom",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"Demo_Loan"_"."_"FindRateDecisionProcessCustom") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT
+	Quit
+%SQLDeleteTempStreams()
+	// Delete all temporary streams
+	QUIT
+%SQLEExit()
+	do ..%SQLUnlock() 
+	if %tstart,$zu(115,1)=1,$TLEVEL { set %tstart=0 TROLLBACK 1 } kill:$g(omcall) %0CacheSQLRA QUIT  
+	Quit
+%SQLExists(pLockOnly=0,pUnlockRef,%pVal...)
+	// SQL Foreign Key validation entry point for Key %1.  Called by FKeys that reference this Key to see if the row is defined
+	new id set id=%pVal(1)
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"Demo_Loan"_"."_"FindRateDecisionProcessCustom"_":"_"%1") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv='..%SQLCheckUnique(0,,%pVal(1)) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Quit
+%SQLGetLock(pRowId,pShared=0,pUnlockRef)
+	QUIT ..%SQLAcquireLock(pRowId,pShared,.pUnlockRef)
+%SQLGetOld(%rowid,%d,%e,sqlcode)
+	// Get old data values
+	new SQLCODE,%ROWCOUNT
+	 ;---&sql(SELECT x__classname,%SessionId,%TimeCreated INTO :%e() FROM %IGNOREINDEX * Demo_Loan.FindRateDecisionProcessCustom WHERE ID=:%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	do %0Ho
+	set sqlcode=SQLCODE QUIT:sqlcode'=0
+	set sqlcode=SQLCODE
+	QUIT
+ q
+%0HmBs1(%val) {
+	Quit ##class(Demo.Loan.FindRateDecisionProcessCustom).%TimeCreatedStorageToLogical(%val)
+}
+%0Ho n sqldata8d,sqldata9d,sqldata10d,sqldata12d,sqldata14d,sqldata17d,sqldata6d,sqldata5d
+ s $zt="%0Herr"
+ s sqldata8d=$zu(115,2)
+ s sqldata9d=0,sqldata10d=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s sqldata6d=$g(%rowid),sqldata6d=$s(sqldata6d="":"",$isvalidnum(sqldata6d):+sqldata6d,1:sqldata6d)
+ s SQLCODE=100
+ ; asl MOD# 2
+ s sqldata5d=sqldata6d
+ i sqldata5d'="" s sqldata12d="" i $d(^Ens.BusinessProcessD(sqldata5d),sqldata12d)
+ i '$t
+ e  i $lg(sqldata12d,1)'[($e($lg(sqldata12d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata12d,1)))
+ i  g %0HmBdun
+ s sqldata14d=$g(^Ens.BusinessProcessD(sqldata5d))
+ Set %e(37)=$lg(sqldata14d),%e(14)=$lg(sqldata14d,11),%e(18)=$$%0HmBs1($lg(sqldata14d,13))
+ goto:sqldata8d'=1 %0HmBuncommitted
+ if sqldata8d=1 {
+ 	lock +^Ens.BusinessProcessD($p(sqldata5d,"||",1))#"S":$zu(115,4)
+ 	if $t { set sqldata10d=$name(^Ens.BusinessProcessD($p(sqldata5d,"||",1)))_"#""SI""",sqldata9d=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Demo_Loan.FindRateDecisionProcessCustom for RowID value: "_sqldata5d ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i sqldata5d'="" s sqldata12d="" i $d(^Ens.BusinessProcessD(sqldata5d),sqldata12d)
+ i '$t
+ e  i $lg(sqldata12d,1)'[($e($lg(sqldata12d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata12d,1)))
+ i  g %0HmCdun
+ s sqldata17d=$g(^Ens.BusinessProcessD(sqldata5d))
+ Set %e(37)=$lg(sqldata17d),%e(14)=$lg(sqldata17d,11),%e(18)=$$%0HmBs1($lg(sqldata17d,13))
+%0HmBuncommitted ;
+ s SQLCODE=0 g %0Hc
+%0HmCdun if $g(sqldata8d)=1 { if $g(sqldata9d)=1 { l -@sqldata10d s sqldata9d=0 } elseif $g(sqldata9d)=2 { do $classmethod($li(sqldata10d),"%UnlockId",$li(sqldata10d,2),1,1)  s sqldata9d=0 } }
+%0HmBdun 
+%0HmAdun 
+%0Hc s %ROWCOUNT='SQLCODE
+ if $g(sqldata8d)=1 { if $g(sqldata9d)=1 { l -@sqldata10d } elseif $g(sqldata9d)=2 { do $classmethod($li(sqldata10d),"%UnlockId",$li(sqldata10d,2),1,1)  } }
+ q
+%0Herr s $zt=""
+ d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ g %0Hc
+%SQLGetOldAll()
+	// Get all old data values
+	new SQLCODE,%ROWCOUNT
+	 ;---&sql(SELECT %ConfigName,%ConfigQueueName,%IsCompleted,%IsTerminated,%IsTimerInterrupted,%MasterPendingResponsesOld,%MessagesReceivedOld,%MessagesSentOld,%PrimaryRequestHeader,%PrimaryResponseHeader,%QuitTask,%RepliedStatus,%SessionId,%StatusCode,%SuperSession,%TimeCompleted,%TimeCreated,%responseClassName,%responseId,Adapter,AlertGroups,AlertOnError,AlertRetryGracePeriod,BankName,BusinessPartner,FailureTimeout,InactivityTimeout,InterestRate,IsApproved,QueueCountAlert,QueueWaitAlert,ReplyCodeActions,Retry,RetryInterval,SuspendMessage,x__classname INTO :%e() FROM %IGNOREINDEX * Demo_Loan.FindRateDecisionProcessCustom WHERE ID=:%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	do %0Ko
+	set sqlcode=SQLCODE QUIT:sqlcode'=0
+	set sqlcode=SQLCODE
+	QUIT
+ q
+%0KmBs1(%val) {
+	Quit ##class(Demo.Loan.FindRateDecisionProcessCustom).%TimeCompletedStorageToLogical(%val)
+}
+%0KmBs2(%val) {
+	Quit ##class(Demo.Loan.FindRateDecisionProcessCustom).%TimeCreatedStorageToLogical(%val)
+}
+%0Ko n sqldata41d,sqldata42d,sqldata43d,sqldata45d,sqldata47d,%sqltmp,%sqlpos,sqldata50d,sqldata39d,sqldata38d
+ s $zt="%0Kerr"
+ s sqldata41d=$zu(115,2)
+ s sqldata42d=0,sqldata43d=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s sqldata39d=$g(%rowid),sqldata39d=$s(sqldata39d="":"",$isvalidnum(sqldata39d):+sqldata39d,1:sqldata39d)
+ s SQLCODE=100
+ ; asl MOD# 2
+ s sqldata38d=sqldata39d
+ i sqldata38d'="" s sqldata45d="" i $d(^Ens.BusinessProcessD(sqldata38d),sqldata45d)
+ i '$t
+ e  i $lg(sqldata45d,1)'[($e($lg(sqldata45d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata45d,1)))
+ i  g %0KmBdun
+ s sqldata47d=$g(^Ens.BusinessProcessD(sqldata38d))
+ Set %e(37)=$lg(sqldata47d),%e(3)=$lg(sqldata47d,2),%e(4)=$lg(sqldata47d,3),%e(7)=$lg(sqldata47d,4),%e(10)=$lg(sqldata47d,6),%e(11)=$lg(sqldata47d,7),%e(13)=$lg(sqldata47d,8),%e(20)=$lg(sqldata47d,9)
+ Set %sqlpos=$l($li(sqldata47d,1,9))+1,%sqltmp=$li($e(sqldata47d,%sqlpos,*),1,9),%e(21)=$lg(%sqltmp),%e(14)=$lg(%sqltmp,2),%e(17)=$$%0KmBs1($lg(%sqltmp,3)),%e(18)=$$%0KmBs2($lg(%sqltmp,4)),%e(2)=$lg(%sqltmp,5),%e(12)=$lg(%sqltmp,6),%e(23)=$lg(%sqltmp,7),%e(19)=$lg(%sqltmp,8),%e(6)=$lg(%sqltmp,9)
+ Set %sqlpos=%sqlpos+$l(%sqltmp),%sqltmp=$li($e(sqldata47d,%sqlpos,*),1,9),%e(5)=$lg(%sqltmp),%e(15)=$lg(%sqltmp,2),%e(8)=$lg(%sqltmp,3),%e(9)=$lg(%sqltmp,4),%e(33)=$lg(%sqltmp,5),%e(35)=$lg(%sqltmp,6),%e(24)=$lg(%sqltmp,7),%e(27)=$lg(%sqltmp,8),%e(34)=$lg(%sqltmp,9)
+ Set %sqltmp=$e(sqldata47d,%sqlpos+$l(%sqltmp),*),%e(36)=$lg(%sqltmp),%e(31)=$lg(%sqltmp,2),%e(32)=$lg(%sqltmp,3),%e(28)=$lg(%sqltmp,4),%e(26)=$lg(%sqltmp,5),%e(22)=$lg(%sqltmp,6),%e(16)=$lg(%sqltmp,7)
+ s sqldata47d=$g(^Ens.BusinessProcessD(sqldata38d,"FindRateDecisionProcess"))
+ Set %e(25)=$lg(sqldata47d),%e(29)=$lg(sqldata47d,2),%e(30)=$lg(sqldata47d,3)
+ goto:sqldata41d'=1 %0KmBuncommitted
+ if sqldata41d=1 {
+ 	lock +^Ens.BusinessProcessD($p(sqldata38d,"||",1))#"S":$zu(115,4)
+ 	if $t { set sqldata43d=$name(^Ens.BusinessProcessD($p(sqldata38d,"||",1)))_"#""SI""",sqldata42d=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Demo_Loan.FindRateDecisionProcessCustom for RowID value: "_sqldata38d ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i sqldata38d'="" s sqldata45d="" i $d(^Ens.BusinessProcessD(sqldata38d),sqldata45d)
+ i '$t
+ e  i $lg(sqldata45d,1)'[($e($lg(sqldata45d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata45d,1)))
+ i  g %0KmCdun
+ s sqldata50d=$g(^Ens.BusinessProcessD(sqldata38d))
+ Set %e(37)=$lg(sqldata50d),%e(3)=$lg(sqldata50d,2),%e(4)=$lg(sqldata50d,3),%e(7)=$lg(sqldata50d,4),%e(10)=$lg(sqldata50d,6),%e(11)=$lg(sqldata50d,7),%e(13)=$lg(sqldata50d,8),%e(20)=$lg(sqldata50d,9)
+ Set %sqlpos=$l($li(sqldata50d,1,9))+1,%sqltmp=$li($e(sqldata50d,%sqlpos,*),1,9),%e(21)=$lg(%sqltmp),%e(14)=$lg(%sqltmp,2),%e(17)=$$%0KmBs1($lg(%sqltmp,3)),%e(18)=$$%0KmBs2($lg(%sqltmp,4)),%e(2)=$lg(%sqltmp,5),%e(12)=$lg(%sqltmp,6),%e(23)=$lg(%sqltmp,7),%e(19)=$lg(%sqltmp,8),%e(6)=$lg(%sqltmp,9)
+ Set %sqlpos=%sqlpos+$l(%sqltmp),%sqltmp=$li($e(sqldata50d,%sqlpos,*),1,9),%e(5)=$lg(%sqltmp),%e(15)=$lg(%sqltmp,2),%e(8)=$lg(%sqltmp,3),%e(9)=$lg(%sqltmp,4),%e(33)=$lg(%sqltmp,5),%e(35)=$lg(%sqltmp,6),%e(24)=$lg(%sqltmp,7),%e(27)=$lg(%sqltmp,8),%e(34)=$lg(%sqltmp,9)
+ Set %sqltmp=$e(sqldata50d,%sqlpos+$l(%sqltmp),*),%e(36)=$lg(%sqltmp),%e(31)=$lg(%sqltmp,2),%e(32)=$lg(%sqltmp,3),%e(28)=$lg(%sqltmp,4),%e(26)=$lg(%sqltmp,5),%e(22)=$lg(%sqltmp,6),%e(16)=$lg(%sqltmp,7)
+ s sqldata50d=$g(^Ens.BusinessProcessD(sqldata38d,"FindRateDecisionProcess"))
+ Set %e(25)=$lg(sqldata50d),%e(29)=$lg(sqldata50d,2),%e(30)=$lg(sqldata50d,3)
+%0KmBuncommitted ;
+ s SQLCODE=0 g %0Kc
+%0KmCdun if $g(sqldata41d)=1 { if $g(sqldata42d)=1 { l -@sqldata43d s sqldata42d=0 } elseif $g(sqldata42d)=2 { do $classmethod($li(sqldata43d),"%UnlockId",$li(sqldata43d,2),1,1)  s sqldata42d=0 } }
+%0KmBdun 
+%0KmAdun 
+%0Kc s %ROWCOUNT='SQLCODE
+ if $g(sqldata41d)=1 { if $g(sqldata42d)=1 { l -@sqldata43d } elseif $g(sqldata42d)=2 { do $classmethod($li(sqldata43d),"%UnlockId",$li(sqldata43d,2),1,1)  } }
+ q
+%0Kerr s $zt=""
+ d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ g %0Kc
+%SQLGetOldIndex(%rowid,%d,pF=0,sqlcode)
+	try {
+		new tClass,tF,tOid,tSC
+		set tOid=..%ComposeOid(%rowid)
+		if ''..%OnDetermineClass(tOid,.tClass),tClass'=$classname() {
+			set tF=1 do $classmethod(tClass,"%SQLGetOldIndex",%rowid,,.tF,.sqlcode)
+			set:$d(tF("%SessionId")) %d(14)=tF("%SessionId") set:$d(tF("x__classname")) %d(37)=tF("x__classname") set:$d(tF("%TimeCreated")) %d(18)=tF("%TimeCreated") 
+			RETURN
+		}
+	}
+	catch { }
+	// Get index old data values
+	new SQLCODE,%ROWCOUNT
+	 ;---&sql(SELECT %SessionId,x__classname,%TimeCreated INTO :%d() FROM %IGNOREINDEX * Demo_Loan.FindRateDecisionProcessCustom WHERE ID=:%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	do %0Oo
+	if pF { set:$d(%d(14)) pF("%SessionId")=%d(14) set:$d(%d(37)) pF("x__classname")=%d(37) set:$d(%d(18)) pF("%TimeCreated")=%d(18)  }
+	set sqlcode=SQLCODE QUIT:sqlcode'=0
+	set sqlcode=SQLCODE
+	QUIT
+ q
+%0OmBs1(%val) {
+	Quit ##class(Demo.Loan.FindRateDecisionProcessCustom).%TimeCreatedStorageToLogical(%val)
+}
+%0Oo n sqldata8d,sqldata9d,sqldata10d,sqldata12d,sqldata14d,sqldata17d,sqldata6d,sqldata5d
+ s $zt="%0Oerr"
+ s sqldata8d=$zu(115,2)
+ s sqldata9d=0,sqldata10d=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s sqldata6d=$g(%rowid),sqldata6d=$s(sqldata6d="":"",$isvalidnum(sqldata6d):+sqldata6d,1:sqldata6d)
+ s SQLCODE=100
+ ; asl MOD# 2
+ s sqldata5d=sqldata6d
+ i sqldata5d'="" s sqldata12d="" i $d(^Ens.BusinessProcessD(sqldata5d),sqldata12d)
+ i '$t
+ e  i $lg(sqldata12d,1)'[($e($lg(sqldata12d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata12d,1)))
+ i  g %0OmBdun
+ s sqldata14d=$g(^Ens.BusinessProcessD(sqldata5d))
+ Set %d(37)=$lg(sqldata14d),%d(14)=$lg(sqldata14d,11),%d(18)=$$%0OmBs1($lg(sqldata14d,13))
+ goto:sqldata8d'=1 %0OmBuncommitted
+ if sqldata8d=1 {
+ 	lock +^Ens.BusinessProcessD($p(sqldata5d,"||",1))#"S":$zu(115,4)
+ 	if $t { set sqldata10d=$name(^Ens.BusinessProcessD($p(sqldata5d,"||",1)))_"#""SI""",sqldata9d=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Demo_Loan.FindRateDecisionProcessCustom for RowID value: "_sqldata5d ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i sqldata5d'="" s sqldata12d="" i $d(^Ens.BusinessProcessD(sqldata5d),sqldata12d)
+ i '$t
+ e  i $lg(sqldata12d,1)'[($e($lg(sqldata12d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata12d,1)))
+ i  g %0OmCdun
+ s sqldata17d=$g(^Ens.BusinessProcessD(sqldata5d))
+ Set %d(37)=$lg(sqldata17d),%d(14)=$lg(sqldata17d,11),%d(18)=$$%0OmBs1($lg(sqldata17d,13))
+%0OmBuncommitted ;
+ s SQLCODE=0 g %0Oc
+%0OmCdun if $g(sqldata8d)=1 { if $g(sqldata9d)=1 { l -@sqldata10d s sqldata9d=0 } elseif $g(sqldata9d)=2 { do $classmethod($li(sqldata10d),"%UnlockId",$li(sqldata10d,2),1,1)  s sqldata9d=0 } }
+%0OmBdun 
+%0OmAdun 
+%0Oc s %ROWCOUNT='SQLCODE
+ if $g(sqldata8d)=1 { if $g(sqldata9d)=1 { l -@sqldata10d } elseif $g(sqldata9d)=2 { do $classmethod($li(sqldata10d),"%UnlockId",$li(sqldata10d,2),1,1)  } }
+ q
+%0Oerr s $zt=""
+ d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ g %0Oc
+%SQLInsert(%d,%check,%inssel,%vco,%tstart=1,%mv=0)
+	new bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,sqlcode,sn,subs,icol set %oper="INSERT",sqlcode=0,%l=$c(0,0,0)
+	if $a(%check,7) { new %diu merge %diu=%d }
+	if $d(%d(1)),'$zu(115,11) { if %d(1)'="" { set SQLCODE=-111,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler6",,"ID","Demo_Loan"_"."_"FindRateDecisionProcessCustom") QUIT ""  } kill %d(1) } 
+	if '$a(%check),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode QUIT "" }
+	do ..%SQLNormalizeFields()
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  } set $zt="ERRORInsert"
+	set:'$d(%d(4)) %d(4)=0 set:'$d(%d(5)) %d(5)=0 set:'$d(%d(6)) %d(6)=0 set:'$d(%d(12)) %d(12)=0 set:'$d(%d(13)) %d(13)=1 set:'$d(%d(15)) %d(15)=1 set:'$d(%d(23)) %d(23)=0 set:'$d(%d(24)) %d(24)=0 set:'$d(%d(27)) %d(27)=15 set:'$d(%d(28)) %d(28)=0 set:'$d(%d(30)) %d(30)=0 set:'$d(%d(31)) %d(31)=0 set:'$d(%d(32)) %d(32)=0 set:'$d(%d(34)) %d(34)=0 set:'$d(%d(35)) %d(35)=5 set:'$d(%d(36)) %d(36)=0 set:'$d(%d(37)) %d(37)="~Demo.Loan.FindRateDecisionProcessCustom~"
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+		} while 0
+		if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT "" }		// A constraint failed
+	}
+	if '$d(%d(1)) { set %d(1)=$i(^Ens.BusinessProcessD) } elseif %d(1)>$g(^Ens.BusinessProcessD) { if $i(^Ens.BusinessProcessD,$zabs(%d(1)-$g(^Ens.BusinessProcessD))) {}} elseif $d(^Ens.BusinessProcessD(%d(1))) { set SQLCODE=-119,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler33",,"ID",%d(1),"Demo_Loan"_"."_"FindRateDecisionProcessCustom"_"."_"ID") do ..%SQLEExit() QUIT "" }
+	set:'($d(%d(37))#2) %d(37)="" set:'($d(%d(14))#2) %d(14)="" set:'($d(%d(18))#2) %d(18)=""
+	if '$a(%check,2) {
+		new %ls lock +^Ens.BusinessProcessD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("Demo.Loan.FindRateDecisionProcessCustom","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"Demo_Loan"_"."_"FindRateDecisionProcessCustom",$g(%d(1))) do ..%SQLEExit() QUIT ""  }
+	}
+	set ^Ens.BusinessProcessD(%d(1))=$lb($g(%d(37)),$g(%d(3)),$g(%d(4)),$g(%d(7)),,$g(%d(10)),$g(%d(11)),$g(%d(13)),$g(%d(20)),$g(%d(21)),$g(%d(14)),$g(%d(17)),$g(%d(18)),$g(%d(2)),$g(%d(12)),$g(%d(23)),$g(%d(19)),$g(%d(6)),$g(%d(5)),$g(%d(15)),$g(%d(8)),$g(%d(9)),$g(%d(33)),$g(%d(35)),$g(%d(24)),$g(%d(27)),$g(%d(34)),$g(%d(36)),$g(%d(31)),$g(%d(32)),$g(%d(28)),$g(%d(26)),$g(%d(22)),$g(%d(16)))
+	set:$s(($g(%d(25))'=""):1,($g(%d(29))'=""):1,1:($g(%d(30))'="")) ^Ens.BusinessProcessD(%d(1),"FindRateDecisionProcess")=$lb($g(%d(25)),$g(%d(29)),$g(%d(30)))
+	if '$a(%check,3) {
+		set sn(1)=%d(14) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("SessionId",sn(1),sn(2))=%d(37)
+		set sn(1)=%d(18) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2))=%d(37)
+	}
+	lock:$a(%l) -^Ens.BusinessProcessD(%d(1))#"E"
+	TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0
+	QUIT %d(1) 			// %SQLInsert
+ERRORInsert	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"Demo_Loan"_"."_"FindRateDecisionProcessCustom",$ze)
+	if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"Demo_Loan"_"."_"FindRateDecisionProcessCustom") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  }
+	do ..%SQLEExit()
+	QUIT ""
+%SQLInvalid(pIcol,pVal) public {
+	set:$l($g(pVal))>40 pVal=$e(pVal,1,40)_"..." do:'$d(%n) ..%SQLnBuild() set %msg=$s($g(%msg)'="":%msg_$c(13,10),1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler37",,"Demo_Loan"_"."_"FindRateDecisionProcessCustom"_"."_$lg(%n,pIcol),$s($g(pVal)'="":$s(pVal="":"<NULL>",pVal=$c(0):"<EMPTY STRING>",1:"'"_pVal_"'"),1:"")),sqlcode=$s(%oper="INSERT":-104,1:-105)
+	QUIT sqlcode }
+%SQLMissing(fname)
+	set sqlcode=-108,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler47",,fname,"Demo_Loan"_"."_"FindRateDecisionProcessCustom") quit
+%SQLNormalizeFields()
+	set:$g(%d(17))'="" %d(17)=$$NormalizeField17(%d(17))
+	set:$g(%d(18))'="" %d(18)=$$NormalizeField18(%d(18))
+	new %f for %f=24,27,28,29,31,32,35 { set:$g(%d(%f))'="" %d(%f)=$select($zu(115,13)&&(%d(%f)=$c(0)):"",1:$normalize($decimal(%d(%f)),2)) }
+	for %f=10,11,12,13,14 { set:$g(%d(%f))'="" %d(%f)=$select(%d(%f)=$c(0)&&$zu(115,13):"",1:%d(%f)\1) }
+	for %f=4,5,6,23,30,34,36 { set:$g(%d(%f))'="" %d(%f)=%d(%f)\1 }
+	QUIT
+NormalizeField17(%val) {	if $p(%val,":",3)'["." quit %val
+	for i=1:1:3 quit:$e(%val,*)'="0"  set %val=$e(%val,1,*-1)
+	if $e(%val,*)="." set %val=$e(%val,1,*-1)
+	quit %val
+}
+NormalizeField18(%val) {	if $p(%val,":",3)'["." quit %val
+	for i=1:1:3 quit:$e(%val,*)'="0"  set %val=$e(%val,1,*-1)
+	if $e(%val,*)="." set %val=$e(%val,1,*-1)
+	quit %val
+}
+	Quit
+%SQLPurgeIndices(pIndices="",pLockExtent=0,pIgnoreIndexList="")
+	QUIT ..%PurgeIndices(pIndices,pLockExtent,pIgnoreIndexList)
+%SQLQuickBulkInsert(%nolock=0)
+	// Insert multiple new rows with values %qd(icol)
+	new c,call,nc,nr,%qd,r,x set:%nolock=2 %nolock=0
+	set nr=$zobjexport(12) for r=1:1:nr { set nc=$zobjexport(12) kill %qd for c=1:1:nc { set:$zobjexport(17) %qd(c+1)=$zobjexport(12) } do ..%SQLQuickInsert(.%qd,%nolock) set x=$zobjexport($s(%qrc:-1,1:%ROWID),18) } QUIT
+%SQLQuickBulkLoad(%rowidlist,%nolock=0,pkey=0)
+	// QuickLoad multiple rows
+	new i,rc set:%nolock=2 %nolock=0 set rc=0
+	for i=2:1:$lg(%rowidlist)+1 { do ..%SQLQuickLoad($lg(%rowidlist,i),%nolock) if SQLCODE=0 { set rc=rc+1 } else { QUIT  } } set %ROWCOUNT=rc QUIT
+	Quit
+%SQLQuickBulkSave(%nolock=0)
+	// Insert and/or Update multiple [new] rows with values %qd(icol)
+	set x=$zobjexport(-1,18),%qrc=400,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler44",,"Demo_Loan"_"."_"FindRateDecisionProcessCustom") QUIT
+%SQLQuickBulkUpdate(%nolock=0)
+	// Update multiple new rows with values %qd(icol)
+	new c,call,nc,nr,%qd,r,x set:%nolock=2 %nolock=0 set nr=$zobjexport(12) for r=1:1:nr { set %rowid=$zobjexport(12),nc=$zobjexport(12) kill %qd for c=1:1:nc { set:$zobjexport(17) %qd(c+1)=$zobjexport(12) } do ..%SQLQuickUpdate(%rowid,.%qd,%nolock) set x=$zobjexport($s(%qrc:-1,1:%ROWID),18) quit:%qrc  } QUIT  
+%SQLQuickDelete(%rowid,%nolock=0,pkey=0)
+	// Delete row where SQLRowID=%rowid
+	set:%nolock=2 %nolock=0
+	do ..%SQLDelete(%rowid,$c(0,%nolock=1,0,0,0,0))
+	if SQLCODE<0 { set %qrc=-SQLCODE,%ROWCOUNT=0 } else { set %ROWCOUNT=1,%qrc=SQLCODE } QUIT
+	Quit
+%SQLQuickInsert(d,%nolock=0,pkey=0,parentpkey=0)
+	// Insert new row with values d(icol)
+	set:%nolock=2 %nolock=0
+	do ..%SQLQuickOdbcToLogical(.d)
+	set %ROWID=..%SQLInsert(.d,$c(0,%nolock=1,0,0,0,0)),%ROWCOUNT='SQLCODE,%qrc=SQLCODE kill d QUIT
+%SQLQuickLoad(%rowid,%nolock=0,pkey=0,qq=0)
+	// Get fields from row where SQLRowID=%rowid
+	new d,i,il,subs set:%nolock=2 %nolock=1
+	if %nolock=0 { if '..%SQLAcquireLock(%rowid) { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler45",,"Demo_Loan"_"."_"FindRateDecisionProcessCustom",%rowid),%ROWCOUNT=0 QUIT  } set:$zu(115,2) il=$zu(115,2,0) }
+	 ;---&sql(SELECT %INTERNAL(ID),%ConfigName,%ConfigQueueName,%IsCompleted,%IsTerminated,%IsTimerInterrupted,%INTERNAL(%MasterPendingResponsesOld),%INTERNAL(%MessagesReceivedOld),%INTERNAL(%MessagesSentOld),%INTERNAL(%PrimaryRequestHeader),%INTERNAL(%PrimaryResponseHeader),%QuitTask,%RepliedStatus,%SessionId,%StatusCode,%SuperSession,%TimeCompleted,%TimeCreated,%responseClassName,%responseId,Adapter,AlertGroups,AlertOnError,AlertRetryGracePeriod,BankName,BusinessPartner,FailureTimeout,InactivityTimeout,InterestRate,IsApproved,QueueCountAlert,QueueWaitAlert,ReplyCodeActions,Retry,RetryInterval,SuspendMessage,x__classname INTO :d(1),:d(2),:d(3),:d(4),:d(5),:d(6),:d(7),:d(8),:d(9),:d(10),:d(11),:d(12),:d(13),:d(14),:d(15),:d(16),:d(17),:d(18),:d(19),:d(20),:d(21),:d(22),:d(23),:d(24),:d(25),:d(26),:d(27),:d(28),:d(29),:d(30),:d(31),:d(32),:d(33),:d(34),:d(35),:d(36),:d(37) FROM Demo_Loan.FindRateDecisionProcessCustom WHERE %ID = :%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, d
+	do %0Ro
+	if SQLCODE { if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,1) do:$g(il) $zu(115,2,il) } set %ROWCOUNT=0 set:SQLCODE<0 SQLCODE=-SQLCODE set %qrc=SQLCODE QUIT  }
+	if qq,d(37)'="" { new sn set sn=$p(d(37),$e(d(37)),$l(d(37),$e(d(37)))-1) if "Demo.Loan.FindRateDecisionProcessCustom"'=sn { if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,1) do:$g(il) $zu(115,2,il) } kill d set:sn'["." sn="User."_sn  do $classmethod(sn,"%SQLQuickLoad",%rowid,%nolock,0,1) QUIT  }}
+	if %nolock=0 { if $zu(115,1)=1 { TSTART  } elseIf '$TLEVEL,$zu(115,1)=2 { TSTART  }}
+	set:qq d=$zobjexport("Demo.Loan.FindRateDecisionProcessCustom",18),d=$zobjexport(37,18) set i=-1 for  { set i=$o(d(i)) quit:i=""  set d=$zobjexport(d(i),18) } set %qrc=0,%ROWCOUNT=1 if %nolock=0 { d ..%SQLReleaseLock(%rowid,0,0) do:$g(il) $zu(115,2,il) } quit
+	Quit
+ q
+%0RmBs1(%val="")
+ quit:%val=1 1
+ n text,i,one
+ d $system.Status.DecomposeStatus(%val,.text,"-d")
+ s one="" f i=1:1:$g(text) s:i>1 one=one_$c(13,10) s one=one_$g(text(i)) 
+ q one
+%0RmBs2(%val) {
+	Quit ##class(Demo.Loan.FindRateDecisionProcessCustom).%TimeCompletedStorageToLogical(%val)
+}
+%0RmBs3(%val) {
+	Quit ##class(Demo.Loan.FindRateDecisionProcessCustom).%TimeCreatedStorageToLogical(%val)
+}
+%0Ro n sqldata86d,sqldata87d,sqldata88d,sqldata90d,sqldata92d,%sqltmp,%sqlpos,sqldata95d,sqldata81d,sqldata1d,sqldata8d,sqldata14d,sqldata16d,sqldata23d,sqldata24d,sqldata21d,sqldata10d,sqldata12d
+ s $zt="%0Rerr"
+ s sqldata86d=$zu(115,2)
+ s sqldata87d=0,sqldata88d=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s sqldata81d=$g(%rowid),sqldata81d=$s(sqldata81d="":"",$isvalidnum(sqldata81d):+sqldata81d,1:sqldata81d)
+ s SQLCODE=100
+ ; asl MOD# 2
+ s sqldata1d=sqldata81d
+ i sqldata1d'="" s sqldata90d="" i $d(^Ens.BusinessProcessD(sqldata1d),sqldata90d)
+ i '$t
+ e  i $lg(sqldata90d,1)'[($e($lg(sqldata90d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata90d,1)))
+ i  g %0RmBdun
+ s d(1)=sqldata1d
+ s sqldata92d=$g(^Ens.BusinessProcessD(sqldata1d))
+ Set d(37)=$lg(sqldata92d),d(3)=$lg(sqldata92d,2),d(4)=$lg(sqldata92d,3),sqldata8d=$lg(sqldata92d,4),sqldata14d=$lg(sqldata92d,6),sqldata16d=$lg(sqldata92d,7),d(13)=$lg(sqldata92d,8),d(20)=$lg(sqldata92d,9)
+ Set %sqlpos=$l($li(sqldata92d,1,9))+1,%sqltmp=$li($e(sqldata92d,%sqlpos,*),1,9),d(21)=$lg(%sqltmp),d(14)=$lg(%sqltmp,2),sqldata23d=$$%0RmBs2($lg(%sqltmp,3)),sqldata24d=$$%0RmBs3($lg(%sqltmp,4)),d(2)=$lg(%sqltmp,5),d(12)=$lg(%sqltmp,6),d(23)=$lg(%sqltmp,7),d(19)=$lg(%sqltmp,8),d(6)=$lg(%sqltmp,9)
+ Set %sqlpos=%sqlpos+$l(%sqltmp),%sqltmp=$li($e(sqldata92d,%sqlpos,*),1,9),d(5)=$lg(%sqltmp),sqldata21d=$lg(%sqltmp,2),sqldata10d=$lg(%sqltmp,3),sqldata12d=$lg(%sqltmp,4),d(33)=$lg(%sqltmp,5),d(35)=$lg(%sqltmp,6),d(24)=$lg(%sqltmp,7),d(27)=$lg(%sqltmp,8),d(34)=$lg(%sqltmp,9)
+ Set %sqltmp=$e(sqldata92d,%sqlpos+$l(%sqltmp),*),d(36)=$lg(%sqltmp),d(31)=$lg(%sqltmp,2),d(32)=$lg(%sqltmp,3),d(28)=$lg(%sqltmp,4),d(26)=$lg(%sqltmp,5),d(22)=$lg(%sqltmp,6),d(16)=$lg(%sqltmp,7)
+ s d(7)=sqldata8d
+ s d(8)=sqldata10d
+ s d(9)=sqldata12d
+ s d(10)=sqldata14d
+ s d(11)=sqldata16d
+ s d(15)=$$%0RmBs1(sqldata21d)
+ s d(17)=$s(sqldata23d="":"",1:$zdatetime($zdTH($zdatetimeh(sqldata23d,3,,,,,,,,0),-3),3,,3))
+ s d(18)=$s(sqldata24d="":"",1:$zdatetime($zdTH($zdatetimeh(sqldata24d,3,,,,,,,,0),-3),3,,3))
+ s sqldata92d=$g(^Ens.BusinessProcessD(sqldata1d,"FindRateDecisionProcess"))
+ Set d(25)=$lg(sqldata92d),d(29)=$lg(sqldata92d,2),d(30)=$lg(sqldata92d,3)
+ goto:sqldata86d'=1 %0RmBuncommitted
+ if sqldata86d=1 {
+ 	lock +^Ens.BusinessProcessD($p(sqldata1d,"||",1))#"S":$zu(115,4)
+ 	if $t { set sqldata88d=$name(^Ens.BusinessProcessD($p(sqldata1d,"||",1)))_"#""SI""",sqldata87d=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Demo_Loan.FindRateDecisionProcessCustom for RowID value: "_sqldata1d ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i sqldata1d'="" s sqldata90d="" i $d(^Ens.BusinessProcessD(sqldata1d),sqldata90d)
+ i '$t
+ e  i $lg(sqldata90d,1)'[($e($lg(sqldata90d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata90d,1)))
+ i  g %0RmCdun
+ s d(1)=sqldata1d
+ s sqldata95d=$g(^Ens.BusinessProcessD(sqldata1d))
+ Set d(37)=$lg(sqldata95d),d(3)=$lg(sqldata95d,2),d(4)=$lg(sqldata95d,3),sqldata8d=$lg(sqldata95d,4),sqldata14d=$lg(sqldata95d,6),sqldata16d=$lg(sqldata95d,7),d(13)=$lg(sqldata95d,8),d(20)=$lg(sqldata95d,9)
+ Set %sqlpos=$l($li(sqldata95d,1,9))+1,%sqltmp=$li($e(sqldata95d,%sqlpos,*),1,9),d(21)=$lg(%sqltmp),d(14)=$lg(%sqltmp,2),sqldata23d=$$%0RmBs2($lg(%sqltmp,3)),sqldata24d=$$%0RmBs3($lg(%sqltmp,4)),d(2)=$lg(%sqltmp,5),d(12)=$lg(%sqltmp,6),d(23)=$lg(%sqltmp,7),d(19)=$lg(%sqltmp,8),d(6)=$lg(%sqltmp,9)
+ Set %sqlpos=%sqlpos+$l(%sqltmp),%sqltmp=$li($e(sqldata95d,%sqlpos,*),1,9),d(5)=$lg(%sqltmp),sqldata21d=$lg(%sqltmp,2),sqldata10d=$lg(%sqltmp,3),sqldata12d=$lg(%sqltmp,4),d(33)=$lg(%sqltmp,5),d(35)=$lg(%sqltmp,6),d(24)=$lg(%sqltmp,7),d(27)=$lg(%sqltmp,8),d(34)=$lg(%sqltmp,9)
+ Set %sqltmp=$e(sqldata95d,%sqlpos+$l(%sqltmp),*),d(36)=$lg(%sqltmp),d(31)=$lg(%sqltmp,2),d(32)=$lg(%sqltmp,3),d(28)=$lg(%sqltmp,4),d(26)=$lg(%sqltmp,5),d(22)=$lg(%sqltmp,6),d(16)=$lg(%sqltmp,7)
+ s d(7)=sqldata8d
+ s d(8)=sqldata10d
+ s d(9)=sqldata12d
+ s d(10)=sqldata14d
+ s d(11)=sqldata16d
+ s d(15)=$$%0RmBs1(sqldata21d)
+ s d(17)=$s(sqldata23d="":"",1:$zdatetime($zdTH($zdatetimeh(sqldata23d,3,,,,,,,,0),-3),3,,3))
+ s d(18)=$s(sqldata24d="":"",1:$zdatetime($zdTH($zdatetimeh(sqldata24d,3,,,,,,,,0),-3),3,,3))
+ s sqldata95d=$g(^Ens.BusinessProcessD(sqldata1d,"FindRateDecisionProcess"))
+ Set d(25)=$lg(sqldata95d),d(29)=$lg(sqldata95d,2),d(30)=$lg(sqldata95d,3)
+%0RmBuncommitted ;
+ s d(1)=sqldata1d
+ s d(7)=sqldata8d
+ s d(8)=sqldata10d
+ s d(9)=sqldata12d
+ s d(10)=sqldata14d
+ s d(11)=sqldata16d
+ s SQLCODE=0 g %0Rc
+%0RmCdun if $g(sqldata86d)=1 { if $g(sqldata87d)=1 { l -@sqldata88d s sqldata87d=0 } elseif $g(sqldata87d)=2 { do $classmethod($li(sqldata88d),"%UnlockId",$li(sqldata88d,2),1,1)  s sqldata87d=0 } }
+%0RmBdun 
+%0RmAdun 
+%0Rc s %ROWCOUNT='SQLCODE
+ if $g(sqldata86d)=1 { if $g(sqldata87d)=1 { l -@sqldata88d } elseif $g(sqldata87d)=2 { do $classmethod($li(sqldata88d),"%UnlockId",$li(sqldata88d,2),1,1)  } }
+ q
+%0Rerr s $zt=""
+ d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ g %0Rc
+%SQLQuickOdbcToLogical(%d)
+	set:$g(%d(17))'="" %d(17)=$$OdbcToLogicalField17(%d(17))
+	set:$g(%d(18))'="" %d(18)=$$OdbcToLogicalField18(%d(18))
+	QUIT
+OdbcToLogicalField17(%val) {
+	Quit $s(%val="":"",1:$zdatetime($zdT($zdatetimeh(%val,3,,,,,,,,0),-3),3,,3))
+}
+OdbcToLogicalField18(%val) {
+	Quit $s(%val="":"",1:$zdatetime($zdT($zdatetimeh(%val,3,,,,,,,,0),-3),3,,3))
+}
+	Quit
+%SQLQuickUpdate(%rowid,d,%nolock=0,pkey=0)
+	// Update row with SQLRowID=%rowid with values d(icol)
+	set:%nolock=2 %nolock=0
+	do ..%SQLQuickOdbcToLogical(.d)
+	do ..%SQLUpdate(%rowid,$c(0,%nolock=1,0,0,0,0),.d) set %ROWCOUNT='SQLCODE set:SQLCODE=100 SQLCODE=0 set %qrc=SQLCODE kill d QUIT
+%SQLReleaseLock(%rowid,s=0,i=0,e="")
+	new %d
+	set:e="" e=1 set %d(1)=%rowid set s=$e("E",e)_$e("S",s)_$e("D",i)
+	lock -^Ens.BusinessProcessD(%d(1))#s
+	QUIT
+%SQLReleaseTableLock(s=0,i=0)
+	set s=$e("S",s)_$e("D",i) lock -^Ens.BusinessProcessD#s QUIT 1
+	Quit
+%SQLUnlock()
+	lock:$a(%l) -^Ens.BusinessProcessD(%d(1))#"E"
+	QUIT
+%SQLUnlockError(cname)
+	set sqlcode=-110 if %oper="DELETE" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler48",,"Demo_Loan"_"."_"FindRateDecisionProcessCustom",cname) } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler49",,"Demo_Loan"_"."_"FindRateDecisionProcessCustom",cname) } quit
+	Quit
+%SQLUpdate(%rowid,%check,%d,%vco,%tstart=1,%mv=0,%polymorphic=0,%soid)
+	if %polymorphic { do ..%SQLCopyNameIntoIcol() set %d(1)=%rowid,%e(1)=%rowid,$e(%e,1)=$c(0) new icol for icol=2:1:37 { set $e(%e,icol)=$c($d(%d(icol))) }  goto %SQLUpdatePD }
+	new %e,bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,icol,omcall,s,sn,sqlcode,subs,t set %oper="UPDATE",sqlcode=0,%ROWID=%rowid,$e(%e,1)=$c(0),%l=$c(0,0,0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode QUIT  }
+	do ..%SQLNormalizeFields()
+	if $d(%d(1)),%d(1)'=%rowid { set SQLCODE=-107,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler16",,"ID","Demo_Loan"_"."_"FindRateDecisionProcessCustom") QUIT  }
+	for icol=2:1:37 { set $e(%e,icol)=$c($d(%d(icol))) }
+	set %d(1)=%rowid,%e(1)=%rowid
+	if '$a(%check,2) {
+		new %ls lock +^Ens.BusinessProcessD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("Demo.Loan.FindRateDecisionProcessCustom","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"Demo_Loan"_"."_"FindRateDecisionProcessCustom",$g(%d(1))) QUIT  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORUpdate"
+%SQLUpdatePD		// Entry point for Polymorphic Dispatch from a super-table
+	if $g(%vco)="" { do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) i sqlcode { s SQLCODE=-109 do ..%SQLEExit() QUIT  } for icol=37,14,18 { set:'$d(%d(icol)) %d(icol)=%e(icol) set:%d(icol)=%e(icol) $e(%e,icol)=$c(0) }} else { do ..%SQLGetOldAll() if sqlcode { set SQLCODE=-109 do ..%SQLEExit() QUIT  } for icol=2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37 { set:'$d(%d(icol)) %d(icol)=%e(icol) set:%d(icol)=%e(icol) $e(%e,icol)=$c(0) }}
+	if %e(37)'="" set sn=$p(%e(37),$e(%e(37)),$l(%e(37),$e(%e(37)))-1) if "Demo.Loan.FindRateDecisionProcessCustom"'=sn new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLUpdate",%rowid,%check,.%d,$g(%vco),%tstart,%mv,1) QUIT
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+		} while 0
+		if sqlcode { set SQLCODE=sqlcode do ..%SQLEExit() QUIT  }
+	}
+	if ($zboolean(%e,$c(0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,0,0,1,1,1,1,1,1,1),1)[$c(1)) {
+		set ^Ens.BusinessProcessD(%d(1))=$listupdate($g(^Ens.BusinessProcessD(%d(1))),1,$a(%e,37):%d(37),$a(%e,3):%d(3),$a(%e,4):%d(4),$a(%e,7):%d(7),,$a(%e,10):%d(10),$a(%e,11):%d(11),$a(%e,13):%d(13),$a(%e,20):%d(20),$a(%e,21):%d(21),$a(%e,14):%d(14),$a(%e,17):%d(17),$a(%e,18):%d(18),$a(%e,2):%d(2),$a(%e,12):%d(12),$a(%e,23):%d(23),$a(%e,19):%d(19),$a(%e,6):%d(6),$a(%e,5):%d(5),$a(%e,15):%d(15),$a(%e,8):%d(8),$a(%e,9):%d(9),$a(%e,33):%d(33),$a(%e,35):%d(35),$a(%e,24):%d(24),$a(%e,27):%d(27),$a(%e,34):%d(34),$a(%e,36):%d(36),$a(%e,31):%d(31),$a(%e,32):%d(32),$a(%e,28):%d(28),$a(%e,26):%d(26),$a(%e,22):%d(22),$a(%e,16):%d(16))
+	}
+	if $s($a(%e,25):1,$a(%e,29):1,1:$a(%e,30)) {
+		set ^Ens.BusinessProcessD(%d(1),"FindRateDecisionProcess")=$listupdate($g(^Ens.BusinessProcessD(%d(1),"FindRateDecisionProcess")),1,$a(%e,25):%d(25),$a(%e,29):%d(29),$a(%e,30):%d(30))
+	}
+	if '$a(%check,3) { 
+		if $a(%e,14)||$a(%e,37) {	// SessionId index map
+			if $a(%e,14) { set sn(1)=%e(14) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("SessionId",sn(1),sn(2)) }
+			set sn(1)=%d(14) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("SessionId",sn(1),sn(2))=%d(37)
+		}
+		if $a(%e,18)||$a(%e,37) {	// TimeCreated index map
+			if $a(%e,18) { set sn(1)=%e(18) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2)) }
+			set sn(1)=%d(18) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2))=%d(37)
+		}
+	}
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORUpdate	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"Demo_Loan"_"."_"FindRateDecisionProcessCustom",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"Demo_Loan"_"."_"FindRateDecisionProcessCustom") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT  
+	Quit
+%SQLValidateFields(sqlcode)
+	if $g(%d(23))'="",'($$ValidateField23(%d(23))) { set sqlcode=..%SQLInvalid(23+1,%d(23)) } 
+	if $g(%d(30))'="",'($$ValidateField30(%d(30))) { set sqlcode=..%SQLInvalid(30+1,%d(30)) } 
+	if $g(%d(34))'="",'($$ValidateField34(%d(34))) { set sqlcode=..%SQLInvalid(34+1,%d(34)) } 
+	if $g(%d(36))'="",'($$ValidateField36(%d(36))) { set sqlcode=..%SQLInvalid(36+1,%d(36)) } 
+	if $g(%d(4))'="",'($$ValidateField4(%d(4))) { set sqlcode=..%SQLInvalid(4+1,%d(4)) } 
+	if $g(%d(5))'="",'($$ValidateField5(%d(5))) { set sqlcode=..%SQLInvalid(5+1,%d(5)) } 
+	if $g(%d(6))'="",'($$ValidateField6(%d(6))) { set sqlcode=..%SQLInvalid(6+1,%d(6)) } 
+	if $g(%d(29))'="",'($isvalidnum(%d(29),2,,)) { set sqlcode=..%SQLInvalid(29+1,%d(29)) } 
+	if $g(%d(27))'="",'($select($zu(115,13)&&(%d(27)=$c(0)):1,$isvalidnum(%d(27),2,-1,):1,'$isvalidnum(%d(27)):$$Error^%apiOBJ(7207,%d(27)),1:$$Error^%apiOBJ(7204,%d(27),-1))) { set sqlcode=..%SQLInvalid(27+1,%d(27)) } 
+	new %f for %f=24,28,31,32,35 { if $g(%d(%f))'="",'($select($zu(115,13)&&(%d(%f)=$c(0)):1,$isvalidnum(%d(%f),2,0,):1,'$isvalidnum(%d(%f)):$$Error^%apiOBJ(7207,%d(%f)),1:$$Error^%apiOBJ(7204,%d(%f),0))) set sqlcode=..%SQLInvalid(%f+1,$g(%d(%f))) quit  } 
+	for %f=12,13,14 { if $g(%d(%f))'="",'($select(%d(%f)=$c(0)&&$zu(115,13):1,$isvalidnum(%d(%f),0):1,1:$$Error^%apiOBJ(7207,%d(%f)))) set sqlcode=..%SQLInvalid(%f+1,$g(%d(%f))) quit  } 
+	if $g(%d(33))'="",'(($l(%d(33))'>1000)) { set sqlcode=..%SQLInvalid(33+1,%d(33)) } 
+	for %f=2,3,19,26 { if $g(%d(%f))'="",'(($l(%d(%f))'>128)) set sqlcode=..%SQLInvalid(%f+1,$g(%d(%f))) quit  } 
+	if $g(%d(22))'="",'(($l(%d(22))'>2500)) { set sqlcode=..%SQLInvalid(22+1,%d(22)) } 
+	if $g(%d(16))'="",'(($l(%d(16))'>300)) { set sqlcode=..%SQLInvalid(16+1,%d(16)) } 
+	if $g(%d(25))'="",'(($l(%d(25))'>50)) { set sqlcode=..%SQLInvalid(25+1,%d(25)) } 
+	QUIT 'sqlcode
+ValidateField4(%val="") {	Quit $isvalidnum(%val,0,0,2)&&(+%val'=2)
+}
+ValidateField5(%val="") {	Quit $isvalidnum(%val,0,0,2)&&(+%val'=2)
+}
+ValidateField6(%val="") {	Quit $isvalidnum(%val,0,0,2)&&(+%val'=2)
+}
+ValidateField23(%val="") {	Quit $isvalidnum(%val,0,0,2)&&(+%val'=2)
+}
+ValidateField30(%val="") {	Quit $isvalidnum(%val,0,0,2)&&(+%val'=2)
+}
+ValidateField34(%val="") {	Quit $isvalidnum(%val,0,0,2)&&(+%val'=2)
+}
+ValidateField36(%val="") {	Quit $isvalidnum(%val,0,0,2)&&(+%val'=2)
+}
+	Quit
+%SQLnBuild() public {
+	set %n=$lb(,"ID","%ConfigName","%ConfigQueueName","%IsCompleted","%IsTerminated","%IsTimerInterrupted","%MasterPendingResponsesOld","%MessagesReceivedOld","%MessagesSentOld","%PrimaryRequestHeader","%PrimaryResponseHeader","%QuitTask","%RepliedStatus","%SessionId","%StatusCode","%SuperSession","%TimeCompleted","%TimeCreated","%responseClassName","%responseId","Adapter","AlertGroups","AlertOnError","AlertRetryGracePeriod","BankName","BusinessPartner","FailureTimeout","InactivityTimeout","InterestRate","IsApproved","QueueCountAlert","QueueWaitAlert","ReplyCodeActions","Retry","RetryInterval","SuspendMessage","x__classname")
+	QUIT }
+%SaveData(id) public {
+	try {
+		set id=$listget(i%"%%OID") if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,lockok=0,tSharedLock=0
+		if 'idassigned { set id=$i(^Ens.BusinessProcessD) Set $zobjoid("Demo.Loan.FindRateDecisionProcessCustom",id)=$this,.."%%OID"=$lb(id_"","Demo.Loan.FindRateDecisionProcessCustom") set:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this)="" }
+		set zzc10v1=$s(i%%TimeCreated'="":i%%TimeCreated,1:-1E14)
+		set zzc10v2=$s(i%%SessionId'="":i%%SessionId,1:-1E14)
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if (i%%Concurrency<4)&&(i%%Concurrency) { lock +(^Ens.BusinessProcessD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1 if lockok { set lock=1 } else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^Ens.BusinessProcessD(id))) {
+					set insert=1
+					if lock { lock -(^Ens.BusinessProcessD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				set zzc20v1="",ptr="" for  set ptr=$order(i%%MessagesSentOld(ptr),1,val) Quit:ptr=""  set zzc20v1=zzc20v1_$listbuild(val)
+				set zzc20v2="",ptr="" for  set ptr=$order(i%%MessagesReceivedOld(ptr),1,val) Quit:ptr=""  set zzc20v2=zzc20v2_$listbuild(val)
+				set zzc20v3="",ptr="" for  set ptr=$order(i%%MasterPendingResponsesOld(ptr),1,val) Quit:ptr=""  set zzc20v3=zzc20v3_$listbuild(val)
+				if i%%Concurrency&&$tlevel {  lock +(^Ens.BusinessProcessD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:(lockok=2&&(i%%Concurrency'=4)) %0CacheLock($classname(),"E")=1 set:lockok lock=1 if 'lockok { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if i%%Concurrency=3 { lock +(^Ens.BusinessProcessD(id)#"ES") set tSharedLock=1 }
+				set:i%%Concurrency=4 lock=0
+				set counter=0,zzc39v1=$Order(i%%MasterPendingResponses(""),1,val) While zzc39v1'="" { Set ^Ens.BusinessProcessD(id,"pending",zzc39v1)=val,counter=counter+1,zzc39v1 = $Order(i%%MasterPendingResponses(zzc39v1),1,val) }
+				Set:counter>0 ^Ens.BusinessProcessD(id,"pending")=counter
+				set counter=0,zzc39v2=$Order(i%%MessagesReceived(""),1,val) While zzc39v2'="" { Set ^Ens.BusinessProcessD(id,"received",zzc39v2)=val,counter=counter+1,zzc39v2 = $Order(i%%MessagesReceived(zzc39v2),1,val) }
+				Set:counter>0 ^Ens.BusinessProcessD(id,"received")=counter
+				set counter=0,zzc39v3=$Order(i%%MessagesSent(""),1,val) While zzc39v3'="" { Set ^Ens.BusinessProcessD(id,"sent",zzc39v3)=val,counter=counter+1,zzc39v3 = $Order(i%%MessagesSent(zzc39v3),1,val) }
+				Set:counter>0 ^Ens.BusinessProcessD(id,"sent")=counter
+				set ^Ens.BusinessProcessD(id)=$lb("~Demo.Loan.FindRateDecisionProcessCustom~",i%%ConfigQueueName,i%%IsCompleted,zzc20v3,,i%%PrimaryRequestHeader,i%%PrimaryResponseHeader,i%%RepliedStatus,i%%responseId,i%Adapter,i%%SessionId,i%%TimeCompleted,i%%TimeCreated,i%%ConfigName,i%%QuitTask,i%AlertOnError,i%%responseClassName,i%%IsTimerInterrupted,i%%IsTerminated,i%%StatusCode,zzc20v2,zzc20v1,i%ReplyCodeActions,i%RetryInterval,i%AlertRetryGracePeriod,i%FailureTimeout,i%Retry,i%SuspendMessage,i%QueueCountAlert,i%QueueWaitAlert,i%InactivityTimeout,i%BusinessPartner,i%AlertGroups,i%%SuperSession)
+				set ^Ens.BusinessProcessD(id,"FindRateDecisionProcess")=$lb(i%BankName,i%InterestRate,i%IsApproved)
+				set ^Ens.BusinessProcessI("SessionId",zzc10v2,id)="~Demo.Loan.FindRateDecisionProcessCustom~"
+				set ^Ens.BusinessProcessI("TimeCreated",zzc10v1,id)="~Demo.Loan.FindRateDecisionProcessCustom~"
+			}
+			else {
+				set zzc31v1=$G(^Ens.BusinessProcessD(id))
+				set zzc31v2=..%TimeCreatedStorageToLogical($listget(zzc31v1,13))
+				set zzc31v3=$listget(zzc31v1,11)
+				if (i%%SessionId'=zzc31v3) {
+					kill ^Ens.BusinessProcessI("SessionId",$s(zzc31v3'="":zzc31v3,1:-1E14),id)
+					set ^Ens.BusinessProcessI("SessionId",zzc10v2,id)="~Demo.Loan.FindRateDecisionProcessCustom~"
+				}
+				if (i%%TimeCreated'=zzc31v2) {
+					kill ^Ens.BusinessProcessI("TimeCreated",$s(zzc31v2'="":zzc31v2,1:-1E14),id)
+					set ^Ens.BusinessProcessI("TimeCreated",zzc10v1,id)="~Demo.Loan.FindRateDecisionProcessCustom~"
+				}
+				set zzc40v4="",ptr="" for  set ptr=$order(i%%MessagesSentOld(ptr),1,val) Quit:ptr=""  set zzc40v4=zzc40v4_$listbuild(val)
+				set zzc40v5="",ptr="" for  set ptr=$order(i%%MessagesReceivedOld(ptr),1,val) Quit:ptr=""  set zzc40v5=zzc40v5_$listbuild(val)
+				set zzc40v6="",ptr="" for  set ptr=$order(i%%MasterPendingResponsesOld(ptr),1,val) Quit:ptr=""  set zzc40v6=zzc40v6_$listbuild(val)
+				kill ^Ens.BusinessProcessD(id,"pending") set counter=0,zzc40v1=$Order(i%%MasterPendingResponses(""),1,val) While zzc40v1'="" { Set ^Ens.BusinessProcessD(id,"pending",zzc40v1)=val,counter=counter+1,zzc40v1 = $Order(i%%MasterPendingResponses(zzc40v1),1,val) }
+				Set:counter>0 ^Ens.BusinessProcessD(id,"pending")=counter
+				kill ^Ens.BusinessProcessD(id,"received") set counter=0,zzc40v2=$Order(i%%MessagesReceived(""),1,val) While zzc40v2'="" { Set ^Ens.BusinessProcessD(id,"received",zzc40v2)=val,counter=counter+1,zzc40v2 = $Order(i%%MessagesReceived(zzc40v2),1,val) }
+				Set:counter>0 ^Ens.BusinessProcessD(id,"received")=counter
+				kill ^Ens.BusinessProcessD(id,"sent") set counter=0,zzc40v3=$Order(i%%MessagesSent(""),1,val) While zzc40v3'="" { Set ^Ens.BusinessProcessD(id,"sent",zzc40v3)=val,counter=counter+1,zzc40v3 = $Order(i%%MessagesSent(zzc40v3),1,val) }
+				Set:counter>0 ^Ens.BusinessProcessD(id,"sent")=counter
+				set ^Ens.BusinessProcessD(id)=$lb("~Demo.Loan.FindRateDecisionProcessCustom~",i%%ConfigQueueName,i%%IsCompleted,zzc40v6,,i%%PrimaryRequestHeader,i%%PrimaryResponseHeader,i%%RepliedStatus,i%%responseId,i%Adapter,i%%SessionId,i%%TimeCompleted,i%%TimeCreated,i%%ConfigName,i%%QuitTask,i%AlertOnError,i%%responseClassName,i%%IsTimerInterrupted,i%%IsTerminated,i%%StatusCode,zzc40v5,zzc40v4,i%ReplyCodeActions,i%RetryInterval,i%AlertRetryGracePeriod,i%FailureTimeout,i%Retry,i%SuspendMessage,i%QueueCountAlert,i%QueueWaitAlert,i%InactivityTimeout,i%BusinessPartner,i%AlertGroups,i%%SuperSession)
+				set ^Ens.BusinessProcessD(id,"FindRateDecisionProcess")=$lb(i%BankName,i%InterestRate,i%IsApproved)
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+			if ('idassigned) { Set $zobjoid("",$listget(i%"%%OID"))="" Set $this."%%OID" = "" kill:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this) }
+			if (tSharedLock) {  lock -(^Ens.BusinessProcessD(id)#"ES") } elseif (lockok=1)&&(insert)&&(i%%Concurrency=4) {  lock -(^Ens.BusinessProcessD(id)) }
+		}
+		if lock lock -(^Ens.BusinessProcessD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%SaveDirect(id="",idList="",data,concurrency=-1) public {
+	try {
+		set zzc5v1=..%TimeCreatedStorageToLogical($listget(data,13))
+		set zzc5v2=$listget(data,11)
+		set zzc5v3=$listget(data,1)
+		if concurrency=-1 { set concurrency=$zu(115,10) }
+		if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,tSharedLock=0
+		if 'idassigned { set id=$i(^Ens.BusinessProcessD) }
+		set zzc10v1=$s(zzc5v1'="":zzc5v1,1:-1E14)
+		set zzc10v2=$s(zzc5v2'="":zzc5v2,1:-1E14)
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if concurrency { lock +(^Ens.BusinessProcessD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^Ens.BusinessProcessD(id))) {
+					set insert=1
+					if lock { lock -(^Ens.BusinessProcessD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				if concurrency { lock +(^Ens.BusinessProcessD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				merge ^Ens.BusinessProcessD(id,"pending")=data("pending")
+				merge ^Ens.BusinessProcessD(id,"received")=data("received")
+				merge ^Ens.BusinessProcessD(id,"sent")=data("sent")
+				set ^Ens.BusinessProcessD(id)=data
+				set ^Ens.BusinessProcessD(id,"FindRateDecisionProcess")=data("FindRateDecisionProcess")
+				set ^Ens.BusinessProcessI("SessionId",zzc10v2,id)=zzc5v3
+				set ^Ens.BusinessProcessI("TimeCreated",zzc10v1,id)=zzc5v3
+			}
+			else {
+				set zzc31v1=$li(idList,1)
+				set zzc31v2=$G(^Ens.BusinessProcessD(zzc31v1))
+				set zzc31v3=..%TimeCreatedStorageToLogical($listget(zzc31v2,13))
+				set zzc31v4=$listget(zzc31v2,11)
+				if (zzc5v2'=zzc31v4) {
+					kill ^Ens.BusinessProcessI("SessionId",$s(zzc31v4'="":zzc31v4,1:-1E14),zzc31v1)
+					set ^Ens.BusinessProcessI("SessionId",zzc10v2,id)=zzc5v3
+				}
+				if (zzc5v1'=zzc31v3) {
+					kill ^Ens.BusinessProcessI("TimeCreated",$s(zzc31v3'="":zzc31v3,1:-1E14),zzc31v1)
+					set ^Ens.BusinessProcessI("TimeCreated",zzc10v1,id)=zzc5v3
+				}
+				kill ^Ens.BusinessProcessD(id,"pending") merge ^Ens.BusinessProcessD(id,"pending")=data("pending")
+				kill ^Ens.BusinessProcessD(id,"received") merge ^Ens.BusinessProcessD(id,"received")=data("received")
+				kill ^Ens.BusinessProcessD(id,"sent") merge ^Ens.BusinessProcessD(id,"sent")=data("sent")
+				set ^Ens.BusinessProcessD(id)=data
+				set ^Ens.BusinessProcessD(id,"FindRateDecisionProcess")=data("FindRateDecisionProcess")
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+		}
+		if lock lock -(^Ens.BusinessProcessD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%SaveIndices(pStartId="",pEndId="",lockExtent=0) public {
+	Quit 1 }
+%SortBegin(idxlist="",excludeunique=0)
+	Quit 1
+%SortEnd(idxlist="",commit=1,excludeunique=0) public {
+	Quit 1 }
+%ValidateIndices(idxList="",autoCorrect=0,lockOption=1,multiProcess=1)
+	w !,"There are no indices to validate for class 'Demo.Loan.FindRateDecisionProcessCustom'"
+	QUIT 1
+%ValidateObject(force=0,checkserial=1) public {
+	set sc=1
+	If '$system.CLS.GetModified() Quit sc
+	If m%%ConfigName Set iv=..%ConfigName If iv'="" Set rc=(..%ConfigNameIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%ConfigName",iv)
+	If m%%ConfigQueueName Set iv=..%ConfigQueueName If iv'="" Set rc=(..%ConfigQueueNameIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%ConfigQueueName",iv)
+	If m%%IsCompleted Set iv=..%IsCompleted If iv'="" Set rc=(..%IsCompletedIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%IsCompleted",iv)
+	If m%%IsTerminated Set iv=..%IsTerminated If iv'="" Set rc=(..%IsTerminatedIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%IsTerminated",iv)
+	If m%%IsTimerInterrupted Set iv=..%IsTimerInterrupted If iv'="" Set rc=(..%IsTimerInterruptedIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%IsTimerInterrupted",iv)
+	If m%%LastActionTime Set iv=..%LastActionTime If iv'="" Set rc=(..%LastActionTimeIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%LastActionTime",iv)
+	If m%%LastHandledTime Set iv=..%LastHandledTime If iv'="" Set rc=(..%LastHandledTimeIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%LastHandledTime",iv)
+	If m%%LastReportedError Set iv=..%LastReportedError If iv'="" Set rc=(..%LastReportedErrorIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%LastReportedError",iv)
+	If m%%MasterPendingResponses Set key="",rc=1 For  Set key=$order(i%%MasterPendingResponses(key),1,val) Quit:key=""  If val'="" Set rc=..%MasterPendingResponsesIsValid(val) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%MasterPendingResponses"_"("_key_")",val)
+	If m%%MasterPendingResponsesOld Set key="",rc=1 For  Set key=$order(i%%MasterPendingResponsesOld(key),1,val) Quit:key=""  If val'="" Set rc=..%MasterPendingResponsesOldIsValid(val) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%MasterPendingResponsesOld"_"("_key_")",val)
+	If m%%MessagesReceived Set key="",rc=1 For  Set key=$order(i%%MessagesReceived(key),1,val) Quit:key=""  If val'="" Set rc=..%MessagesReceivedIsValid(val) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%MessagesReceived"_"("_key_")",val)
+	If m%%MessagesReceivedOld Set key="",rc=1 For  Set key=$order(i%%MessagesReceivedOld(key),1,val) Quit:key=""  If val'="" Set rc=..%MessagesReceivedOldIsValid(val) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%MessagesReceivedOld"_"("_key_")",val)
+	If m%%MessagesSent Set key="",rc=1 For  Set key=$order(i%%MessagesSent(key),1,val) Quit:key=""  If val'="" Set rc=..%MessagesSentIsValid(val) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%MessagesSent"_"("_key_")",val)
+	If m%%MessagesSentOld Set key="",rc=1 For  Set key=$order(i%%MessagesSentOld(key),1,val) Quit:key=""  If val'="" Set rc=..%MessagesSentOldIsValid(val) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%MessagesSentOld"_"("_key_")",val)
+	If m%%QuitTask Set iv=..%QuitTask If iv'="" Set rc=(..%QuitTaskIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%QuitTask",iv)
+	If m%%RepliedStatus Set iv=..%RepliedStatus If iv'="" Set rc=(..%RepliedStatusIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%RepliedStatus",iv)
+	If m%%SessionId Set iv=..%SessionId If iv'="" Set rc=(..%SessionIdIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%SessionId",iv)
+	If m%%StatusCode Set iv=..%StatusCode If iv'="" Set rc=(..%StatusCodeIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%StatusCode",iv)
+	If m%%SuperSession Set iv=..%SuperSession If iv'="" Set rc=(..%SuperSessionIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%SuperSession",iv)
+	If m%%TimeCompleted Set iv=..%TimeCompleted If iv'="" Set rc=(..%TimeCompletedIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%TimeCompleted",iv)
+	If m%%TimeCreated Set iv=..%TimeCreated If iv'="" Set rc=(..%TimeCreatedIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%TimeCreated",iv)
+	If m%%WarnedLatest Set iv=..%WarnedLatest If iv'="" Set rc=(..%WarnedLatestIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%WarnedLatest",iv)
+	If m%%isShadow Set iv=..%isShadow If iv'="" Set rc=(..%isShadowIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%isShadow",iv)
+	If m%%responseClassName Set iv=..%responseClassName If iv'="" Set rc=(..%responseClassNameIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%responseClassName",iv)
+	If m%%responseId Set iv=..%responseId If iv'="" Set rc=(..%responseIdIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%responseId",iv)
+	If m%AlertGroups Set iv=..AlertGroups If iv'="" Set rc=(..AlertGroupsIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"AlertGroups",iv)
+	If m%AlertOnError Set iv=..AlertOnError If iv'="" Set rc=(..AlertOnErrorIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"AlertOnError",iv)
+	If m%AlertRetryGracePeriod Set iv=..AlertRetryGracePeriod If iv'="" Set rc=(..AlertRetryGracePeriodIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"AlertRetryGracePeriod",iv)
+	If m%BankName Set iv=..BankName If iv'="" Set rc=(..BankNameIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"BankName",iv)
+	If m%BusinessPartner Set iv=..BusinessPartner If iv'="" Set rc=(..BusinessPartnerIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"BusinessPartner",iv)
+	If m%FailureTimeout Set iv=..FailureTimeout If iv'="" Set rc=(..FailureTimeoutIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"FailureTimeout",iv)
+	If m%InactivityTimeout Set iv=..InactivityTimeout If iv'="" Set rc=(..InactivityTimeoutIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"InactivityTimeout",iv)
+	If m%InterestRate Set iv=..InterestRate If iv'="" Set rc=(..InterestRateIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"InterestRate",iv)
+	If m%IsApproved Set iv=..IsApproved If iv'="" Set rc=(..IsApprovedIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"IsApproved",iv)
+	If m%QueueCountAlert Set iv=..QueueCountAlert If iv'="" Set rc=(..QueueCountAlertIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"QueueCountAlert",iv)
+	If m%QueueWaitAlert Set iv=..QueueWaitAlert If iv'="" Set rc=(..QueueWaitAlertIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"QueueWaitAlert",iv)
+	If m%ReplyCodeActions Set iv=..ReplyCodeActions If iv'="" Set rc=(..ReplyCodeActionsIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"ReplyCodeActions",iv)
+	If m%Retry Set iv=..Retry If iv'="" Set rc=(..RetryIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Retry",iv)
+	If m%RetryInterval Set iv=..RetryInterval If iv'="" Set rc=(..RetryIntervalIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"RetryInterval",iv)
+	If m%SuspendMessage Set iv=..SuspendMessage If iv'="" Set rc=(..SuspendMessageIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"SuspendMessage",iv)
+	If m%ThrottleDelay Set iv=..ThrottleDelay If iv'="" Set rc=(..ThrottleDelayIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"ThrottleDelay",iv)
+	Quit sc }
+zEvalInitialExpression(pPropName) [ tValue ] public {
+	Set $ZT="Trap"
+    Set tValue=$Case(pPropName,
+                     "%%OID":"",
+                     "%ActionHint":"",
+                     "%Concurrency":$zu(115,10),
+                     "%ConfigName":"",
+                     "%ConfigQueueName":"",
+                     "%CurrentResponseHeader":"",
+                     "%IsCompleted":0,
+                     "%IsTerminated":0,
+                     "%IsTimerInterrupted":0,
+                     "%LastActionTime":"",
+                     "%LastHandledTime":"",
+                     "%LastReportedError":"",
+                     "%MasterPendingResponses":"",
+                     "%MasterPendingResponsesOld":"",
+                     "%MessagesReceived":"",
+                     "%MessagesReceivedOld":"",
+                     "%MessagesSent":"",
+                     "%MessagesSentOld":"",
+                     "%PrimaryRequestHeader":"",
+                     "%PrimaryResponseHeader":"",
+                     "%QuitTask":0,
+                     "%RepliedStatus":1,
+                     "%SessionId":"",
+                     "%StatusCode":1,
+                     "%SuperSession":"",
+                     "%TimeCompleted":"",
+                     "%TimeCreated":"",
+                     "%WarnedLatest":0,
+                     "%isShadow":"",
+                     "%request":"",
+                     "%response":"",
+                     "%responseClassName":"",
+                     "%responseId":"",
+                     "Adapter":"",
+                     "AlertGroups":"",
+                     "AlertOnError":0,
+                     "AlertRetryGracePeriod":0,
+                     "BankName":"",
+                     "BusinessPartner":"",
+                     "FailureTimeout":15,
+                     "InactivityTimeout":0,
+                     "InterestRate":"",
+                     "IsApproved":0,
+                     "QueueCountAlert":0,
+                     "QueueWaitAlert":0,
+                     "ReplyCodeActions":"",
+                     "Retry":0,
+                     "RetryInterval":5,
+                     "SuspendMessage":0,
+                     "ThrottleDelay":0,
+                     :"")
+Exit
+	Quit tValue
+Trap
+ 	Set $ZT="",tValue=""
+	Goto Exit }
+zGetRequestClassList() public {
+ Quit $lb("Demo.Loan.Msg.Application") }
+zGetResponseClassList(pRequest="") public {
+ If pRequest=""||(pRequest="Demo.Loan.Msg.Application") Quit $lb("Ens.Response")
+ Quit "" }
+zGetSettingRow(pSettingName="",pSourceClass="") public {
+	Set tRow = ""
+	// Check if the class has been compiled with the new generator
+	If (pSourceClass = "Demo.Loan.FindRateDecisionProcessCustom") {
+		Set tRow = $case(pSettingName,
+			"AlertGroups": $LB("AlertGroups","The Alert Groups to which this item belongs.","%Library.String","",2500,"","","","",0,"Alert Groups","Alerting","Alerting Control","selector?multiSelect=1&context={Ens.ContextSearch/ProductionAlertGroups?productionName=@productionId}"),
+			"AlertOnError": $LB("AlertOnError","Send an Alert message whenever an error occurs here","%Library.Boolean",0,"","","","","",0,"Alert On Error","Alerting","Alerting Control",""),
+			"AlertRetryGracePeriod": $LB("AlertRetryGracePeriod","When AlertOnError is True and the Process is retrying, refrain from alerting if the Process succeeds within this number of seconds after an error","%Library.Numeric",0,"",0,"","","",0,"Alert Retry Grace Period","Alerting","Alerting Control",""),
+			"BusinessPartner": $LB("BusinessPartner","Name of a Business Partner Profile associated with this item","%Library.String","",128,"","","","",0,"Business Partner","Info","Informational Settings","partnerSelector"),
+			"FailureTimeout": $LB("FailureTimeout","How long to keep retrying before giving up and returning an error code. <br/>"_$char(13,10)_"-1 means never give up.","%Library.Numeric",15,"",-1,"","","",0,"Failure Timeout","Additional","Additional Settings",""),
+			"InactivityTimeout": $LB("InactivityTimeout","Send an Alert message if this number of seconds elapses with no messages being processed by this item. <br/>"_$char(13,10)_"Note that this alert will be sent even if AlertOnError is False. <br/>"_$char(13,10)_"Zero means no alerts of this type will be sent.","%Library.Numeric",0,"",0,"","","",0,"Inactivity Timeout","Alerting","Alerting Control",""),
+			"QueueCountAlert": $LB("QueueCountAlert","Number of messages on this item's queue needed to trigger an Alert message to be sent. Note that no further"_$char(13,10)_"alerts will be sent unless the number of messages on the queue drops below 80% of this number and then rises again to this number. <br/>"_$char(13,10)_"Note that this alert will be sent even if AlertOnError is False. <br/>"_$char(13,10)_"Zero means no alerts of this type will be sent.","%Library.Numeric",0,"",0,"","","",0,"Queue Count Alert","Alerting","Alerting Control",""),
+			"QueueWaitAlert": $LB("QueueWaitAlert","The number of seconds a message at the front of the queue may have waited since being queued before an alert is triggered.<br/>"_$char(13,10)_"Only one alert will be raised per host item per sequential trigger of the queue wait threshold. <br/>"_$char(13,10)_"Note that this alert will be sent even if AlertOnError is False. <br/>"_$char(13,10)_"Zero means no alerts of this type will be sent.","%Library.Numeric",0,"",0,"","","",0,"Queue Wait Alert","Alerting","Alerting Control",""),
+			"ReplyCodeActions": $LB("ReplyCodeActions","<p>A comma-separated list of codes specifying what action this Process will take on various reply status conditions."_$char(13,10)_"The format of the list is: <br /> &lt;code&gt;=&lt;actions&gt;,(&lt;code&gt;,&lt;code&gt;)=&lt;actions&gt;,...<br/>"_$char(13,10)_"Types of reply status condition are identified by a specification code:"_$char(13,10)_"<ul style=""list-style-type: none;"">"_$char(13,10)_"<li><b>E</b> - Error status returned from message handler</li>"_$char(13,10)_"<li><b>E#&lt;statuscode&gt;</b> - Error status returned from message handler has status code equal to &lt;statuscode&gt;</li>"_$char(13,10)_"<li><b>E*&lt;text&gt;</b> - Error status returned from message handler contains text string &lt;text&gt;</li>"_$char(13,10)_"<li><b>X</b> - there is no reply message at all</li>"_$char(13,10)_"</ul></p>"_$char(13,10)_"<p>The following values for &lt;actions&gt; may be used alone or in combinations:"_$char(13,10)_"<ul style=""list-style-type: none;"">"_$char(13,10)_"<li><b>C</b> - Treat the message as Completed OK.</li>"_$char(13,10)_"<li><b>W</b> - Log a warning. If no other non-warning &lt;actions&gt; are triggered, the message will be treated as Completed OK.</li>"_$char(13,10)_"<li><b>R</b> - Retry the message according to the configured RetryInterval and FailureTimeout; finally Fail unless a "_$char(13,10)_"different action is also specified.</li>"_$char(13,10)_"<li><b>S</b> - Suspend the message, log an error, and move on to try the next message.</li>"_$char(13,10)_"<li><b>D</b> - Disable the Process, log an error and restore the original incoming message to the front of the Process's queue.</li>"_$char(13,10)_"<li><b>F</b> - Fail with an error and move on to try the next message from the Process's queue.</li></ul>"_$char(13,10)_"<b>NOTE:</b> the D action can only immediately stop all instances of a Business Process if the BP is configured with PoolSize=1."_$char(13,10)_"If PoolSize=0 this action will disable all Business Processes that share the Actor pool.</p>"_$char(13,10)_"<p>An example of a valid ReplyCodeActions specification is 'E#6301=R,E#&lt;Ens&gt;ErrGeneral=RD,E=F'. This specification will result in a "_$char(13,10)_"retry when error code 6301 is encountered. When error code &lt;Ens&gt;ErrGeneral is encountered, the Operation first retries to send "_$char(13,10)_"the message until FailureTimeout and then, if the error continues, it disables the Operation instead of failing. Any other errors will "_$char(13,10)_"cause the Operation to fail processing of the current message and return the error status to the caller, without retrying first.</p>"_$char(13,10)_"<p><b>The default behavior is 'E=F'.</b> Thus any error status will result in the error being logged and returned to the caller, "_$char(13,10)_"no retries will be attempted, and the Process will move on to try the next message from its queue.</p>"_$char(13,10)_"<p>All codes where &lt;actions&gt; consists of only 'W' (for 'log a Warning') will be evaluated, and a warning will be"_$char(13,10)_"generated for each matching &lt;code&gt;. Other &lt;code&gt; values will be evaluated in left-to-right order, executing the"_$char(13,10)_"first matching &lt;code&gt; that has a non-warning &lt;actions&gt; value. As noted in the details for the 'W' flag, an error"_$char(13,10)_"that only triggers 'W' &lt;actions&gt; will be treated as Completed OK.</p>","%Library.String","",1000,"","","","",0,"Reply Code Actions","Additional","Additional Settings",""),
+			"RetryInterval": $LB("RetryInterval","How frequently to retry access to the output system","%Library.Numeric",5,"",0,"","","",0,"Retry Interval","Additional","Additional Settings",""),
+			: "")
+	}
+	Else { // Fall back on getting the data dynamically 
+		Set tRow = ..GetDynamicSettingRow(pSettingName,pSourceClass)
+	}
+	Quit tRow }
+zGetText() public {
+	Set tText=""
+	Set tThank = $$FormatMessage^%occMessages(,"EnsDemo","FindRateThankyou","Thank you for applying with FindRate.")
+	If ..IsApproved {
+		Set tText=tText_$$FormatMessage^%occMessages(,"EnsDemo","FindRateIsApproved1","Your loan application was approved.")_$c(13,10)
+		Set tText=tText_$$FormatMessage^%occMessages(,"EnsDemo","FindRateIsApproved2","The lowest interest rate available is at ")_..InterestRate_$$FormatMessage^%occMessages(,"EnsDemo","FindRateOfferedby","% offered by ")_..BankName_"."_$c(13,10)
+		Set tText=tText_tThank_$c(13,10)
+	} Else {
+		Set tText=tText_$$FormatMessage^%occMessages(,"EnsDemo","FindRateIsDenied","Your loan application was denied.")_$c(13,10)
+		Set tText=tText_tThank_$c(13,10)
+	}
+	Quit tText }
+zMessageHeaderHandler(pRequestHeader,pResponseHeader,pResponseIsError) public {
+ Set tSC=1, pResponseIsError=""
+ Set $EC=""  try {
+	If '..#SKIPMESSAGEHISTORY Do ..%MessagesReceived.Insert(pRequestHeader.%Id())
+	If pRequestHeader.Type = 1 {
+		If '(..%PrimaryRequestHeader="") { Do ##class(Ens.Util.Log).LogAssert($classname(),"MessageHeaderHandler","Assert Condition Failed: "_"..%PrimaryRequestHeader="""""_$char(13,10)) BREAK }
+		Set ..%PrimaryRequestHeader=pRequestHeader, %Ensemble("CurrentHeaderId")=pRequestHeader.%Id()
+		Set ..%Concurrency=4
+		Set tSC=..%Save()  Quit:('tSC)
+		Set (..%SessionId,%Ensemble("SessionId"))=pRequestHeader.SessionId
+		Set ..%SuperSession=pRequestHeader.SuperSession
+		Set ..%TimeCreated = $zdatetime($ztimestamp,3,,3)
+		Do pRequestHeader.SetStatus(3)
+		Set tResponse=""
+		If $D(^Ens.Runtime("CrashedMessage",pRequestHeader.%Id())) {
+			Kill ^Ens.Runtime("CrashedMessage",pRequestHeader.%Id())
+			Set tSC=##class(Ens.Util.Error).EnsError($classname(),"MessageHeaderHandler","<Ens>ErrPreviouslyCrashedMessage",pRequestHeader.%Id())
+		} Else {
+			Set $EC=""  try {
+				Set tSC=..OnRequest(..%request,.tResponse)
+			} catch ex {
+				Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler"))
+			}
+			If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnRequest(); committing before proceeding")
+		}
+		Set:(''tSC) tSC=..%responseSet(tResponse)
+		Quit:('tSC)
+	} ElseIf pRequestHeader.Type = 3 {
+		Set %Ensemble("CurrentHeaderId")=pRequestHeader.%Id()
+		Do pRequestHeader.SetStatus(3)
+		Do ..%MasterPendingResponses.Clear()
+		Set ..%IsTerminated=1
+		Set tSC=$classmethod(pRequestHeader.MessageBodyClassName,"%OpenId",pRequestHeader.MessageBodyId).StringValue
+	} Else {
+		Set ..%CurrentResponseHeader=pRequestHeader, %Ensemble("CurrentHeaderId")=pRequestHeader.%Id()
+		Set %Ensemble("SessionId")=..%SessionId
+		If ..%IsCompleted {
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("system",$classname(),"MessageHeaderHandler","Discarding response '"_pRequestHeader.%Id()_"' to already-completed process "_..%Id())
+			Do pRequestHeader.SetStatus(4)
+			Quit
+		}
+		Set tCallRequestHeader = ##class(Ens.MessageHeader).%OpenId(pRequestHeader.CorrespondingMessageId)
+		If tCallRequestHeader.MessageBodyClassName'="" {
+			Set tCallRequest = $classmethod(tCallRequestHeader.MessageBodyClassName,"%OpenId",tCallRequestHeader.MessageBodyId,,.tSC)
+			If '$IsObject(tCallRequest) Set tSC=$$Error^%apiOBJ("<Ens>ErrGeneral","Could not open callrequest MessageBody "_tCallRequestHeader.MessageBodyId_" for MessageHeader #"_tCallRequestHeader.%Id()_" with body class "_tCallRequestHeader.MessageBodyClassName_":"_$$getAllErrorTexts^EnsUtil(tSC))  Quit
+		} Else {
+			Set tCallRequest=""
+		}
+		Set tIndex=0 For i=1:1:..%MasterPendingResponses.Count() {
+			Set tEntry=..%MasterPendingResponses.GetAt(i)
+			If $li(tEntry,1)=pRequestHeader.CorrespondingMessageId Set tIndex=i,tCompletionKey=$li(tEntry,2),tIsTimer=$li(tEntry,3),pControlledCompletionKeys=$li(tEntry,4) Quit
+		}
+		If tIndex=0 {
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("system",$classname(),"MessageHeaderHandler","Discarding response '"_pRequestHeader.%Id()_"' belonging to message '"_pRequestHeader.CorrespondingMessageId_"' while in process "_..%Id())
+			Do pRequestHeader.SetStatus(4)
+			Quit
+		}
+		Do pRequestHeader.SetStatus(3)
+		Set pResponseIsError = pRequestHeader.IsError
+		If pResponseIsError {
+			Set tResponse=..%response
+			Set tErroredResponseStatus=pRequestHeader.ErrorStatus
+			Set $EC=""  try {
+				Set tSC=..OnError(..%request,.tResponse,tCallRequest,tErroredResponseStatus,tCompletionKey)
+				If ..WillHandleErroredResponse() {
+					Set tSC=1
+				} Else {
+					Set:(''tSC) pResponseIsError=0
+				}
+			} catch ex {
+				Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler")), pResponseIsError="" ; new tSC for which OnError() has not been called
+			}
+			If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnError(); committing before proceeding")
+			Quit:('tSC)
+			Set tSC=..%responseSet(tResponse)  If ('tSC) Set pResponseIsError=""  Quit
+		}
+		Do ..%MasterPendingResponses.RemoveAt(tIndex)
+		If tIsTimer {
+			Set tResponse=..%response
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","calling OnTimeout")
+			Set $EC=""  try {
+				Set tSC=..OnTimeout(..%request,.tResponse,tCallRequest,tCompletionKey)
+			} catch ex {
+				Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler"))
+			}
+			If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnTimeout(); committing before proceeding")
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","returned from OnTimeout")
+			Set:(''tSC) tSC=..%responseSet(tResponse)
+			Quit:('tSC)
+			For i=..%MasterPendingResponses.Count():-1:1 {
+				Set tEntry=..%MasterPendingResponses.GetAt(i)
+				If (pControlledCompletionKeys="*")||$listfind(pControlledCompletionKeys,$li(tEntry,2)) {
+					Do ..%MasterPendingResponses.RemoveAt(i)
+					Set tRequestHeader=##class(Ens.MessageHeader).%OpenId($li(tEntry,1))
+					If tRequestHeader.MessageBodyClassName'="" {
+						Set tMessageBody=$classmethod(tRequestHeader.MessageBodyClassName,"%OpenId",tRequestHeader.MessageBodyId,,.tSC1)
+						If '$IsObject(tMessageBody) {
+							Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler","Could not open pending MessageBody "_tRequestHeader.MessageBodyId_" for MessageHeader #"_tRequestHeader.%Id()_" with body class "_tRequestHeader.MessageBodyClassName_":"_$$getAllErrorTexts^EnsUtil(tSC1))
+						} Else {
+							Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","calling body %OnTimeout")
+							Set $EC=""  try {
+								Set tSC1 = tMessageBody.%OnTimeout()
+								If ('tSC1) Do ##class(Ens.Util.Log).LogStatus($classname(),"MessageHeaderHandler",tSC1)
+								Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","returned from body %OnTimeout")
+							} catch ex {
+								If ex.Name '= "<METHOD DOES NOT EXIST>" Do ##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler")
+							}
+							If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after body %OnTimeout(); committing before proceeding")
+						}
+					}
+				}
+			}
+		}
+		If ..%MasterPendingResponses.Count()>0 {
+			Set tHasNonTimer=0
+			For i=1:1:..%MasterPendingResponses.Count() {
+				Set tEntry=..%MasterPendingResponses.GetAt(i)
+				If $li(tEntry,3)=0 Set tHasNonTimer=1 Quit
+			}
+			If tHasNonTimer=0 Do ..%MasterPendingResponses.Clear()
+		}
+		If 'pResponseIsError {
+			Set tResponse=..%response, pResponseIsError="" ; new tSC coming up for which OnError() has not been called
+			If pRequestHeader.MessageBodyClassName'="" {
+				Set tMessageBody = $classmethod(pRequestHeader.MessageBodyClassName,"%OpenId",pRequestHeader.MessageBodyId,,.tSC)
+				If '$IsObject(tMessageBody) Set tSC=$$Error^%apiOBJ("<Ens>ErrGeneral","Could not open request MessageBody "_pRequestHeader.MessageBodyId_" for MessageHeader #"_pRequestHeader.%Id()_" with body class "_pRequestHeader.MessageBodyClassName_":"_$$getAllErrorTexts^EnsUtil(tSC))  Quit
+				Set:tIsTimer ..%IsTimerInterrupted=tMessageBody.IsInterrupted
+			} Else {
+				Set tMessageBody = ""
+			}
+			If $D(^Ens.Runtime("CrashedMessage",pRequestHeader.%Id())) {
+				Kill ^Ens.Runtime("CrashedMessage",pRequestHeader.%Id())
+				Set tSC=##class(Ens.Util.Error).EnsError($classname(),"MessageHeaderHandler","<Ens>ErrPreviouslyCrashedMessage",pRequestHeader.%Id())
+			} Else {
+				Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","calling OnResponse")
+				Set $EC=""  try {
+					Set tSC=..OnResponse(..%request,.tResponse,tCallRequest,tMessageBody,tCompletionKey)
+				} catch ex {
+					Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler"))
+				}
+			If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnResponse(); committing before proceeding")
+				Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","returned from OnResponse")
+			}
+			Set:(''tSC) tSC=..%responseSet(tResponse)
+		} Else {
+			Set tResponse=..%response
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","calling OnErroredResponse")
+			Set $EC=""  try {
+				Set tSC=..OnErroredResponse(tErroredResponseStatus,..%request,.tResponse,tCompletionKey)
+				Set pResponseIsError=('tSC)
+			} catch ex {
+				Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler")), pResponseIsError="" ; new tSC for which OnError() has not been called
+			}
+			If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnErroredResponse(); committing before proceeding")
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","returned from OnErroredResponse")
+			Quit:('tSC)
+			Set tSC=..%responseSet(tResponse)
+		}
+		Quit:('tSC)
+	} ; Else
+	Do pRequestHeader.SetStatus(9)
+	If ..%MasterPendingResponses.Count()=0 {
+		Set tResponse=..%response
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","calling OnComplete")
+		Set $EC=""  try {
+			Set tSC=..OnComplete(..%request,.tResponse)
+		} catch ex {
+			Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler"))
+		}
+		If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnComplete(); committing before proceeding")
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","returned from OnComplete")
+		Set:(''tSC) tSC=..%responseSet(tResponse)
+		Quit:('tSC)
+		If ..%MasterPendingResponses.Count()=0 {
+			Set ..%IsCompleted = 1, ..%TimeCompleted = $zdatetime($ztimestamp,3,,3)
+			If ..%RepliedStatus=1 Set tSC=..Reply(..%response)
+		}
+	}
+ } catch {
+	Set tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler")
+ }
+ If ('tSC)&&(pRequestHeader.Type=2)&&(pRequestHeader.Status=3) {
+	Do pRequestHeader.SetStatus(8)
+ }
+ Quit tSC }
+zOnComplete(request,response) public {
+	Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("user",$classname(),"OnComplete","sync complete")
+	Set tSendReply = ##class(Demo.Loan.Msg.SendReply).%New()
+	Set tSendReply.Text = ..GetText()
+	Set tSendReply.Destination = request.Destination
+	If request.BusinessOperationType="mail" {
+		Set tSC=..SendRequestAsync("Demo.Loan.FindRateEMailOperation",tSendReply,0)
+	} Elseif request.BusinessOperationType="file" {
+		Set tSC=..SendRequestAsync("Demo.Loan.FindRateFileOperation",tSendReply,0)
+	} Elseif request.BusinessOperationType="term" {
+		Set tSC=..SendRequestAsync("My Terminal Output",tSendReply,0)
+	} Elseif request.BusinessOperationType="msmq" {
+		Set tSC=..SendRequestAsync("Demo.Loan.FindRateMSMQOperation",tSendReply,0)
+	} Elseif request.BusinessOperationType="mqseries" {
+		Set tSC=..SendRequestAsync("Demo.Loan.FindRateMQSeriesOperation",tSendReply,0)
+	}
+	Quit 1 }
+zOnError(request,response,callrequest,pErrorStatus,pCompletionKey) public {
+	Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("user",$classname(),"OnError","received error "_$$getAllErrorTexts^EnsUtil(pErrorStatus))
+	Quit 1 }
+zOnGetReplyAction(pRequest,pResponse,pSC) public {
+ 	Set (tFullAction,tText)="", nActions=$S(""=$ZStrip(..ReplyCodeActions,"<>W"):0, 1:$L(..ReplyCodeActions,","))
+	For i=1:1:nActions { Set tType=$P(..ReplyCodeActions,",",i)  Continue:""=tType
+		Set tAction="", tCode=$ZStrip($P(tType,"="),"<>W"), tCodeU=$ZCVT(tCode,"U")
+		Set tKnown=$Case($E(tCodeU)
+						,"E":$Case($E(tCode,2)
+								,"#":1
+								,"*":1
+								,"":1
+								,:0)
+						,"X":$Case($E(tCode,2),"":1, :0)
+						,:0
+						)
+		If 'tKnown {
+			Do ##class(Ens.Util.Log).LogWarning($classname(),"OnGetReplyAction","Unrecognized reply code:'"_tType_"'")
+			Continue
+		}
+		Set tMatch=$Case($E(tCodeU)
+						,"E":('pSC)
+						,"X":'($Data(pResponse)#2&&$IsObject(pResponse))
+						,:0)
+				 && $Case($E(tCode,2)
+						,"#":$$StatusEquals^%apiOBJ(pSC,$E(tCode,3,*))
+						,"*":$$getAllErrorTexts^EnsUtil(pSC)[$E(tCode,3,*)
+						,:1)
+		If tMatch {
+			If $E(tCodeU)="X" {
+				Set tMatchText="Empty Response object matched ReplyCodeAction "_i_" : ':"_tType_"'"
+			} Else {
+				Set tMatchText="Status '"_$$getAllErrorTexts^EnsUtil(pSC)_"' matched ReplyCodeAction "_i_" : '"_tType_"'"
+			}
+			Set tAction=$ZCVT($ZStrip($P(tType,"=",2),"<>W"),"U")
+			Set:tAction'?1.(1"R",1"C",1"W",1"S",1"D",1"F") tAction=""
+			If ""=tAction {
+				Do ##class(Ens.Util.Log).LogWarning($classname(),"OnGetReplyAction","Unrecognized reply code action:'"_tType_"'")
+				Continue
+			}
+			Set:""'=tMatchText tText=tText_$S(""'=tText:" and ",1:"")_tMatchText
+			Set:tAction["W" tFullAction=""
+			Set tFullAction=tAction_$S(tAction["W":"",1:tFullAction)
+			Quit:tFullAction'?1."W"
+		}
+	}
+	Set:""'=tText ..%ActionHint("CodeReason")=
+		"Message body "_pRequest_" / "_pRequest.%Id()_" because "_
+		$S('$IsObject(pResponse):"",1:"response "_pResponse_$S(""=pResponse.%Id():"",1:" / "_pResponse.%Id())_" ")_
+		tText_" resulting in Action code "_tFullAction
+	Quit tFullAction }
+zOnRequest(request,response) public {
+	Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("user",$classname(),"OnRequest","received application for "_request.Name)
+	Set tSC = ..SendRequestAsync("Demo.Loan.BankUS",request)  Quit:('tSC) tSC
+	Set tSC = ..SendRequestAsync("Demo.Loan.BankSoprano",request)  Quit:('tSC) tSC
+	Set tSC = ..SendRequestAsync("Demo.Loan.BankManana",request)  Quit:('tSC) tSC
+	Quit ..SetTimer("PT5S") }
+zOnResponse(request,response,callrequest,callresponse,pCompletionKey) public {
+	Quit:'callresponse.%Extends("Demo.Loan.Msg.Approval")||'callresponse.IsApproved 1
+	Quit:..IsApproved&&(..InterestRate<=callresponse.InterestRate) 1
+	Set ..BankName = callresponse.BankName
+	Set ..IsApproved = callresponse.IsApproved
+	Set ..InterestRate = callresponse.InterestRate
+	Quit 1 }
+%MasterPendingResponsesGetSwizz(noswizzle=0) public {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MasterPendingResponses=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="Demo.Loan.FindRateDecisionProcessCustom:%MasterPendingResponses",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MasterPendingResponses%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%MasterPendingResponsesOldGetSw(noswizzle=0) public {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MasterPendingResponsesOld=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="Demo.Loan.FindRateDecisionProcessCustom:%MasterPendingResponsesOld",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MasterPendingResponsesOld%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%MessagesReceivedGetSwizzled(noswizzle=0) public {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MessagesReceived=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="Demo.Loan.FindRateDecisionProcessCustom:%MessagesReceived",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MessagesReceived%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%MessagesReceivedOldGetSwizzled(noswizzle=0) public {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MessagesReceivedOld=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="Demo.Loan.FindRateDecisionProcessCustom:%MessagesReceivedOld",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MessagesReceivedOld%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%MessagesSentGetSwizzled(noswizzle=0) public {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MessagesSent=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="Demo.Loan.FindRateDecisionProcessCustom:%MessagesSent",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MessagesSent%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%MessagesSentOldGetSwizzled(noswizzle=0) public {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MessagesSentOld=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="Demo.Loan.FindRateDecisionProcessCustom:%MessagesSentOld",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MessagesSentOld%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+zBankNameGetStored(id) public {
+	Quit $Select(id'="":$listget($g(^Ens.BusinessProcessD(id,"FindRateDecisionProcess")),1),1:"") }
+zInterestRateDisplayToLogical(%val) public {
+	Quit $select(%val="":"",$zu(115,13)&&(%val=$c(0)):"",1:$s($in(%val,"","")'="":+$in(%val,"",%val),1:%val)) }
+zInterestRateGetStored(id) public {
+	Quit $Select(id'="":$listget($g(^Ens.BusinessProcessD(id,"FindRateDecisionProcess")),2),1:"") }
+zInterestRateIsValid(%val) public {
+	Quit $select($isvalidnum(%val,2,,):1,1:$$Error^%apiOBJ(7207,%val)) }
+zInterestRateLogicalToDisplay(%val) public {
+	Quit $s(%val="":"",1:$fn(%val,"",2)) }
+zInterestRateNormalize(%val) public {
+	Quit $select($zu(115,13)&&(%val=$c(0)):"",1:$normalize($decimal(%val),2)) }
+zIsApprovedDisplayToLogical(%val) public {
+	Quit ''%val }
+zIsApprovedGetStored(id) public {
+	Quit $Select(id'="":$listget($g(^Ens.BusinessProcessD(id,"FindRateDecisionProcess")),3),1:"") }
+zIsApprovedIsValid(%val="") public {
+	Q $s($isvalidnum(%val,0,0,2)&&(+%val'=2):1,1:$$Error^%apiOBJ(7206,%val)) }
+zIsApprovedNormalize(%val) public {
+	Quit %val\1 }
+zEnumerateSettingsGetInfo(colinfo,parminfo,idinfo,qHandle,extoption=0,extinfo) public {
+	Set colinfo=$lb($lb("Name",10,"Name"),$lb("Description",10,"Description"),$lb("Type",10,"Type"),$lb("Default",10,"Default"),$lb("MAXLEN",10,"MAXLEN"),$lb("MINVAL",10,"MINVAL"),$lb("MAXVAL",10,"MAXVAL"),$lb("VALUELIST",10,"VALUELIST"),$lb("DISPLAYLIST",10,"DISPLAYLIST"),$lb("IsRequired",10,"IsRequired"),$lb("LocalizedName",10,"LocalizedName"),$lb("Category",10,"Category"),$lb("LocalizedCategory",10,"LocalizedCategory"),$lb("EditorContext",10,"EditorContext"))
+	Set parminfo=""
+	Set idinfo=$lb(0,"")
+	If extoption {
+		Set extinfo=$lb("",$lb($lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("","")))
+	}
+	Quit 1 }
+zEnumerateSettingsGetODBCInfo(colinfo,parminfo,qHandle) public {
+	set version = $Select($Get(%protocol,41)>40:4,1:3)
+	Set metadata=$lb(1,14,"Name",12,50,0,2,"Name","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Description",12,50,0,2,"Description","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Type",12,50,0,2,"Type","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Default",12,50,0,2,"Default","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"MAXLEN",12,50,0,2,"MAXLEN","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"MINVAL",12,50,0,2,"MINVAL","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"MAXVAL",12,50,0,2,"MAXVAL","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"VALUELIST",12,50,0,2,"VALUELIST","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"DISPLAYLIST",12,50,0,2,"DISPLAYLIST","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"IsRequired",12,50,0,2,"IsRequired","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"LocalizedName",12,50,0,2,"LocalizedName","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"Category",12,50,0,2,"Category","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"LocalizedCategory",12,50,0,2,"LocalizedCategory","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),"EditorContext",12,50,0,2,"EditorContext","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,0),0)
+	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
+	If version=4 {
+		Set colinfo=$li(metadata,2,2+cmdlen)
+	} Else {
+		Set colinfo=$li(metadata,2,2)
+		For i=0:1:colcount-1 Set colinfo=colinfo_$list(metadata,3+(i*10),11+(i*10))
+	}
+	Quit 1 }
+zExtentExecute(%qHandle) [ SQLCODE,c1 ] public { New %ROWCOUNT,%ROWID,%msg,SQLCODE,c1 
+	Set sc=1
+	s %qHandle=$i(%objcn)
+	 ;---&sql(DECLARE QExtent CURSOR FOR
+ 	 ;---		 SELECT ID FROM Demo_Loan.FindRateDecisionProcessCustom)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	
+	 ;---&sql(OPEN QExtent)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	do %QExtent0o
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5821,"SQLCODE = "_SQLCODE) } Else { Set sc=1 }
+	Quit sc }
+zExtentClose(%qHandle) [ SQLCODE,c1 ] public { New %ROWCOUNT,%ROWID,%msg,SQLCODE,c1 
+	 ;---&sql(CLOSE QExtent)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	do %QExtent0c
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) } Else { Set sc=1 }
+	Kill %objcsc(%qHandle),%objcsp(%qHandle),%objcss(%qHandle),%objcst(%qHandle),%objcsl(%qHandle),%objcsR(%qHandle),%objcsZ(%qHandle),%objcsd(%qHandle)
+	Quit sc }
+zExtentFetch(%qHandle,Row,AtEnd=0) [ SQLCODE,c1 ] public { New %ROWCOUNT,%ROWID,%msg,SQLCODE,c1 
+	Set Row="",AtEnd=0
+	 ;---&sql(FETCH QExtent INTO :c1)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, c1
+	do %00o
+	If 'SQLCODE { Set Row=$lb(c1) Set sc=1 }
+	ElseIf SQLCODE=100 { Set AtEnd=1,sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) }
+	Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set AtEnd=1,sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	QUIT sc }
+zExtentFetchRows(%qHandle,FetchCount=0,RowSet,ReturnCount,AtEnd) [ SQLCODE,c1 ] public { New %ROWCOUNT,%ROWID,%msg,SQLCODE,c1 
+	Set RowSet="",ReturnCount=0,AtEnd=0
+	For {
+		 ;---&sql(FETCH QExtent INTO :c1)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, c1
+		do %01o
+		If 'SQLCODE { Set RowSet=RowSet_$lb(c1),ReturnCount=ReturnCount+1 Quit:(ReturnCount=FetchCount)||(($l(RowSet)+($l(RowSet)\ReturnCount))>24000) } Else { Set AtEnd=1 Quit }
+	}
+	If 'SQLCODE { Set sc=1 } ElseIf SQLCODE=100 { Set sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) } Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	Quit sc }
+zExtentSendODBC(%qHandle,array,qacn,%qrc,piece,ColumnCount) [ SQLCODE,c1 ] public { New %ROWCOUNT,%ROWID,%msg,SQLCODE,c1 
+	set %qrc=0,piece=0
+	for {
+		set rc=..ExtentFetch(.%qHandle,.row,.atend)
+		if ('rc) { set %qrc=-400 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=-400,%sqlcontext.Message=$g(%msg) do ProcessError^%ourProcedure(rc,$get(%sqlcontext),.%qrc,.%msg),Logerr^%SYS.SQLSRV(%qrc,"","SP",.%msg) RETURN  }
+		if row="" { set %qrc=100 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=100 RETURN  }
+		if $g(%protocol)>50 { RETURN:$zobjexport(row,60) }
+		else {
+			if %protocol>46 { for piece=1:1:ColumnCount { goto:$zobjexport($lg(row,piece),50) SPDone } }
+			else { for piece=1:1:ColumnCount { goto:$zobjexport($lg(row,piece),7) SPDone } }
+		}
+	}
+	QUIT
+SPDone	set:%protocol>46 piece=piece+1
+	kill array(qacn)
+	for i=piece:1:ColumnCount { set array(qacn,i)=$lg(row,i) }
+	QUIT }
+ q
+%QExtent0o 
+ try { s SQLCODE=$s($g(%objcsc(%qHandle)):-101,1:0) q:SQLCODE'=0 
+ n %sqltime s %sqltime=$zh
+ s %objcsd(%qHandle,1)=0 s:$d(%0CacheRowLimit)#2 %objcsd(%qHandle,2)=%0CacheRowLimit
+ s %objcsd(%qHandle,3)=$zu(115,2)
+ s %objcsd(%qHandle,4)=0,%objcsd(%qHandle,5)=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s %objcsc(%qHandle)=1,SQLCODE=0
+ s:$d(%sqltime) %objcsd(%qHandle,6)=$g(%objcsd(%qHandle,6))+$zh-%sqltime
+ } catch { d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg) k %objcsd(%qHandle),%objcsc(%qHandle),%objcss(%qHandle),%objcst(%qHandle),%objcsp(%qHandle) }
+ q
+%0Wfirst 
+ ; asl MOD# 2
+ s %objcsd(%qHandle,7)=""
+%0WmBk1 s %objcsd(%qHandle,7)=$o(^Ens.BusinessProcessI("SessionId",%objcsd(%qHandle,7)))
+ i %objcsd(%qHandle,7)="" g %0WmBdun
+ s %objcsd(%qHandle,8)=""
+%0WmBk2 s:%objcsd(%qHandle,7)="" %objcsd(%qHandle,7)=-1E14
+ s %objcsd(%qHandle,8)=$o(^Ens.BusinessProcessI("SessionId",%objcsd(%qHandle,7),%objcsd(%qHandle,8)))
+ i %objcsd(%qHandle,8)="" g %0WmBk1
+ i $g(^Ens.BusinessProcessI("SessionId",%objcsd(%qHandle,7),%objcsd(%qHandle,8)))'[($e($g(^Ens.BusinessProcessI("SessionId",%objcsd(%qHandle,7),%objcsd(%qHandle,8))))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($g(^Ens.BusinessProcessI("SessionId",%objcsd(%qHandle,7),%objcsd(%qHandle,8))))) g %0WmBk2
+ s:%objcsd(%qHandle,7)=-1E14 %objcsd(%qHandle,7)=""
+ goto:%objcsd(%qHandle,3)'=1 %0WmBuncommitted
+ if %objcsd(%qHandle,3)=1 {
+ 	lock +^Ens.BusinessProcessD($p(%objcsd(%qHandle,8),"||",1))#"S":$zu(115,4)
+ 	if $t { set %objcsd(%qHandle,5)=$name(^Ens.BusinessProcessD($p(%objcsd(%qHandle,8),"||",1)))_"#""SI""",%objcsd(%qHandle,4)=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Demo_Loan.FindRateDecisionProcessCustom for RowID value: "_%objcsd(%qHandle,8) ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i %objcsd(%qHandle,8)'="" s %objcsd(%qHandle,9)="" i $d(^Ens.BusinessProcessD(%objcsd(%qHandle,8)),%objcsd(%qHandle,9))
+ i '$t
+ e  i $lg(%objcsd(%qHandle,9),1)'[($e($lg(%objcsd(%qHandle,9),1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(%objcsd(%qHandle,9),1)))
+ i  g %0WmCdun
+%0WmBuncommitted ;
+ s:$g(SQLCODE)'<0 SQLCODE=0 s %ROWCOUNT=$i(%objcsd(%qHandle,1)),%ROWID=%objcsd(%qHandle,8),%objcsc(%qHandle)=10
+ //-- FETCH Output
+ s:$d(%sqltime) %objcsd(%qHandle,6)=$g(%objcsd(%qHandle,6))+$zh-%sqltime
+ quit
+%QExtent0f //-- FETCH tag
+ i '$g(%objcsc(%qHandle)) { s SQLCODE=-102 q  } i %objcsc(%qHandle)=100 { s SQLCODE=100 q  } s SQLCODE=0
+ i $d(%objcsd(%qHandle,2))#2,$g(%objcsd(%qHandle,1))'<%objcsd(%qHandle,2) { s SQLCODE=100,%ROWCOUNT=%objcsd(%qHandle,1),%objcsc(%qHandle)=100 q }
+ n %sqltime s %sqltime=$zh
+ g %0Wfirst:%objcsc(%qHandle)=1
+%0WmCdun if $g(%objcsd(%qHandle,3))=1 { if $g(%objcsd(%qHandle,4))=1 { l -@%objcsd(%qHandle,5) s %objcsd(%qHandle,4)=0 } elseif $g(%objcsd(%qHandle,4))=2 { do $classmethod($li(%objcsd(%qHandle,5)),"%UnlockId",$li(%objcsd(%qHandle,5),2),1,1)  s %objcsd(%qHandle,4)=0 } }
+ g %0WmBk2
+%0WmBdun 
+%0WmAdun 
+ s %ROWCOUNT=%objcsd(%qHandle,1),SQLCODE=100,%objcsc(%qHandle)=100
+ s:$d(%sqltime) %objcsd(%qHandle,6)=$g(%objcsd(%qHandle,6))+$zh-%sqltime
+ //-- no [more] data
+ quit
+%QExtent0c i '$g(%objcsc(%qHandle)) { s SQLCODE=-102 q  }
+ n %sqltime s %sqltime=$zh
+ s %ROWCOUNT=$s($g(SQLCODE)'<0:+$g(%objcsd(%qHandle,1)),1:0)
+ if $g(%objcsd(%qHandle,3))=1 { if $g(%objcsd(%qHandle,4))=1 { l -@%objcsd(%qHandle,5) } elseif $g(%objcsd(%qHandle,4))=2 { do $classmethod($li(%objcsd(%qHandle,5)),"%UnlockId",$li(%objcsd(%qHandle,5),2),1,1)  } }
+ s:$d(%sqltime) %objcsd(%qHandle,6)=$g(%objcsd(%qHandle,6))+$zh-%sqltime
+ n context,tmp,count,total,mean s context=$system.Context.SQL()
+ if $d(%objcsd(%qHandle,6),%sqltime) {
+ if $g(context.Stats)<$zu(99) { d AggregateStats^%SYS.SQLSRV() }
+ s tmp=$g(context.Stats($namespace,"tNy2mMa2C01sAPAbCrKFoy13xOs="))
+ s count=$lg(tmp,1),total=$lg(tmp,2),mean=total+%sqltime/(count+1)
+ s context.Stats($namespace,"tNy2mMa2C01sAPAbCrKFoy13xOs=")=$lb(count+1,total+%sqltime,$s(+count=0:0,1:(%sqltime-mean)**2+(count*((total/count-mean)**2+$lg(tmp,3)))/(count+1))) }
+ k %objcsd(%qHandle),%objcsc(%qHandle)
+ s SQLCODE=0
+ quit  // close
+%0Werr d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ s %objcsc(%qHandle)=100
+ quit  // error
+%00o try { do %QExtent0f q:SQLCODE'=0
+ s c1=%objcsd(%qHandle,8)
+ } catch { do %0Werr }
+ q
+%01o try { do %QExtent0f q:SQLCODE'=0
+ s c1=%objcsd(%qHandle,8)
+ } catch { do %0Werr }
+ q
+zExtentFunc() public {
+	try {
+		set tSchemaPath = ##class(%SQL.Statement).%ClassPath($classname())
+			set tStatement = ##class(%SQL.Statement).%New(,tSchemaPath)
+			do tStatement.prepare(" SELECT ID FROM Demo_Loan . FindRateDecisionProcessCustom")
+		set tResult = tStatement.%Execute()
+	}
+	catch tException { if '$Isobject($Get(tResult)) { set tResult = ##class(%SQL.StatementResult).%New() } set tResult.%SQLCODE=tException.AsSQLCODE(),tResult.%Message=tException.AsSQLMessage() }
+	Quit tResult }
+zExtentGetODBCInfo(colinfo,parminfo,qHandle) public {
+	set version = $Select($Get(%protocol,41)>40:4,1:3)
+	Set metadata=$lb(1,1,"ID",4,10,0,2,"ID","FindRateDecisionProcessCustom","Demo_Loan","",$c(0,0,0,0,0,0,0,0,0,0,0,1),0)
+	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
+	If version=4 {
+		Set colinfo=$li(metadata,2,2+cmdlen)
+	} Else {
+		Set colinfo=$li(metadata,2,2)
+		For i=0:1:colcount-1 Set colinfo=colinfo_$list(metadata,3+(i*10),11+(i*10))
+	}
+	Quit 1 }
+zIDKEYSQLCheckUnique(pFromOrig=0,%pID,%pVals...)
+	 ;---if pFromOrig &sql(SELECT ID FROM Ens.BusinessProcess WHERE  ID=:%pVals(1) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	if pFromOrig do %02o QUIT SQLCODE=100
+	 ;---&sql(SELECT ID FROM Demo_Loan.FindRateDecisionProcessCustom WHERE  ID=:%pVals(1) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	do %04o QUIT SQLCODE=100
+ q
+%02o n sqldata6d,sqldata7d,sqldata8d,sqldata2d,sqldata3d,sqldata4d,sqldata1d
+ s $zt="%02err"
+ s sqldata6d=$zu(115,2)
+ s sqldata7d=0,sqldata8d=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s sqldata2d=$g(%pVals(1)),sqldata2d=$s(sqldata2d="":"",$isvalidnum(sqldata2d):+sqldata2d,1:sqldata2d),sqldata3d=$g(%pID),sqldata3d=$s(sqldata3d="":"",$isvalidnum(sqldata3d):+sqldata3d,1:sqldata3d),sqldata4d=$g(%pID)
+ s SQLCODE=100
+ ; asl MOD# 2
+ s sqldata1d=sqldata2d
+ i sqldata1d'="",$d(^Ens.BusinessProcessD(sqldata1d))
+ e  g %02mBdun
+ i '(((sqldata3d'="")&&(sqldata1d'=sqldata3d))||(sqldata4d="")) g %02mBdun
+ goto:sqldata6d'=1 %02mBuncommitted
+ if sqldata6d=1 {
+ 	lock +^Ens.BusinessProcessD($p(sqldata1d,"||",1))#"S":$zu(115,4)
+ 	if $t { set sqldata8d=$name(^Ens.BusinessProcessD($p(sqldata1d,"||",1)))_"#""SI""",sqldata7d=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Ens.BusinessProcess for RowID value: "_sqldata1d ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i sqldata1d'="",$d(^Ens.BusinessProcessD(sqldata1d))
+ e  g %02mCdun
+%02mBuncommitted ;
+ s SQLCODE=0 g %02c
+%02mCdun if $g(sqldata6d)=1 { if $g(sqldata7d)=1 { l -@sqldata8d s sqldata7d=0 } elseif $g(sqldata7d)=2 { do $classmethod($li(sqldata8d),"%UnlockId",$li(sqldata8d,2),1,1)  s sqldata7d=0 } }
+%02mBdun 
+%02mAdun 
+%02c s %ROWCOUNT='SQLCODE
+ if $g(sqldata6d)=1 { if $g(sqldata7d)=1 { l -@sqldata8d } elseif $g(sqldata7d)=2 { do $classmethod($li(sqldata8d),"%UnlockId",$li(sqldata8d,2),1,1)  } }
+ q
+%02err s $zt=""
+ d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ g %02c
+%04o n sqldata6d,sqldata7d,sqldata8d,sqldata10d,sqldata2d,sqldata3d,sqldata4d,sqldata1d
+ s $zt="%04err"
+ s sqldata6d=$zu(115,2)
+ s sqldata7d=0,sqldata8d=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s sqldata2d=$g(%pVals(1)),sqldata2d=$s(sqldata2d="":"",$isvalidnum(sqldata2d):+sqldata2d,1:sqldata2d),sqldata3d=$g(%pID),sqldata3d=$s(sqldata3d="":"",$isvalidnum(sqldata3d):+sqldata3d,1:sqldata3d),sqldata4d=$g(%pID)
+ s SQLCODE=100
+ ; asl MOD# 2
+ s sqldata1d=sqldata2d
+ i sqldata1d'="" s sqldata10d="" i $d(^Ens.BusinessProcessD(sqldata1d),sqldata10d)
+ i '$t
+ e  i $lg(sqldata10d,1)'[($e($lg(sqldata10d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata10d,1)))
+ i  g %04mBdun
+ i '(((sqldata3d'="")&&(sqldata1d'=sqldata3d))||(sqldata4d="")) g %04mBdun
+ goto:sqldata6d'=1 %04mBuncommitted
+ if sqldata6d=1 {
+ 	lock +^Ens.BusinessProcessD($p(sqldata1d,"||",1))#"S":$zu(115,4)
+ 	if $t { set sqldata8d=$name(^Ens.BusinessProcessD($p(sqldata1d,"||",1)))_"#""SI""",sqldata7d=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Demo_Loan.FindRateDecisionProcessCustom for RowID value: "_sqldata1d ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i sqldata1d'="" s sqldata10d="" i $d(^Ens.BusinessProcessD(sqldata1d),sqldata10d)
+ i '$t
+ e  i $lg(sqldata10d,1)'[($e($lg(sqldata10d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata10d,1)))
+ i  g %04mCdun
+%04mBuncommitted ;
+ s SQLCODE=0 g %04c
+%04mCdun if $g(sqldata6d)=1 { if $g(sqldata7d)=1 { l -@sqldata8d s sqldata7d=0 } elseif $g(sqldata7d)=2 { do $classmethod($li(sqldata8d),"%UnlockId",$li(sqldata8d,2),1,1)  s sqldata7d=0 } }
+%04mBdun 
+%04mAdun 
+%04c s %ROWCOUNT='SQLCODE
+ if $g(sqldata6d)=1 { if $g(sqldata7d)=1 { l -@sqldata8d } elseif $g(sqldata7d)=2 { do $classmethod($li(sqldata8d),"%UnlockId",$li(sqldata8d,2),1,1)  } }
+ q
+%04err s $zt=""
+ d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ g %04c
+zIDKEYSQLExists(pLockOnly=0,pUnlockRef,%pVal...)
+	// SQL Foreign Key validation entry point for Key IDKEY.  Called by FKeys that reference this Key to see if the row is defined
+	new id set id=%pVal(1)
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"Demo_Loan"_"."_"FindRateDecisionProcessCustom"_":"_"IDKEY") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv='..IDKEYSQLCheckUnique(0,,%pVal(1)) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Quit
+zSessionIdExists(K1,id="")
+	new %ROWCOUNT,SQLCODE,temp
+	 ;---&sql(SELECT %ID INTO :id FROM Demo_Loan.FindRateDecisionProcessCustom WHERE (:K1 is not null and %SessionId = :K1) OR (:K1 IS NULL AND %SessionId IS NULL))
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, K1, SQLCODE, id
+	do %06o
+	Quit $select('SQLCODE:1,1:0)
+ q
+%06o n sqldata12d,sqldata13d,sqldata14d,sqldata15d,sqldata16d,sqldata17d,sqldata18d,sqldata19d,sqldata20d,sqldata21d,sqldata23d,sqldata25d,sqldata26d,sqldata3d,sqldata5d,sqldata6d,sqldata10d,sqldata4d,sqldata8d,sqldata9d,sqldata11d
+ s $zt="%06err"
+ n %sqltime s %sqltime=$zh
+ s sqldata12d=$zu(115,2)
+ s sqldata13d=0,sqldata14d=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s sqldata3d=$g(K1),sqldata5d=$g(K1),sqldata5d=$s(sqldata5d="":"",$isvalidnum(sqldata5d):+sqldata5d,1:sqldata5d),sqldata6d=$g(K1),sqldata10d=""
+ s SQLCODE=100
+ ; asl MOD# 2
+ s sqldata4d=sqldata5d s:sqldata4d="" sqldata4d=-1E14
+ s sqldata8d="",sqldata15d=1,sqldata9d="",sqldata16d=1,sqldata11d=""
+ g %06mBk1
+%06mBqt1 s sqldata8d="" q
+%06mBpt1 s sqldata15d=0
+ i '(sqldata3d'="") g %06mBqt1
+ s sqldata17d=sqldata5d
+ s sqldata18d=$s(sqldata17d'="":sqldata17d,1:-1E14)
+ i '(sqldata17d'="") g %06mBqt1
+ g %06mBft1:sqldata8d=""
+%06mBat1 g %06mBpt1:sqldata15d
+ g %06mBgt1:$d(^Ens.BusinessProcessI("SessionId",sqldata18d,sqldata8d))
+%06mBft1 g %06mBpt1:sqldata15d
+ s sqldata8d=$o(^Ens.BusinessProcessI("SessionId",sqldata18d,sqldata8d))
+ q:sqldata8d=""
+%06mBgt1 s sqldata19d=$g(^Ens.BusinessProcessI("SessionId",sqldata18d,sqldata8d)) g %06mBft1:sqldata19d'[($e(sqldata19d)_"Demo.Loan.FindRateDecisionProcessCustom"_$e(sqldata19d))
+ q
+%06mBqt2 s sqldata9d="" q
+%06mBpt2 s sqldata16d=0
+ i '(sqldata6d="") g %06mBqt2
+ s sqldata20d=sqldata10d
+ s sqldata21d=$s(sqldata20d'="":sqldata20d,1:-1E14)
+ g %06mBft2:sqldata9d=""
+%06mBat2 g %06mBpt2:sqldata16d
+ g %06mBgt2:$d(^Ens.BusinessProcessI("SessionId",sqldata21d,sqldata9d))
+%06mBft2 g %06mBpt2:sqldata16d
+ s sqldata9d=$o(^Ens.BusinessProcessI("SessionId",sqldata21d,sqldata9d))
+ q:sqldata9d=""
+%06mBgt2 s sqldata19d=$g(^Ens.BusinessProcessI("SessionId",sqldata21d,sqldata9d)) g %06mBft2:sqldata19d'[($e(sqldata19d)_"Demo.Loan.FindRateDecisionProcessCustom"_$e(sqldata19d))
+ q
+%06mBat3 i sqldata8d="",sqldata9d="" s sqldata8d=sqldata11d d %06mBat1 s sqldata9d=sqldata11d d %06mBat2 g %06mBgt3
+ i sqldata8d'="",sqldata11d]]sqldata8d s sqldata8d=sqldata11d d %06mBat1
+ i sqldata9d'="",sqldata11d]]sqldata9d s sqldata9d=sqldata11d d %06mBat2
+ g %06mBgt3
+%06mBft3 d %06mBft1:sqldata8d=sqldata11d,%06mBft2:sqldata9d=sqldata11d
+%06mBgt3 s sqldata11d=$S(sqldata8d="":sqldata9d,sqldata9d="":sqldata8d,sqldata9d]]sqldata8d:sqldata8d,1:sqldata9d) q
+%06mBk1 d %06mBft3
+ i sqldata11d="" g %06mBdun
+ s id=sqldata11d
+ goto:sqldata12d'=1 %06mBuncommitted
+ if sqldata12d=1 {
+ 	lock +^Ens.BusinessProcessD($p(id,"||",1))#"S":$zu(115,4)
+ 	if $t { set sqldata14d=$name(^Ens.BusinessProcessD($p(id,"||",1)))_"#""SI""",sqldata13d=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Demo_Loan.FindRateDecisionProcessCustom for RowID value: "_id ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i id'="" s sqldata23d="" i $d(^Ens.BusinessProcessD(id),sqldata23d)
+ i '$t
+ e  i $lg(sqldata23d,1)'[($e($lg(sqldata23d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata23d,1)))
+ i  g %06mCdun
+ s sqldata25d=$g(^Ens.BusinessProcessD(id))
+ Set sqldata4d=$lg(sqldata25d,11)
+ g:'(((sqldata4d'="")&&((sqldata3d'="")&&(sqldata4d=sqldata5d)))||((sqldata6d="")&&(sqldata4d=""))) %06mCdun
+%06mBuncommitted ;
+ s SQLCODE=0 g %06c
+%06mCdun if $g(sqldata12d)=1 { if $g(sqldata13d)=1 { l -@sqldata14d s sqldata13d=0 } elseif $g(sqldata13d)=2 { do $classmethod($li(sqldata14d),"%UnlockId",$li(sqldata14d,2),1,1)  s sqldata13d=0 } }
+ g %06mBk1
+%06mBdun 
+%06mAdun 
+%06c s %ROWCOUNT='SQLCODE
+ if $g(sqldata12d)=1 { if $g(sqldata13d)=1 { l -@sqldata14d } elseif $g(sqldata13d)=2 { do $classmethod($li(sqldata14d),"%UnlockId",$li(sqldata14d,2),1,1)  } }
+ s:$d(%sqltime) sqldata26d=$g(sqldata26d)+$zh-%sqltime
+ n context,tmp,count,total,mean s context=$system.Context.SQL()
+ if $d(sqldata26d,%sqltime) {
+ if $g(context.Stats)<$zu(99) { d AggregateStats^%SYS.SQLSRV() }
+ s tmp=$g(context.Stats($namespace,"Pb/c4FoF6qwD/38JqlgZYQVVeTI="))
+ s count=$lg(tmp,1),total=$lg(tmp,2),mean=total+%sqltime/(count+1)
+ s context.Stats($namespace,"Pb/c4FoF6qwD/38JqlgZYQVVeTI=")=$lb(count+1,total+%sqltime,$s(+count=0:0,1:(%sqltime-mean)**2+(count*((total/count-mean)**2+$lg(tmp,3)))/(count+1))) }
+ q
+%06err s $zt=""
+ d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ g %06c
+zTimeCreatedExists(K1,id="")
+	new %ROWCOUNT,SQLCODE,temp
+	 ;---&sql(SELECT %ID INTO :id FROM Demo_Loan.FindRateDecisionProcessCustom WHERE (:K1 is not null and %TimeCreated = :K1) OR (:K1 IS NULL AND %TimeCreated IS NULL))
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, K1, SQLCODE, id
+	do %08o
+	Quit $select('SQLCODE:1,1:0)
+ q
+%08mCs1(%val) {
+	Quit ##class(Demo.Loan.FindRateDecisionProcessCustom).%TimeCreatedStorageToLogical(%val)
+}
+%08o n sqldata12d,sqldata13d,sqldata14d,sqldata15d,sqldata16d,sqldata17d,sqldata18d,sqldata19d,sqldata20d,sqldata21d,sqldata23d,sqldata25d,sqldata26d,sqldata3d,sqldata5d,sqldata6d,sqldata10d,sqldata4d,sqldata8d,sqldata9d,sqldata11d
+ s $zt="%08err"
+ n %sqltime s %sqltime=$zh
+ s sqldata12d=$zu(115,2)
+ s sqldata13d=0,sqldata14d=""
+ d:$zu(115,15) $system.ECP.Sync()
+ s sqldata3d=$g(K1),sqldata5d=$g(K1),sqldata5d=$s(sqldata5d'="":$s(sqldata5d[".":$zstrip($zstrip(sqldata5d,">W","0 "),">","."),1:$zstrip(sqldata5d,">W")),1:""),sqldata6d=$g(K1),sqldata10d=""
+ s SQLCODE=100
+ ; asl MOD# 2
+ s sqldata4d=sqldata5d s:sqldata4d="" sqldata4d=-1E14
+ s sqldata8d="",sqldata15d=1,sqldata9d="",sqldata16d=1,sqldata11d=""
+ g %08mBk1
+%08mBqt1 s sqldata8d="" q
+%08mBpt1 s sqldata15d=0
+ i '(sqldata3d'="") g %08mBqt1
+ s sqldata17d=sqldata5d
+ s sqldata18d=$s(sqldata17d'="":sqldata17d,1:-1E14)
+ i '(sqldata17d'="") g %08mBqt1
+ g %08mBft1:sqldata8d=""
+%08mBat1 g %08mBpt1:sqldata15d
+ g %08mBgt1:$d(^Ens.BusinessProcessI("TimeCreated",sqldata18d,sqldata8d))
+%08mBft1 g %08mBpt1:sqldata15d
+ s sqldata8d=$o(^Ens.BusinessProcessI("TimeCreated",sqldata18d,sqldata8d))
+ q:sqldata8d=""
+%08mBgt1 s sqldata19d=$g(^Ens.BusinessProcessI("TimeCreated",sqldata18d,sqldata8d)) g %08mBft1:sqldata19d'[($e(sqldata19d)_"Demo.Loan.FindRateDecisionProcessCustom"_$e(sqldata19d))
+ q
+%08mBqt2 s sqldata9d="" q
+%08mBpt2 s sqldata16d=0
+ i '(sqldata6d="") g %08mBqt2
+ s sqldata20d=sqldata10d
+ s sqldata21d=$s(sqldata20d'="":sqldata20d,1:-1E14)
+ g %08mBft2:sqldata9d=""
+%08mBat2 g %08mBpt2:sqldata16d
+ g %08mBgt2:$d(^Ens.BusinessProcessI("TimeCreated",sqldata21d,sqldata9d))
+%08mBft2 g %08mBpt2:sqldata16d
+ s sqldata9d=$o(^Ens.BusinessProcessI("TimeCreated",sqldata21d,sqldata9d))
+ q:sqldata9d=""
+%08mBgt2 s sqldata19d=$g(^Ens.BusinessProcessI("TimeCreated",sqldata21d,sqldata9d)) g %08mBft2:sqldata19d'[($e(sqldata19d)_"Demo.Loan.FindRateDecisionProcessCustom"_$e(sqldata19d))
+ q
+%08mBat3 i sqldata8d="",sqldata9d="" s sqldata8d=sqldata11d d %08mBat1 s sqldata9d=sqldata11d d %08mBat2 g %08mBgt3
+ i sqldata8d'="",sqldata11d]]sqldata8d s sqldata8d=sqldata11d d %08mBat1
+ i sqldata9d'="",sqldata11d]]sqldata9d s sqldata9d=sqldata11d d %08mBat2
+ g %08mBgt3
+%08mBft3 d %08mBft1:sqldata8d=sqldata11d,%08mBft2:sqldata9d=sqldata11d
+%08mBgt3 s sqldata11d=$S(sqldata8d="":sqldata9d,sqldata9d="":sqldata8d,sqldata9d]]sqldata8d:sqldata8d,1:sqldata9d) q
+%08mBk1 d %08mBft3
+ i sqldata11d="" g %08mBdun
+ s id=sqldata11d
+ goto:sqldata12d'=1 %08mBuncommitted
+ if sqldata12d=1 {
+ 	lock +^Ens.BusinessProcessD($p(id,"||",1))#"S":$zu(115,4)
+ 	if $t { set sqldata14d=$name(^Ens.BusinessProcessD($p(id,"||",1)))_"#""SI""",sqldata13d=1 }
+ 	else { s SQLCODE=-114,%msg="Unable to acquire shared lock on table Demo_Loan.FindRateDecisionProcessCustom for RowID value: "_id ztrap "LOCK"  }
+ }
+ ; asl MOD# 3
+ i id'="" s sqldata23d="" i $d(^Ens.BusinessProcessD(id),sqldata23d)
+ i '$t
+ e  i $lg(sqldata23d,1)'[($e($lg(sqldata23d,1))_"Demo.Loan.FindRateDecisionProcessCustom"_$e($lg(sqldata23d,1)))
+ i  g %08mCdun
+ s sqldata25d=$g(^Ens.BusinessProcessD(id))
+ Set sqldata4d=$$%08mCs1($lg(sqldata25d,13))
+ g:'(((sqldata4d'="")&&((sqldata3d'="")&&(sqldata4d=sqldata5d)))||((sqldata6d="")&&(sqldata4d=""))) %08mCdun
+%08mBuncommitted ;
+ s SQLCODE=0 g %08c
+%08mCdun if $g(sqldata12d)=1 { if $g(sqldata13d)=1 { l -@sqldata14d s sqldata13d=0 } elseif $g(sqldata13d)=2 { do $classmethod($li(sqldata14d),"%UnlockId",$li(sqldata14d,2),1,1)  s sqldata13d=0 } }
+ g %08mBk1
+%08mBdun 
+%08mAdun 
+%08c s %ROWCOUNT='SQLCODE
+ if $g(sqldata12d)=1 { if $g(sqldata13d)=1 { l -@sqldata14d } elseif $g(sqldata13d)=2 { do $classmethod($li(sqldata14d),"%UnlockId",$li(sqldata14d,2),1,1)  } }
+ s:$d(%sqltime) sqldata26d=$g(sqldata26d)+$zh-%sqltime
+ n context,tmp,count,total,mean s context=$system.Context.SQL()
+ if $d(sqldata26d,%sqltime) {
+ if $g(context.Stats)<$zu(99) { d AggregateStats^%SYS.SQLSRV() }
+ s tmp=$g(context.Stats($namespace,"UyYquVboGHcFfgXPSrEV/ZEzYhc="))
+ s count=$lg(tmp,1),total=$lg(tmp,2),mean=total+%sqltime/(count+1)
+ s context.Stats($namespace,"UyYquVboGHcFfgXPSrEV/ZEzYhc=")=$lb(count+1,total+%sqltime,$s(+count=0:0,1:(%sqltime-mean)**2+(count*((total/count-mean)**2+$lg(tmp,3)))/(count+1))) }
+ q
+%08err s $zt=""
+ d SQLRunTimeError^%apiSQL($ze,.SQLCODE,.%msg)
+ g %08c
