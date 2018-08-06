@@ -1,5 +1,6 @@
 Include EnsUI
-Class Demo.Loan.FindRateDecisionProcessCustom Extends Ens.BusinessProcess [ ClassType = persistent ]
+
+Class Demo.Loan.FindRateDecisionProcessCustom Extends Ens.BusinessProcess [ ClassType = persistent, ProcedureBlock ]
 {
 
 /// 2 modes: Queue, InProc
@@ -93,4 +94,3 @@ Storage Default
 }
 
 }
-

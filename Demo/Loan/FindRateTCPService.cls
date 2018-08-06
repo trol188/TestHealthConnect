@@ -1,7 +1,7 @@
 /// To use this service, telnet to the configured port (default=1234) and enter the application date on a single line, separated by colons.
 /// Example: 10000:Mo:111-22-3333:US
 /// The demo application will copy your receipt notice to the output terminal, and will send the final Approval response there as well.
-Class Demo.Loan.FindRateTCPService Extends Ens.BusinessService
+Class Demo.Loan.FindRateTCPService Extends Ens.BusinessService [ ClassType = "", ProcedureBlock ]
 {
 
 /// Name of the adapter class
@@ -43,4 +43,3 @@ Method OnProcessInput(pInput As Ens.StringContainer, pOutput As Ens.StringContai
 }
 
 }
-

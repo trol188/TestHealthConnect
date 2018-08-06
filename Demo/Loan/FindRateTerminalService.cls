@@ -1,5 +1,5 @@
 /// A Business Service called via CreateBusinessService() from the command line prompt offered by the Test() method in class Demo.Loan.FindRateProduction
-Class Demo.Loan.FindRateTerminalService Extends Ens.BusinessService
+Class Demo.Loan.FindRateTerminalService Extends Ens.BusinessService [ ClassType = "", ProcedureBlock ]
 {
 
 Method OnProcessInput(pInput As Ens.StringContainer, pOutput As Ens.StringContainer) As %Status
@@ -30,4 +30,3 @@ Method OnProcessInput(pInput As Ens.StringContainer, pOutput As Ens.StringContai
 }
 
 }
-

@@ -1,4 +1,4 @@
-Class Demo.Loan.Msg.Approval Extends Ens.Response [ ClassType = persistent ]
+Class Demo.Loan.Msg.Approval Extends Ens.Response [ ClassType = persistent, ProcedureBlock ]
 {
 
 Property BankName As %String;
@@ -45,4 +45,3 @@ Storage Default
 }
 
 }
-

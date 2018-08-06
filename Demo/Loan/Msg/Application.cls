@@ -1,4 +1,4 @@
-Class Demo.Loan.Msg.Application Extends Ens.Request [ ClassType = persistent ]
+Class Demo.Loan.Msg.Application Extends Ens.Request [ ClassType = persistent, ProcedureBlock ]
 {
 
 Property Amount As %Integer;
@@ -65,4 +65,3 @@ Storage Default
 }
 
 }
-

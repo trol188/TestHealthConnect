@@ -1,4 +1,4 @@
-Class Demo.Loan.BankUSTerminalService Extends Ens.BusinessService
+Class Demo.Loan.BankUSTerminalService Extends Ens.BusinessService [ ClassType = "", ProcedureBlock ]
 {
 
 Method OnProcessInput(pInput As Ens.StringContainer, pOutput As %RegisteredObject) As %Status
@@ -18,4 +18,3 @@ Method OnProcessInput(pInput As Ens.StringContainer, pOutput As %RegisteredObjec
 }
 
 }
-

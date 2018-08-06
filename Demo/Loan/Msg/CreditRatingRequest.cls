@@ -1,4 +1,4 @@
-Class Demo.Loan.Msg.CreditRatingRequest Extends Ens.Request [ ClassType = persistent ]
+Class Demo.Loan.Msg.CreditRatingRequest Extends Ens.Request [ ClassType = persistent, ProcedureBlock ]
 {
 
 Parameter RESPONSECLASSNAME = "Demo.Loan.Msg.CreditRatingResponse";
@@ -18,4 +18,3 @@ Storage Default
 }
 
 }
-

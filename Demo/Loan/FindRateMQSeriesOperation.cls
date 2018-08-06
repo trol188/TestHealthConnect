@@ -1,4 +1,4 @@
-Class Demo.Loan.FindRateMQSeriesOperation Extends Ens.BusinessOperation
+Class Demo.Loan.FindRateMQSeriesOperation Extends Ens.BusinessOperation [ ClassType = "", ProcedureBlock ]
 {
 
 /// 2 modes: Queue, InProc
@@ -23,4 +23,3 @@ Method MQSeriesSendReply(pRequest As Demo.Loan.Msg.SendReply, Output pResponse A
 }
 
 }
-

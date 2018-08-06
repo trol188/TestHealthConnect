@@ -1,7 +1,7 @@
 /// Loan Approval Business Process for Find Rate.
 /// This process passes on a Loan Application to 
 /// 3 other bank and finds the best available rate.
-Class Demo.Loan.FindRateDecisionProcessBPL Extends Ens.BusinessProcessBPL [ ClassType = persistent ]
+Class Demo.Loan.FindRateDecisionProcessBPL Extends Ens.BusinessProcessBPL [ ClassType = persistent, ProcedureBlock ]
 {
 
 Parameter DOMAIN = "EnsDemo";
@@ -165,4 +165,3 @@ Storage Default
 }
 
 }
-

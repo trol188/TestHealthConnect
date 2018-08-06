@@ -1,4 +1,4 @@
-Class Demo.Loan.Msg.PrimeRateResponse Extends Ens.Response [ ClassType = persistent ]
+Class Demo.Loan.Msg.PrimeRateResponse Extends Ens.Response [ ClassType = persistent, ProcedureBlock ]
 {
 
 Property PrimeRate As %Numeric;
@@ -16,4 +16,3 @@ Storage Default
 }
 
 }
-

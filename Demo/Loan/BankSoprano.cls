@@ -1,7 +1,7 @@
 /// Loan Approval Business Process for Bank Soprano.
 /// Bank Soprano simulates a bank with great service but
 /// somewhat high interest rates.
-Class Demo.Loan.BankSoprano Extends Ens.BusinessProcessBPL [ ClassType = persistent ]
+Class Demo.Loan.BankSoprano Extends Ens.BusinessProcessBPL [ ClassType = persistent, ProcedureBlock ]
 {
 
 /// 2 modes: Queue, InProc
@@ -88,4 +88,3 @@ Storage Default
 }
 
 }
-

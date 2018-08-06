@@ -1,7 +1,7 @@
 /// Loan Approval Business Process for Bank Manana.
 /// Bank Manana simulates a bank with unreliable service;
 /// sometimes it responds quickly, other times not.
-Class Demo.Loan.BankManana Extends Ens.BusinessProcessBPL [ ClassType = persistent ]
+Class Demo.Loan.BankManana Extends Ens.BusinessProcessBPL [ ClassType = persistent, ProcedureBlock ]
 {
 
 /// 2 modes: Queue, InProc
@@ -66,4 +66,3 @@ Storage Default
 }
 
 }
-

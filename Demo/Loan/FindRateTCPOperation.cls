@@ -1,5 +1,6 @@
 Include (%occInclude, Ensemble)
-Class Demo.Loan.FindRateTCPOperation Extends Ens.BusinessOperation
+
+Class Demo.Loan.FindRateTCPOperation Extends Ens.BusinessOperation [ ClassType = "", ProcedureBlock ]
 {
 
 /// 2 modes: Queue, InProc
@@ -23,4 +24,3 @@ Method TCPSendReply(pRequest As Demo.Loan.Msg.SendReply, Output pResponse As Ens
 }
 
 }
-

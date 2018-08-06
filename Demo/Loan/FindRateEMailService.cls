@@ -1,4 +1,4 @@
-Class Demo.Loan.FindRateEMailService Extends Ens.BusinessService
+Class Demo.Loan.FindRateEMailService Extends Ens.BusinessService [ ClassType = "", ProcedureBlock ]
 {
 
 /// Name of the adapter class
@@ -33,4 +33,3 @@ Method OnProcessInput(pMailMessage As %Net.MailMessage, pOutput As %RegisteredOb
 }
 
 }
-

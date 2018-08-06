@@ -1,4 +1,4 @@
-Class Demo.Loan.BankUS Extends Ens.BusinessProcess [ ClassType = persistent ]
+Class Demo.Loan.BankUS Extends Ens.BusinessProcess [ ClassType = persistent, ProcedureBlock ]
 {
 
 /// 2 modes: Queue, InProc
@@ -96,4 +96,3 @@ Storage Default
 }
 
 }
-

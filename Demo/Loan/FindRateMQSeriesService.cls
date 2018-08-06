@@ -1,5 +1,5 @@
 /// A business service for FindRate using MSMQ adapters
-Class Demo.Loan.FindRateMQSeriesService Extends Ens.BusinessService
+Class Demo.Loan.FindRateMQSeriesService Extends Ens.BusinessService [ ClassType = "", ProcedureBlock ]
 {
 
 /// Name of the adapter class
@@ -34,4 +34,3 @@ Method OnProcessInput(pInput As %RegisteredObject, Output pOutput As %Registered
 }
 
 }
-

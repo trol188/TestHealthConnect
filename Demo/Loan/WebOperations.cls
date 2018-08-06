@@ -1,4 +1,4 @@
-Class Demo.Loan.WebOperations Extends Ens.BusinessOperation
+Class Demo.Loan.WebOperations Extends Ens.BusinessOperation [ ClassType = "", ProcedureBlock ]
 {
 
 /// 2 modes: Queue, InProc
@@ -48,4 +48,3 @@ Method GetCreditRating(pRequest As Demo.Loan.Msg.CreditRatingRequest, Output pRe
 }
 
 }
-

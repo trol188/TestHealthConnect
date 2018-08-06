@@ -1,4 +1,4 @@
-Class Demo.Loan.FindRateFileOperation Extends Ens.BusinessOperation
+Class Demo.Loan.FindRateFileOperation Extends Ens.BusinessOperation [ ClassType = "", ProcedureBlock ]
 {
 
 /// 2 modes: Queue, InProc
@@ -23,4 +23,3 @@ Method FileSendReply(pRequest As Demo.Loan.Msg.SendReply, Output pResponse As En
 }
 
 }
-

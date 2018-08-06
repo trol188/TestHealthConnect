@@ -1,4 +1,4 @@
-Class Demo.Loan.FindRateCSPService Extends Ens.BusinessService
+Class Demo.Loan.FindRateCSPService Extends Ens.BusinessService [ ClassType = "", ProcedureBlock ]
 {
 
 Method OnProcessInput(pCSPRequest As %CSP.Request, pOutput As Ens.StringContainer) As %Status
@@ -17,4 +17,3 @@ Method OnProcessInput(pCSPRequest As %CSP.Request, pOutput As Ens.StringContaine
 }
 
 }
-

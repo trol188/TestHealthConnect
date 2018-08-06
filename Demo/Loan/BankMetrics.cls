@@ -1,5 +1,5 @@
 /// Business Metric Class for Demo Loan Production
-Class Demo.Loan.BankMetrics Extends Ens.BusinessMetric
+Class Demo.Loan.BankMetrics Extends Ens.BusinessMetric [ ClassType = "", ProcedureBlock ]
 {
 
 /// Total number of loan requests to date.
@@ -31,4 +31,3 @@ Method OnCalculateMetrics() As %Status
 }
 
 }
-

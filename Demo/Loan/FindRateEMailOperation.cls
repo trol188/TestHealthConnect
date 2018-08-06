@@ -1,5 +1,5 @@
 /// Sends emails based on EMail Adapter config settings and the property values of a Demo.Loan.Msg.SendReply request object
-Class Demo.Loan.FindRateEMailOperation Extends Ens.BusinessOperation
+Class Demo.Loan.FindRateEMailOperation Extends Ens.BusinessOperation [ ClassType = "", ProcedureBlock ]
 {
 
 /// 2 modes: Queue, InProc
@@ -30,4 +30,3 @@ Method EMailSendReply(pRequest As Demo.Loan.Msg.SendReply, Output pResponse As E
 }
 
 }
-

@@ -1,4 +1,4 @@
-Class Demo.Loan.FindRateProduction Extends Ens.Production
+Class Demo.Loan.FindRateProduction Extends Ens.Production [ ClassType = "", ProcedureBlock ]
 {
 
 XData ProductionDefinition
@@ -264,4 +264,3 @@ ClassMethod SendTCP(pApplication, pPort As %Integer = 1234)
 }
 
 }
-

@@ -1,4 +1,4 @@
-Class Demo.Loan.BankUSProduction Extends Ens.Production
+Class Demo.Loan.BankUSProduction Extends Ens.Production [ ClassType = "", ProcedureBlock ]
 {
 
 XData ProductionDefinition
@@ -33,4 +33,3 @@ ClassMethod Test()
 }
 
 }
-

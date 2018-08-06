@@ -1,5 +1,5 @@
 /// Business Activity Dashboard for Demo.Loan application.
-Class Demo.Loan.Dashboard Extends Ens.Dashboard
+Class Demo.Loan.Dashboard Extends Ens.Dashboard [ ClassType = "", ProcedureBlock ]
 {
 
 XData Dashboard
@@ -11,4 +11,3 @@ XData Dashboard
 }
 
 }
-

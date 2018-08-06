@@ -1,7 +1,7 @@
 /// Loan Approval Business Process for Bank Even.
 /// Bank Even simulates a bank with unreliable service;
 /// sometimes it responds quickly, other times not.
-Class Demo.Loan.BankEven Extends Ens.BusinessProcessBPL [ ClassType = persistent ]
+Class Demo.Loan.BankEven Extends Ens.BusinessProcessBPL [ ClassType = persistent, ProcedureBlock ]
 {
 
 XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
@@ -60,4 +60,3 @@ Storage Default
 }
 
 }
-

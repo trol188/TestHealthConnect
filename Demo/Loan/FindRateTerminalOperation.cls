@@ -1,4 +1,4 @@
-Class Demo.Loan.FindRateTerminalOperation Extends Ens.BusinessOperation
+Class Demo.Loan.FindRateTerminalOperation Extends Ens.BusinessOperation [ ClassType = "", ProcedureBlock ]
 {
 
 /// 2 modes: Queue, InProc
@@ -30,4 +30,3 @@ Method TerminalSendReply(pRequest As Demo.Loan.Msg.SendReply, Output pResponse A
 }
 
 }
-

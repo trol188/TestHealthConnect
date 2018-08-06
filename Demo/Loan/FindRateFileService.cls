@@ -1,4 +1,4 @@
-Class Demo.Loan.FindRateFileService Extends Ens.BusinessService
+Class Demo.Loan.FindRateFileService Extends Ens.BusinessService [ ClassType = "", ProcedureBlock ]
 {
 
 /// Name of the adapter class
@@ -37,4 +37,3 @@ Method OnProcessInput(pFileStream As %FileCharacterStream, pOutput As %Registere
 }
 
 }
-

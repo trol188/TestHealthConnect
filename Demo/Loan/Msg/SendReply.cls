@@ -1,4 +1,4 @@
-Class Demo.Loan.Msg.SendReply Extends Ens.Request [ ClassType = persistent ]
+Class Demo.Loan.Msg.SendReply Extends Ens.Request [ ClassType = persistent, ProcedureBlock ]
 {
 
 Property Text As %String(MAXLEN = "");
@@ -30,4 +30,3 @@ Storage Default
 }
 
 }
-

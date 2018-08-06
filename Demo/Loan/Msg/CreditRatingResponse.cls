@@ -1,4 +1,4 @@
-Class Demo.Loan.Msg.CreditRatingResponse Extends Ens.Response [ ClassType = persistent ]
+Class Demo.Loan.Msg.CreditRatingResponse Extends Ens.Response [ ClassType = persistent, ProcedureBlock ]
 {
 
 Property TaxID As %String;
@@ -21,4 +21,3 @@ Storage Default
 }
 
 }
-
