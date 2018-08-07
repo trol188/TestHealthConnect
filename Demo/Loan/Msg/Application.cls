@@ -1,6 +1,6 @@
 Class Demo.Loan.Msg.Application Extends Ens.Request [ ClassType = persistent, ProcedureBlock ]
 {
-
+//Esto es un comentario
 Property Amount As %Integer;
 
 Property Name As %String;
