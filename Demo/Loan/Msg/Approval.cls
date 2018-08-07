@@ -1,6 +1,6 @@
 Class Demo.Loan.Msg.Approval Extends Ens.Response [ ClassType = persistent, ProcedureBlock ]
 {
-
+//comentario de Juan
 Property BankName As %String;
 
 Property IsApproved As %Boolean [ InitialExpression = 0 ];

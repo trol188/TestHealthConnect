@@ -1,131 +1,6 @@
 Class Demo.Loan.FindRateProduction Extends Ens.Production [ ClassType = "", ProcedureBlock ]
 {
 
-XData ProductionDefinition
-{
-<Production Name="Demo.Loan.FindRateProduction" TestingEnabled="true" LogGeneralTraceEvents="false">
-  <Description></Description>
-  <ActorPoolSize>2</ActorPoolSize>
-  <Item Name="Demo.Loan.BankMetrics" Category="" ClassName="Demo.Loan.BankMetrics" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Adapter" Name="CallInterval">5</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateTerminalService" Category="" ClassName="Demo.Loan.FindRateTerminalService" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Host" Name="BusinessPartner">Old School Bank</Setting>
-  </Item>
-  <Item Name="My Terminal Output" Category="" ClassName="Demo.Loan.FindRateTerminalOperation" PoolSize="1" Enabled="true" Foreground="true" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Host" Name="BusinessPartner">Old School Bank</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateFileService" Category="" ClassName="Demo.Loan.FindRateFileService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Adapter" Name="FilePath">C:\Practice\loan\in</Setting>
-    <Setting Target="Adapter" Name="FileSpec">*.application</Setting>
-    <Setting Target="Adapter" Name="ArchivePath">C:\Practice\loan\inarchive</Setting>
-    <Setting Target="Host" Name="BusinessPartner">LoanTech Corporation</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateFileOperation" Category="" ClassName="Demo.Loan.FindRateFileOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Adapter" Name="FilePath">C:\Practice\loan\out</Setting>
-    <Setting Target="Adapter" Name="Overwrite">1</Setting>
-    <Setting Target="Host" Name="BusinessPartner">LoanTech Corporation</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateEMailService" Category="" ClassName="Demo.Loan.FindRateEMailService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Adapter" Name="POP3Server">test.mymailserver.net</Setting>
-    <Setting Target="Adapter" Name="Credentials">POP3GetEmailTest</Setting>
-    <Setting Target="Host" Name="BusinessPartner">Store Front Loans</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateEMailOperation" Category="" ClassName="Demo.Loan.FindRateEMailOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Adapter" Name="Credentials">SMTPSendEmailTest</Setting>
-    <Setting Target="Adapter" Name="From">loan@FindRate.com</Setting>
-    <Setting Target="Adapter" Name="SMTPServer">1.2.3.4</Setting>
-    <Setting Target="Host" Name="BusinessPartner">Store Front Loans</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateTCPService" Category="" ClassName="Demo.Loan.FindRateTCPService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Adapter" Name="JobPerConnection">1</Setting>
-    <Setting Target="Adapter" Name="Port">1234</Setting>
-    <Setting Target="Adapter" Name="StayConnected">60</Setting>
-    <Setting Target="Host" Name="BusinessPartner">LoanQuick, Inc.</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateTCPOperation" Category="" ClassName="Demo.Loan.FindRateTCPOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Host" Name="RetryInterval">5</Setting>
-    <Setting Target="Host" Name="FailureTimeout">15</Setting>
-    <Setting Target="Adapter" Name="IPAddress">!</Setting>
-    <Setting Target="Adapter" Name="Port">4321</Setting>
-    <Setting Target="Adapter" Name="ResponseTimeout">15</Setting>
-    <Setting Target="Adapter" Name="StayConnected">-1</Setting>
-    <Setting Target="Adapter" Name="ConnectTimeout">5</Setting>
-    <Setting Target="Adapter" Name="ReadTimeout">60</Setting>
-    <Setting Target="Host" Name="BusinessPartner">LoanQuick, Inc.</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateCSPService" Category="" ClassName="Demo.Loan.FindRateCSPService" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Host" Name="BusinessPartner">My Loans, Inc.</Setting>
-  </Item>
-  <Item Name="Demo.Loan.WebOperations" Category="" ClassName="Demo.Loan.WebOperations" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">10</Setting>
-    <Setting Target="Host" Name="BusinessPartner">My Loans, Inc.</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateDecisionProcessCustom" Category="" ClassName="Demo.Loan.FindRateDecisionProcessCustom" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateDecisionProcessBPL" Category="" ClassName="Demo.Loan.FindRateDecisionProcessBPL" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-  </Item>
-  <Item Name="Demo.Loan.BankSoprano" Category="" ClassName="Demo.Loan.BankSoprano" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-  </Item>
-  <Item Name="Demo.Loan.BankManana" Category="" ClassName="Demo.Loan.BankManana" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-  </Item>
-  <Item Name="Demo.Loan.BankUS" Category="" ClassName="Demo.Loan.BankUS" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateMSMQService" Category="" ClassName="Demo.Loan.FindRateMSMQService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Adapter" Name="CallInterval">5</Setting>
-    <Setting Target="Adapter" Name="CreateQueueIfNeeded">0</Setting>
-    <Setting Target="Adapter" Name="QueueLabel">FindRate MSMQ Request Service</Setting>
-    <Setting Target="Adapter" Name="QueuePathName">.\private$\FindRate_Request</Setting>
-    <Setting Target="Host" Name="BusinessPartner">State Bank</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateMQSeriesService" Category="" ClassName="Demo.Loan.FindRateMQSeriesService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Adapter" Name="QueueManager">QM_testperson</Setting>
-    <Setting Target="Adapter" Name="Channel">S_testperson/TCP/127.0.0.1(1414)</Setting>
-    <Setting Target="Adapter" Name="QueueName">default</Setting>
-    <Setting Target="Adapter" Name="QueueOptions">MQOO_INPUT_AS_Q_DEF</Setting>
-    <Setting Target="Host" Name="BusinessPartner">Carriers Bank</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateMSMQOperation" Category="" ClassName="Demo.Loan.FindRateMSMQOperation" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Adapter" Name="QueueLabel">Find Rate MSMQ Service Response</Setting>
-    <Setting Target="Adapter" Name="QueuePathName">.\private$\FindRate_Response</Setting>
-    <Setting Target="Host" Name="RetryInterval">5</Setting>
-    <Setting Target="Host" Name="FailureTimeout">15</Setting>
-    <Setting Target="Host" Name="BusinessPartner">State Bank</Setting>
-  </Item>
-  <Item Name="Demo.Loan.FindRateMQSeriesOperation" Category="" ClassName="Demo.Loan.FindRateMQSeriesOperation" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-    <Setting Target="Host" Name="RetryInterval">5</Setting>
-    <Setting Target="Host" Name="FailureTimeout">15</Setting>
-    <Setting Target="Adapter" Name="QueueManager">QM_testperson</Setting>
-    <Setting Target="Adapter" Name="Channel">S_testperson/TCP/127.0.0.1(1414)</Setting>
-    <Setting Target="Adapter" Name="QueueName">postcard</Setting>
-    <Setting Target="Adapter" Name="QueueOptions">MQOO_OUTPUT</Setting>
-    <Setting Target="Host" Name="BusinessPartner">Carriers Bank</Setting>
-  </Item>
-  <Item Name="Demo.Loan.BankEven" Category="" ClassName="Demo.Loan.BankEven" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
-  </Item>
-</Production>
-}
-
 ClassMethod Test()
 {
 	Set tSC=..TestStart()
@@ -261,6 +136,134 @@ ClassMethod SendTCP(pApplication, pPort As %Integer = 1234)
 	Close tDevice
 	Write tOutput
 	Quit
+}
+
+XData ProductionDefinition
+{
+<Production Name="Demo.Loan.FindRateProduction" TestingEnabled="true" LogGeneralTraceEvents="false">
+  <Description></Description>
+  <ActorPoolSize>2</ActorPoolSize>
+  <Item Name="Demo.Loan.BankMetrics" Category="" ClassName="Demo.Loan.BankMetrics" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Adapter" Name="CallInterval">5</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateTerminalService" Category="" ClassName="Demo.Loan.FindRateTerminalService" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="BusinessPartner">Old School Bank</Setting>
+  </Item>
+  <Item Name="My Terminal Output" Category="" ClassName="Demo.Loan.FindRateTerminalOperation" PoolSize="1" Enabled="true" Foreground="true" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="BusinessPartner">Old School Bank</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateFileService" Category="" ClassName="Demo.Loan.FindRateFileService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\loan\in</Setting>
+    <Setting Target="Adapter" Name="FileSpec">*.application</Setting>
+    <Setting Target="Adapter" Name="ArchivePath">C:\Practice\loan\inarchive</Setting>
+    <Setting Target="Host" Name="BusinessPartner">LoanTech Corporation</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateFileOperation" Category="" ClassName="Demo.Loan.FindRateFileOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\loan\out</Setting>
+    <Setting Target="Adapter" Name="Overwrite">1</Setting>
+    <Setting Target="Host" Name="BusinessPartner">LoanTech Corporation</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateEMailService" Category="" ClassName="Demo.Loan.FindRateEMailService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Adapter" Name="POP3Server">test.mymailserver.net</Setting>
+    <Setting Target="Adapter" Name="Credentials">POP3GetEmailTest</Setting>
+    <Setting Target="Host" Name="BusinessPartner">Store Front Loans</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateEMailOperation" Category="" ClassName="Demo.Loan.FindRateEMailOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Adapter" Name="Credentials">darkavahor</Setting>
+    <Setting Target="Adapter" Name="From">loan@FindRate.com</Setting>
+    <Setting Target="Adapter" Name="SMTPServer">gmail.com</Setting>
+    <Setting Target="Host" Name="BusinessPartner">Store Front Loans</Setting>
+    <Setting Target="Adapter" Name="Recipient">j.carrascogenova@gmail.com</Setting>
+    <Setting Target="Adapter" Name="SMTPPort">465</Setting>
+    <Setting Target="Adapter" Name="SSLConfig"></Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateTCPService" Category="" ClassName="Demo.Loan.FindRateTCPService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Adapter" Name="JobPerConnection">1</Setting>
+    <Setting Target="Adapter" Name="Port">1234</Setting>
+    <Setting Target="Adapter" Name="StayConnected">60</Setting>
+    <Setting Target="Host" Name="BusinessPartner">LoanQuick, Inc.</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateTCPOperation" Category="" ClassName="Demo.Loan.FindRateTCPOperation" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="RetryInterval">5</Setting>
+    <Setting Target="Host" Name="FailureTimeout">15</Setting>
+    <Setting Target="Adapter" Name="IPAddress">!</Setting>
+    <Setting Target="Adapter" Name="Port">4321</Setting>
+    <Setting Target="Adapter" Name="ResponseTimeout">15</Setting>
+    <Setting Target="Adapter" Name="StayConnected">-1</Setting>
+    <Setting Target="Adapter" Name="ConnectTimeout">5</Setting>
+    <Setting Target="Adapter" Name="ReadTimeout">60</Setting>
+    <Setting Target="Host" Name="BusinessPartner">LoanQuick, Inc.</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateCSPService" Category="" ClassName="Demo.Loan.FindRateCSPService" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="BusinessPartner">My Loans, Inc.</Setting>
+  </Item>
+  <Item Name="Demo.Loan.WebOperations" Category="" ClassName="Demo.Loan.WebOperations" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">10</Setting>
+    <Setting Target="Host" Name="BusinessPartner">My Loans, Inc.</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateDecisionProcessCustom" Category="" ClassName="Demo.Loan.FindRateDecisionProcessCustom" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateDecisionProcessBPL" Category="" ClassName="Demo.Loan.FindRateDecisionProcessBPL" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+  </Item>
+  <Item Name="Demo.Loan.BankSoprano" Category="" ClassName="Demo.Loan.BankSoprano" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+  </Item>
+  <Item Name="Demo.Loan.BankManana" Category="" ClassName="Demo.Loan.BankManana" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+  </Item>
+  <Item Name="Demo.Loan.BankUS" Category="" ClassName="Demo.Loan.BankUS" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateMSMQService" Category="" ClassName="Demo.Loan.FindRateMSMQService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Adapter" Name="CallInterval">5</Setting>
+    <Setting Target="Adapter" Name="CreateQueueIfNeeded">0</Setting>
+    <Setting Target="Adapter" Name="QueueLabel">FindRate MSMQ Request Service</Setting>
+    <Setting Target="Adapter" Name="QueuePathName">.\private$\FindRate_Request</Setting>
+    <Setting Target="Host" Name="BusinessPartner">State Bank</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateMQSeriesService" Category="" ClassName="Demo.Loan.FindRateMQSeriesService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Adapter" Name="QueueManager">QM_testperson</Setting>
+    <Setting Target="Adapter" Name="Channel">S_testperson/TCP/127.0.0.1(1414)</Setting>
+    <Setting Target="Adapter" Name="QueueName">default</Setting>
+    <Setting Target="Adapter" Name="QueueOptions">MQOO_INPUT_AS_Q_DEF</Setting>
+    <Setting Target="Host" Name="BusinessPartner">Carriers Bank</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateMSMQOperation" Category="" ClassName="Demo.Loan.FindRateMSMQOperation" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Adapter" Name="QueueLabel">Find Rate MSMQ Service Response</Setting>
+    <Setting Target="Adapter" Name="QueuePathName">.\private$\FindRate_Response</Setting>
+    <Setting Target="Host" Name="RetryInterval">5</Setting>
+    <Setting Target="Host" Name="FailureTimeout">15</Setting>
+    <Setting Target="Host" Name="BusinessPartner">State Bank</Setting>
+  </Item>
+  <Item Name="Demo.Loan.FindRateMQSeriesOperation" Category="" ClassName="Demo.Loan.FindRateMQSeriesOperation" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="RetryInterval">5</Setting>
+    <Setting Target="Host" Name="FailureTimeout">15</Setting>
+    <Setting Target="Adapter" Name="QueueManager">QM_testperson</Setting>
+    <Setting Target="Adapter" Name="Channel">S_testperson/TCP/127.0.0.1(1414)</Setting>
+    <Setting Target="Adapter" Name="QueueName">postcard</Setting>
+    <Setting Target="Adapter" Name="QueueOptions">MQOO_OUTPUT</Setting>
+    <Setting Target="Host" Name="BusinessPartner">Carriers Bank</Setting>
+  </Item>
+  <Item Name="Demo.Loan.BankEven" Category="" ClassName="Demo.Loan.BankEven" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+  </Item>
+</Production>
 }
 
 }
